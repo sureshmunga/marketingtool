@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--  <title>Collapsible sidebar using Bootstrap 3</title> -->
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/css/style4.css"> {{!--
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
+</head>
+
+<body class="my-registration-page">
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Marketing Measurement & Management</h3>
+                <strong>M3</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-home"></i>
+                        How to Use
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">CST</a>
+                        </li>
+                        <li>
+                            <a href="#">DISCOVER/AAE</a>
+                        </li>
+                        <li>
+                            <a href="#">Adhoc</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        CST
+                    </a>
+                    <ul class="list-unstyled components" id="pageSubmenu">
+                        <li class="active">
+                            <a href="/CST/mastercampaign">Master Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/CST/subcampaign">Sub Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/cst/tactic">Tactic</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        DISCOVER/AAE
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-link"></i>
+                        ADMIN
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-paperclip"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-send"></i>
+                        Contact
+                    </a>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        About
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
+        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+            <i class="glyphicon glyphicon-align-left"></i>
+            <span></span>
+        </button>
+        <!-- Page Content Holder -->
+        <section class="h-100">
+
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+
+                            <div id="content">
+
+                                <nav class="navbar navbar-default">
+                                    <div class="container-fluid">
+                                        <h2> Master Campaign </h2>
+                                        <div class="navbar-header">
+                                        </div>
+
+
+
+                                        <form method="post" action="/cst/campaignregistration">
+                                            <div class="form-group required-field">
+                                                <label for="CN">Campaign Name</label>
+                                                <input id="campname" type="text" class="form-control" name="CampaignName"  required autofocus>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <div class="form-group required-field">
+                                                <label for="CM">Campaign Manager</label>
+                                                <input id="cm" type="text" class="form-control" name="Campaignmanager" value="" required autofocus> {{!--
+                                                <input id="CM" type="text" class="form-control" name="Campaign Manager" value="" required autofocus> --}}
+                                            </div>
+
+
+                                            {{!--
+                                            <div class="line"></div>
+                                            <select class="form-control" id="sel1">
+                                                {{#each datamcaSegment}}
+                                                <option>{{mcasegmentname}}</option>
+                                                {{/each}} </select>
+                                            --}} {{!--
+                                            <table class=“cooltable”>
+                                                {{#each datamcaSegment}}
+                                                <tr>
+                                                    <td>{{mcasegmentname}}</td>
+                                                    <td>{{name}}</td>
+                                                    <td>{{mcasegmentid}}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </table> --}}
+                                            <div class="form-group required-field">
+                                                <label for="CG">Campaign Description & Goals</label>
+                                                <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="MS">MCA segment</label>
+                                                <br>
+                                                <select class="mcasegment-control" id="MS" name="mcasegment" multiple required>
+                                                    {{#each mcasegment}}
+                                                    <option>{{mcasegmentname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="BG">Business Group</label>
+                                                <br>
+                                                <select class="businessgroup-control" id="BG" name="businessgroup" multiple required>
+                                                    {{#each businessgroups}}
+                                                    <option>{{businessgroupname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="BT">Business Type</label>
+                                                <br>
+                                                <select class="businesstype-control" id="BT" name="businesstype" multiple required required="required">
+                                                    {{#each businesstype}}
+                                                    <option>{{businesstypename}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="PF">Program families</label>
+                                                <br>
+                                                <select class="programfamily-control" id="PF" name="programfamilies" required multiple="true" style="width: 150px">
+                                                    {{#each programfamilies}}
+                                                    <option>{{programfamiliyname}} </option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="SD">start date</label>
+                                                <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="ED">End date</label>
+                                                <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            <span></span>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Save Draft</button>
+                                        </form>
+                                    </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- jQuery CDN -->
+                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+                </script>
+                <!-- Bootstrap Js CDN -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+                <link rel="stylesheet" href="/css/choosen.css">
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+
+                        //alert(paramPairs);
+                        // If there is no query, default to '96'
+
+                        $("#PF").outerWidth(155);
+                        $("#BT").outerWidth(155);
+                        $("#BG").outerWidth(155);
+                        $("#MS").outerWidth(155);
+                        $('#sidebarCollapse').on('click', function () {
+                            $('#sidebar').toggleClass('active');
+                        });
+
+                        $(".programfamily-control").chosen({
+                            //alert($("#PF").value());
+                            placeholder_text_multiple: "program families"
+                        })
+
+                        // $(".programfamily-control").chosen().change(function (e, params) {
+                        //   values = $("#PF").chosen().val();
+                        //placeholder_text_multiple: "program families"
+                        //values is an array containing all the results.
+                        // });
+
+
+                        $(".businesstype-control").chosen({
+
+                            placeholder_text_multiple: "Business type names"
+                        })
+
+                        $(".businessgroup-control").chosen({
+
+                            placeholder_text_multiple: "Business Group Names"
+                        })
+
+                        $(".mcasegment-control").chosen({
+
+                            placeholder_text_multiple: "MCA segment Names"
+                        })
+                    });
+
+                </script>
+</body>
+
+
+</html>

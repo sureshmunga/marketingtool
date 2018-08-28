@@ -1,35 +1,64 @@
-<h2 class="page-header">Register</h2>
-{{#if user}}
-        <div class="alert alert-danger">Username has taken already try new</div> 
-{{/if}}
-{{#if mail}}
-        <div class="alert alert-danger">Email has taken already try new</div> 
-{{/if}} 
-{{#if errors}}
-      {{#each errors}}
-        <div class="alert alert-danger">{{msg}}</div>
-      {{/each}}
-{{/if}}
-<form method="post" action="/users/register">
-   <div class="form-group">
-    <label>Name</label>
-    <input type="text" class="form-control" placeholder="Name" name="name">
-  </div>
-  <div class="form-group">
-    <label>Username</label>
-    <input type="text" class="form-control" placeholder="Username" name="username">
-  </div>
-   <div class="form-group">
-    <label>Email</label>
-    <input type="email" class="form-control" placeholder="Email" name="email">
-  </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" placeholder="Password" name="password">
-  </div>
-  <div class="form-group">
-    <label>Confirm Password</label>
-    <input type="password" class="form-control" placeholder="Password" name="password2">
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+   
+       {{!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> --}}
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/my-login.css">
+
+  {{!-- <link rel="stylesheet" href="/css/bootstrap.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css"> --}}
+</head>
+
+<body class="my-registration-page">
+  <section class="h-100">
+    <div class="container h-100">
+      <div class="row justify-content-md-center h-100">
+        <div class="card-wrapper">
+          <div class="card fat">
+            <div class="card-body">
+               <div id="content">
+                
+              <h2 class="page-header">Register</h2>
+              {{#if user}}
+              <div class="alert alert-danger">Username has taken already try new</div>
+              {{/if}} {{#if mail}}
+              <div class="alert alert-danger">Email has taken already try new</div>
+              {{/if}} {{#if errors}} {{#each errors}}
+              <div class="alert alert-danger">{{msg}}</div>
+              {{/each}} {{/if}}
+              <form method="post" action="/users/register">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" placeholder="Name" name="name">
+                </div>
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control" placeholder="Username" name="username">
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" class="form-control" placeholder="Email" name="email">
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control" placeholder="Password" name="password">
+                </div>
+                <div class="form-group">
+                  <label>Confirm Password</label>
+                  <input type="password" class="form-control" placeholder="Password" name="password2">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                
+              </form>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 

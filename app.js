@@ -10,19 +10,31 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var que = require('./models/userRedshift');
+var redshiftClient = require('./redshift.js');
+var redshift = require('./redshift.js');
 
-mongoose.connect('mongodb://localhost/loginapp');
-var db = mongoose.connection;
+
+
+//mongoose.connect('mongodb://localhost/loginapp');
+//var db = mongoose.connection;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
+var cst = require('./routes/masterCampaignRoute');
+var tactic= require('./routes/tacticRoute');
 // Init App
 var app = express();
 
+/* app.get('/sss',function(req,res){
+	var pp = que.getUserByUsernamezzz();
+	pp.then(function(data){
+		res.send('<>'+data+'<>');
+	});
+}); */
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
 app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
@@ -35,9 +47,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Express Session
 app.use(session({
-    secret: 'secret',
-    saveUninitialized: true,
-    resave: true
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
 }));
 
 // Passport init
@@ -46,18 +58,18 @@ app.use(passport.session());
 
 // Express Validator
 app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
+  errorFormatter: function (param, msg, value) {
+    var namespace = param.split('.')
+      , root = namespace.shift()
       , formParam = root;
 
-    while(namespace.length) {
+    while (namespace.length) {
       formParam += '[' + namespace.shift() + ']';
     }
     return {
-      param : formParam,
-      msg   : msg,
-      value : value
+      param: formParam,
+      msg: msg,
+      value: value
     };
   }
 }));
@@ -78,10 +90,12 @@ app.use(function (req, res, next) {
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/cst', cst);
 
+//app.use('/tactic', tactic);
 // Set Port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 4000));
 
-app.listen(app.get('port'), function(){
-	console.log('Server started on port '+app.get('port'));
+app.listen(app.get('port'), function () {
+  console.log('Server started on port ' + app.get('port'));
 });

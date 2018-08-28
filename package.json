@@ -10,19 +10,30 @@
   "author": "Brad Traversy",
   "license": "ISC",
   "dependencies": {
+    "admin-lte": "^2.4.3",
     "bcryptjs": "*",
     "body-parser": "*",
+    "bower": "^1.8.4",
+    "chosen": "0.0.2",
     "connect-flash": "*",
     "cookie-parser": "^1.4.1",
+    "date-format": "^1.2.0",
+    "dateformat": "^3.0.3",
+    "dom-util": "^0.1.0",
     "express": "*",
     "express-handlebars": "*",
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "fusioncharts": "^3.12.2",
+    "moment": "^2.22.2",
     "mongodb": "*",
     "mongoose": "*",
+    "node-redshift": "^0.1.5",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "sql-bricks-postgres": "^0.5.0",
+    "sql-bricks-sqlite": "^0.1.0"
   }
 }

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--  <title>Collapsible sidebar using Bootstrap 3</title> -->
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/css/style4.css"> {{!--
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
+</head>
+
+<body class="my-registration-page">
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Marketing Measurement & Management</h3>
+                <strong>M3</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-home"></i>
+                        How to Use
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">CST</a>
+                        </li>
+                        <li>
+                            <a href="#">DISCOVER/AAE</a>
+                        </li>
+                        <li>
+                            <a href="#">Adhoc</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        CST
+                    </a>
+                    <ul class="list-unstyled components" id="pageSubmenu">
+                        <li class="active">
+                            <a href="/CST/mastercampaign">Master Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/CST/subcampaign">Sub Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/cst/tactic">Tactic</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        DISCOVER/AAE
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-link"></i>
+                        ADMIN
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-paperclip"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-send"></i>
+                        Contact
+                    </a>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        About
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
+        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+            <i class="glyphicon glyphicon-align-left"></i>
+            <span></span>
+        </button>
+        <!-- Page Content Holder -->
+        <section class="h-100">
+
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+
+                            <div id="content">
+
+                                <nav class="navbar navbar-default">
+                                    <div class="container-fluid">
+                                        <h2> Sub Campaign </h2>
+                                        <div class="navbar-header">
+                                        </div>
+
+
+
+                                        <form method="post" action="/cst/subcampaignregistration">
+                                            {{!--
+                                            <div class="line"></div>
+                                            <select class="form-control" id="sel1">
+                                                {{#each datamcaSegment}}
+                                                <option>{{mcasegmentname}}</option>
+                                                {{/each}} </select>
+                                            --}} {{!--
+                                            <table class=“cooltable”>
+                                                {{#each datamcaSegment}}
+                                                <tr>
+                                                    <td>{{mcasegmentname}}</td>
+                                                    <td>{{name}}</td>
+                                                    <td>{{mcasegmentid}}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </table> --}}
+
+
+                                            <div class="form-group required-field">
+                                                <label for="cam">Campaign</label>
+                                                <br>
+                                                <select class="campaign-control" id="CS" name="campaign" required autofocus>
+                                                    {{#each campaign}}
+                                                    <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="PT">Program Type</label>
+                                                <br>
+                                                <select class="form-control" id="PT"  name="programtype" required autofocus>
+                                                    {{!-- {{#each programfamilies}}
+                                                    <option>{{programfamiliyname}}</option> --}}
+                                                    <option value="0">-- Select --</option>
+                                                    {{!-- {{/each}} --}}</select>
+
+                                                </br>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="PN">Program Name</label>
+                                                <input id="proName" type="text" class="form-control" name="programname" value="" required autofocus>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="PM">Campaign Manager</label>
+                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="PDG">Program Desciption & Goals</label>
+                                                <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="MAR">Markets</label>
+                                                <br>
+                                                <select class="market-control" id="mar" name="market" required multiple="true">
+                                                    {{#each market}}
+                                                    <option>{{marketname}} </option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="SD">start date</label>
+                                                <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="ED">End date</label>
+                                                <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="MS">MCA segment</label>
+                                                <br>
+                                                <select class="mcasegment-control" id="MSC" name="mcasegment">
+                                                    {{#each mcasegment}}
+                                                    <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="LBG">Lead Business Groups</label>
+                                                <br>
+                                                <select class="businessgroup-control" id="BGC" name="businessgroup">
+                                                    {{#each businessgroups}}
+                                                    <option value={{businessgroupid}}>{{businessgroupname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="LBL">Lead Business Line</label>
+                                                <br>
+                                                <select class="businesslinecontrol" id="BL" name="businessline">
+                                                    {{#each businessline}}
+                                                    <option value={{businesslineid}}>{{businesslinename}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="SBG">Secondary Business Group</label>
+                                                <br>
+                                                <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
+                                                    {{#each businessgroups}}
+                                                    <option>{{businessgroupname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="SBL">Secondary BLS</label>
+                                                <br>
+                                                <select class="sec-businessline" id="SBL" name="secbusinessline" multiple="true">
+                                                    {{#each businessline}}
+                                                    <option>{{businesslinename}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="LBT">Lead Business Type</label>
+                                                <br>
+                                                <select class="lead-businesstype" id="LBT" name="leadbusinesstype">
+                                                    {{#each businesstype}}
+                                                    <option value={{businesstypeid}}>{{businesstypename}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="LI">Lead Industry</label>
+                                                <br>
+                                                <select class="lead-industrytype" id="IT" name="industrytype">
+                                                    {{#each industry}}
+                                                    <option value={{industryid}}>{{industryname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="SBTY">Secondary Business Type</label>
+                                                <br>
+                                                <select class="sec-businesstype" id="SBT" name="secbusinesstype" multiple="true">
+                                                    {{#each businesstype}}
+                                                    <option>{{businesstypename}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+
+                                            </div>
+
+                                            <div class="form-group required-field">
+                                                <label for="TB">Total Budget</label>
+                                                <input id="TB" type="number" class="form-control" name="totalbudget" value="" required autofocus>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <div class="form-group required-field">
+                                                <label for="TS">Total Spend</label>
+                                                <input id="TS" type="number" class="form-control" name="totalspend" value="" required autofocus>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <div class="form-group required-field">
+                                                <center>BenchMark</center>
+                                                <table cellspacing="10">
+                                                    <th style="padding:0 10px 0 30px;">Fuel metrics</th>
+                                                    <th style="padding:0 10px 0 45px;">Goal</th>
+                                                    <th style="padding:0 10px 0 45px;">Low</th>
+                                                    <th style="padding:0 10px 0 45px;">High</th>
+                                                    <th style="padding:0 10px 0 30px;">Bench mark score</th>
+                                                    <tr>
+                                                        <td>
+                                                            Marketing Qualified leads</td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="MQLG" required>
+
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="MQLL" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="MQLH" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="text" style="width: 115px" name="MQLBM" required>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            Sales Accepted Leads</td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="SALG" required>
+
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="SALL" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="SALH" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="text" style="width: 115px" name="SALB" required>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+
+                                                        <td>
+                                                            <br></br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Total Pipe Line</td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="TPLG" required>
+
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="TPLL" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="number" style="width: 115px" name="TPLH" required>
+                                                        </td>
+                                                        <td style="padding:0 10px 0 10px;">
+                                                            <input type="text" style="width: 115px" name="TPLB" required>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                        </form>
+                                    </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- jQuery CDN -->
+                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+                </script>
+                <!-- Bootstrap Js CDN -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+
+                <link rel="stylesheet" href="/css/choosen.css"> 
+                {{!-- <script>
+
+                    function subcampaign() {
+                        //alert('in ajax');
+                        var val = $("#mar option:selected").val();
+                        alert('market values ' + val);
+                </script>  --}}
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#PF").outerWidth(155);
+                        $("#BT").outerWidth(155);
+                        $("#BG").outerWidth(155);
+                        $("#MS").outerWidth(155);
+                        $("#PT").outerWidth(710);
+                        $("#mar").outerWidth(156);
+                        $("#MSC").outerWidth(710);
+                        $("#BGC").outerWidth(710);
+                        $("#SBG").outerWidth(156);
+                        $("#BL").outerWidth(710);
+                        $("#SBL").outerWidth(156);
+                        $("#LBT").outerWidth(710);
+                        $("#IT").outerWidth(710);
+                        $("#SBT").outerWidth(156);
+                        $("#CS").outerWidth(710);
+
+                        $('#sidebarCollapse').on('click', function () {
+                            $('#sidebar').toggleClass('active');
+                        });
+
+                        $(".campaign-control").on('change', function (event) {
+                            var val = $("#CS option:selected").val();
+                            //alert(val);
+                            var Resdata = '';
+                            var ele = document.getElementById('PT');
+                            ele.innerHTML =
+                                '<option>' + "Please select value" + '</option>';
+                            //alert('value is' + val);
+                            event.preventDefault();
+                            $.ajax({
+                                type: "GET",
+                                url: 'http://localhost:4000/cst/getprogramtypes' + val,
+                                //data: "value=" + val,        //POST variable name value
+                                success: function (data) {
+                                   // alert('data is '+ data);
+                                    //if (data) {
+                                       // alert('Success' + data);
+                                        ResData = data;
+                                        //alert(Resdata);
+
+                                        //alert('resdata' + ResData);
+                                        //alert(final);programfamiliyid
+                                        var ele = document.getElementById('PT');
+                                        for (var i = 0; i < ResData.length; i++) {
+                                            // POPULATE SELECT ELEMENT WITH JSON.
+                                            ele.innerHTML =
+                                                '<option value="'+ResData[i].programfamiliyid+'">' + ResData[i].programfamiliyname + '</option>';
+                                        }
+                                    //}
+                                    //else {
+                                      //  alert('Fail');
+
+                                    //}
+                                }
+                            });
+                        });
+                        $(".programfamily-control").chosen({
+                            //alert($("#PF").value());
+                            placeholder_text_multiple: "program families"
+                        })
+
+                        $(".sec-businesstype").chosen({
+                            //alert($("#PF").value());
+                            placeholder_text_multiple: "Secondary business types"
+                        })
+
+                        // $(".programfamily-control").chosen().change(function (e, params) {
+                        //   values = $("#PF").chosen().val();
+                        //placeholder_text_multiple: "program families"
+                        //values is an array containing all the results.
+                        // });
+
+
+                        $(".businesstype-control").chosen({
+
+                            placeholder_text_multiple: "Program type names"
+                        })
+
+                        $(".sec-businessgroupcontrol").chosen({
+
+                            placeholder_text_multiple: "Secondary Business Group Names"
+                        })
+
+                        $(".sec-businessline").chosen({
+
+                            placeholder_text_multiple: "Secondary buysiness lines"
+                        })
+
+                        $(".programtype-control").chosen({
+
+                            placeholder_text_multiple: "Program type names"
+                        })
+
+                        $(".market-control").chosen({
+
+                            placeholder_text_multiple: "market names"
+                        })
+
+                    });
+
+
+
+                </script>
+</body>
+
+
+</html>

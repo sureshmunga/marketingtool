@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--  <title>Collapsible sidebar using Bootstrap 3</title> -->
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/css/style4.css"> {{!--
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
+</head>
+<body  class="my-registration-page">
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Marketing Measurement & Management</h3>
+                <strong>M3</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-home"></i>
+                        How to Use
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">CST</a>
+                        </li>
+                        <li>
+                            <a href="#">DISCOVER/AAE</a>
+                        </li>
+                        <li>
+                            <a href="#">Adhoc</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        CST
+                    </a>
+                    <ul class="list-unstyled components" id="pageSubmenu">
+                        <li class="active">
+                            <a href="/CST/mastercampaign">Master Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/CST/subcampaign">Sub Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/cst/tactic">Tactic</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        DISCOVER/AAE
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-link"></i>
+                        ADMIN
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-paperclip"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-send"></i>
+                        Contact
+                    </a>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        About
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
+        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+            <i class="glyphicon glyphicon-align-left"></i>
+            <span></span>
+        </button>
+        <!-- Page Content start Holder -->
+        <section class="h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+
+                            <div id="content">
+
+                                <nav class="navbar navbar-default">
+                                    <div class="container-fluid">
+                                        <h2> Tactic </h2>
+                                        <div class="navbar-header">
+                                        </div>
+                                        <form method="post" action="/cst/tacticsave">
+
+                                            <!--Select Campaign here-->
+                                            <div class="form-group required-field">
+                                                <label for="CN">Campaign</label>
+                                                <select class="form-control" id="drpCampaign" name="campaign" required autofocus>
+                                                    <option value="0">--Select Campaign--</option>
+                                                    {{#each campaign}}
+                                                    <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <!--Select Program here-->
+                                            <div class="form-group required-field">
+                                                <label for="PG">Program</label>
+                                                <select class="form-control" id="drpProgram" name="program" required autofocus>
+                                                    <option value="0">--Select Program--</option>
+                                                    {{#each program}}
+                                                    <option value={{programid}}>{{programname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <!--Select Pgogram JOB here-->
+                                            <div class="form-group required-field">
+                                                <label for="JB">Job</label>
+                                                <select class="form-control" id="drpProgramJob" name="JOB" required autofocus>
+                                                    <option value="0">--Select Job--</option>
+                                                    {{#each programjob}}
+                                                    <option value={{programJobid}}>{{programJobname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <!--Select Tactic Type here-->
+                                            <div class="form-group required-field">
+                                                <label for="TT">Tactic Type</label>
+                                                <select class="form-control" id="drpTacticType" name="TacticType" required autofocus>
+                                                    <option value="0">--Select Tactic Type--</option>
+                                                    {{#each tactictype}}
+                                                    <option value={{tactictypeId}}>{{tactictypeName}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Enter Tactic Name here-->
+                                            <div class="form-group required-field">
+                                                <label for="TN">Tactic Name</label>
+                                                <input id="txtTacticName" type="text" class="form-control" name="tacticName" value="" required autofocus>
+
+                                            </div>
+
+                                            <!--Enter Tactic Description & Goal here-->
+                                            <div class="form-group required-field">
+                                                <label for="DG">Description & Goal</label>
+                                                <textarea id="txtDescription" type="text" class="form-control" name="DescriptionName" required autofocus>
+                                                    </textarea>
+
+                                            </div>
+
+                                            <!--Select MCA Segment here-->
+                                            <div class="form-group required-field">
+                                                <label for="MS">MCA Segment</label>
+                                                <select class="form-control" id="drpMCASegment" name="MCASegment" required autofocus>
+                                                    <option value="0">--Select MCA Segment--</option>
+                                                    {{#each MCASegment}}
+                                                    <option value={{MCASegmentId}}>{{MCASegmentName}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Select Markets here-->
+                                            <div class="form-group required-field">
+                                                <label for="MAR">Markets</label>
+                                                <select class="chosen-select  form-control" id="lstMarkets" name="Markets" required multiple="true">
+                                                    {{#each market}}
+                                                    <option value={{marketId}}>{{marketname}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Enter Start Date here-->
+                                            <div class="form-group required-field">
+                                                <label for="SD">Start Date</label>
+                                                <input id="txtStartDate" type="date" class="form-control" name="StartDate" value="" required autofocus>
+
+                                            </div>
+
+                                            <!--Enter End Date here-->
+                                            <div class="form-group required-field">
+                                                <label for="ED">Start Date</label>
+                                                <input id="txtEndDate" type="date" class="form-control" name="EndDate" value="" required autofocus>
+
+                                            </div>
+
+                                            <!--Select Business Group here-->
+                                            <div class="form-group required-field">
+                                                <label for="BG">Business Group</label>
+                                                <select class="form-control" id="drpBusinessGroup" name="BusinessGroup" required autofocus>
+                                                    <option value="0">--Select Business Group--</option>
+                                                    {{#each BusinessGroup}}
+                                                    <option value={{BusinessGroupId}}>{{BusinessGroupName}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Select Business Line here-->
+                                            <div class="form-group required-field">
+                                                <label for="BL">Business Line</label>
+                                                <select class="form-control" id="drpBusinessLine" name="BusinessLine" required autofocus>
+                                                    <option value="0">--Select Business Line--</option>
+                                                    {{#each BusinessLine}}
+                                                    <option value={{BusinessLine}}>{{BusinessLine}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Select Business Type here-->
+                                            <div class="form-group required-field">
+                                                <label for="BT">Business Type</label>
+                                                <select class="form-control" id="drpBusinessType" name="BusinessType" required autofocus>
+                                                    <option value="0">--Select Business Type--</option>
+                                                    {{#each BusinessType}}
+                                                    <option value={{BusinessTypeId}}>{{BusinessTypeName}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Select Industry here-->
+                                            <div class="form-group required-field">
+                                                <label for="Ind">Industry</label>
+                                                <select class="form-control" id="drpIndustry" name="Industry" required autofocus>
+                                                    <option value="0">--Select Industry--</option>
+                                                    {{#each Industry}}
+                                                    <option value={{IndustryId}}>{{IndustryName}}</option>
+                                                    {{/each}} </select>
+                                                </br>
+                                            </div>
+
+                                            <!--Enter Vendor here-->
+                                            <div class="form-group required-field">
+                                                <label for="VN">Vendor</label>
+                                                <input id="txtVendor" type="text" class="form-control" name="Vendor" value="" required autofocus>
+
+                                            </div>
+
+
+
+                                            <div class="clear"></div>
+                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            <span></span>
+                                            <button type="button" class="btn btn-primary btn-block" id="btntacticDraft">Save Draft</button>
+                                        </form>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- jQuery CDN -->
+                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+                </script>
+                <!-- Bootstrap Js CDN -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+
+                <link rel="stylesheet" href="/css/choosen.css"> 
+                <script src="/script/tacticform.js"></script>
+</body>
+</html>

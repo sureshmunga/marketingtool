@@ -32,9 +32,9 @@ body {
 }
 
 /* Customize container */
-@media (min-width: 768px) {
+@media (min-width: 0pc) {
   .container {
-    max-width: 730px;
+    max-width: 100pc;
   }
 }
 .container-narrow > hr {
@@ -70,7 +70,7 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    margin-bottom: 2px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
@@ -81,6 +81,11 @@ body {
 .page-header{
   margin-top:0;
 }
+
+.mpimg {
+              padding-top:2px;
+              padding-bottom:2px;
+              padding-left:15px;  }
 
 footer{
   margin-top:40px;
