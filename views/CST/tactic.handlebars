@@ -13,6 +13,40 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
+
+    <style>
+        #globalLoader {
+        position: absolute;
+        top: 0px !important;
+        left: 0px !important;
+        width: 100% !important;
+        height: 180% !important;
+        z-index: 1000;
+        background-color: grey;
+        opacity: .8;
+        overflow: hidden !important;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        top: 250px;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        overflow: hidden !important;
+    }
+.OnLoaderscroll {
+        overflow-y: hidden !important;
+        overflow: hidden !important;
+    }
+
+    .disable-scroll {
+        overflow: hidden !important;
+    }
+    </style>
 </head>
 <body  class="my-registration-page">
     <div class="wrapper">
@@ -53,7 +87,7 @@
                             <a href="/CST/subcampaign">Sub Campaign</a>
                         </li>
                         <li>
-                            <a href="/cst/tactic">Tactic</a>
+                            <a href="/tactic/tactic">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -114,8 +148,8 @@
                                         <h2> Tactic </h2>
                                         <div class="navbar-header">
                                         </div>
-                                        <form method="post" action="/cst/tacticsave">
-
+                                        <form method="post" action="/tactic/tacticsave">
+                                            <input type="hidden" id="tacticid" value=""/>
                                             <!--Select Campaign here-->
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign</label>
@@ -208,7 +242,7 @@
 
                                             <!--Enter End Date here-->
                                             <div class="form-group required-field">
-                                                <label for="ED">Start Date</label>
+                                                <label for="ED">End Date</label>
                                                 <input id="txtEndDate" type="date" class="form-control" name="EndDate" value="" required autofocus>
 
                                             </div>
@@ -267,7 +301,7 @@
 
 
                                             <div class="clear"></div>
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            <button id="btnSubmit" type="submit" class="btn btn-primary btn-block">Submit</button>
                                             <span></span>
                                             <button type="button" class="btn btn-primary btn-block" id="btntacticDraft">Save Draft</button>
                                         </form>

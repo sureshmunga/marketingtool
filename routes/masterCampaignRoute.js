@@ -17,16 +17,7 @@ var pp;
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-var tacticModel = require('../models/viewModels/tacticModel');
-router.get('/tactic', tacticModel.list);
-router.get('/program', function (req, res) {
-    var r = JSON.stringify(req.body);
 
-    var programlist = require('../models/viewModels/tacticModel');
-    programlist.name(req.params.campaignId, function (response) {
-        res.send(response)
-    });
-});
 
 
 router.get('/mastercampaign', masterCampaign.list);

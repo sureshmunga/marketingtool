@@ -92,7 +92,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/cst', cst);
 
-//app.use('/tactic', tactic);
+app.use('/tactic', tactic);
 // Set Port
 app.set('port', (process.env.PORT || 4000));
 
