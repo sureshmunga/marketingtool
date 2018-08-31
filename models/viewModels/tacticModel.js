@@ -6,8 +6,8 @@ var sql1 = require('sql-bricks-postgres');
 var select = sql.select(), $in = sql.in;
 var mcaselect = sql.select();
 var businesstypeselect = sql.select();
+var tacticviewmodel = redshift.import('./models/tactic.js')
 var programFamilySelect = sql.select();
-var tacticviewmodel = require('../tactic');//tacticModelView
 
 module.exports.list = function (req, res) {
     async.parallel([
@@ -150,19 +150,47 @@ module.exports.onbgchange = function(data,res, callback){
 };
 
 module.exports.ontacticsave = function(data, res, callback){
-    console.log("Print On Tactic Save");
-    console.log(JSON.stringify(data));
-    async.parallel([
-        function (callback) { 
-            var statement ='';
-            redshift.query(statement, callback) 
-          }
-      ], 
-      function (err, data) {
-            if(err){
-                console.log(err);
-            } else{
-                return callback({BusinessLine:data[0].rows});
-            }
+var tacticdata  = {
+    tacticid : data.tacticId
+    , tacticName: data.Name
+    , tacticDescription: data.TacticDescription
+    , status: data.status
+    , startDate: data.StartDate
+    , endDate: data.EndDate
+    , tacticTypeId: data.TacticTypeId
+    , vendor:data.Vendor
+    , businessgroupid: data.BusinessGroupId
+    , businesslineid : data.BusinessLineId
+    , isactive : "1"
+    //, createdDate : getdate()
+    , createdBy : ''
+    , businesstypeid : data.BusinessTypeId
+    , industryid : data.IndustryId
+    , programid : data.ProgramId
+    , mcasegmentid : data.MCASegmentId
+    , programjobid : data.ProgramJobId
+    , clientId : data.clientId
+  };
+    tacticviewmodel.create(tacticdata, function (err, result) {
+        if (err) {
+          console.log("error is " + err);
+        } else {
+          console.log("Inserted : " +JSON.stringify(tacticdata));
+          console.log("Inserted 1: " +JSON.stringify(result));
+          var SQLStatement = 'SELECT SLICE_NUM() AS ID'
+          redshift.query(SQLStatement, function(err, scopeId){
+            if (err) {
+                console.log('tactic id error is' + err);
+              } else {
+                console.log(JSON.stringify(result));
+                console.log("Inserted Id "  + JSON.stringify(scopeId));
+              }
+          }); 
+            
+          
+            return;
+        }
       });
+
+    
 };

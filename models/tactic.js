@@ -7,10 +7,10 @@ var tactic = {
 		tacticDescription: {
 			type: String
 		},
-		VisitedDate: {
+		visiteddate: {
 			type: String
 		},
-		Status: {
+		status: {
 			type: String
 		},
 		startDate: {
@@ -22,43 +22,49 @@ var tactic = {
         tacticTypeId : {
             type: String
         },
-        Vendor : {
+        vendor : {
             type:String
         },
 		namingConvention: {
 			type: String
 		},
-		tCampaignDigitalId: {
+		tcampaigndigitalId: {
 			type: String
         },
-        BusinessGroupId: {
+        businessgroupid: {
 			type: String
         },
-        BusinessLineId: {
+        businesslineid: {
 			type: String
 		},
-		IsActive: {
+		businesstypeid : {
+			type : String
+		},
+		industryid : {
+			type : String
+		},
+		isactive: {
 			type: String
         },
-        CreatedBy: {
+        createdby: {
 			type: String
         },
-        UpdatedBy: {
+        updatedby: {
 			type: String
         },
-        CreatedDate: {
+        createddate: {
 			type: String
         },
-        UpdatedDate: {
+        updateddate: {
 			type: String
         },
-        ProgramId: {
+        programid: {
 			type: String
         },
-        MCASegmentId: {
+        mcasegmentid: {
 			type: String
         },
-        ProgramJobId: {
+        programjobid: {
 			type: String
         },
         clientId: {

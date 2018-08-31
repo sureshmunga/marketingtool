@@ -109,6 +109,7 @@ $(document).ready(function () {
     $(document).on('click', '#btntacticDraft', function () {//fvalidationonsubmit() === 
         if (true) {
             var tacticData =CollectTacticFormData();
+            tacticData.Status = 'Draft';
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
                 alert("Return Save");
             });
