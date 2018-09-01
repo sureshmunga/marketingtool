@@ -60,7 +60,8 @@ router.post('/tacticsave',function(req,res){
         "BusinessLineId":req.body["data[BusinessLineId]"],
         "BusinessTypeId":req.body["data[BusinessTypeId]"],
         "IndustryId":req.body["data[IndustryId]"],
-        "Vendor":req.body["data[Vendor]"]
+        "Vendor":req.body["data[Vendor]"],
+        "status":req.body["data[Status]"]
     };
 
     tacticModel.ontacticsave(data,res, function (response) {
