@@ -121,11 +121,26 @@ $(document).ready(function () {
         return false;
     });
 
+    $(document).on('click', '#btnSubmit', function () {//fvalidationonsubmit() === 
+        if (true) {
+            var tacticData =CollectTacticFormData();
+            tacticData.Status = 'Active';
+            $.post('/tactic/tacticsave',{data:tacticData},function(response){
+                alert("Return Save");
+            });
+        }
+        else {
+            var pos = $(focusId).offset().top;
+            $('body, html').animate({ scrollTop: pos - 70 });
+        }
+        return false;
+    });
+
 
 });
 function bindmarket(data){
     $('#lstMarkets').find("option").remove();
-    $('#lstMarkets').append('<option value=0>None selected</option>');
+    //$('#lstMarkets').append('<option value=0>None selected</option>');
     $.each(data, function (index, item) {
         $('#lstMarkets').append('<option value=' + item.marketid + '>' + item.marketname + '</option>');
     });

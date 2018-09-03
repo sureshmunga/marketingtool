@@ -1,6 +1,9 @@
 var tactic = {
     tableName: 'apps.tactic',
     tableProperties: {
+		tacticid: {
+			type: String
+		},
 		tacticName: {
 			type: String
 		},

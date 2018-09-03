@@ -6,10 +6,12 @@ var sql1 = require('sql-bricks-postgres');
 var select = sql.select(), $in = sql.in;
 var mcaselect = sql.select();
 var businesstypeselect = sql.select();
-var tacticviewmodel = redshift.import('./models/tactic.js')
+var tacticviewmodel = redshift.import('./models/tactic.js');
+var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
 
 module.exports.list = function (req, res) {
+    //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
           redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
@@ -150,47 +152,107 @@ module.exports.onbgchange = function(data,res, callback){
 };
 
 module.exports.ontacticsave = function(data, res, callback){
-var tacticdata  = {
-    tacticid : data.tacticId
-    , tacticName: data.Name
-    , tacticDescription: data.TacticDescription
-    , status: data.status
-    , startDate: data.StartDate
-    , endDate: data.EndDate
-    , tacticTypeId: data.TacticTypeId
-    , vendor:data.Vendor
-    , businessgroupid: data.BusinessGroupId
-    , businesslineid : data.BusinessLineId
-    , isactive : "1"
-    //, createdDate : getdate()
-    , createdBy : ''
-    , businesstypeid : data.BusinessTypeId
-    , industryid : data.IndustryId
-    , programid : data.ProgramId
-    , mcasegmentid : data.MCASegmentId
-    , programjobid : data.ProgramJobId
-    , clientId : data.clientId
-  };
+    
+    //tacticid : data.TacticId
+    var tacticdata  = {
+          tacticName: data.Name
+        , tacticDescription: data.TacticDescription
+        , status: data.status
+        , startDate: data.StartDate
+        , endDate: data.EndDate
+        , tacticTypeId: data.TacticTypeId
+        , vendor:data.Vendor
+        , businessgroupid: data.BusinessGroupId
+        , businesslineid : data.BusinessLineId
+        , isactive : "1"
+        , businesstypeid : data.BusinessTypeId
+        , industryid : data.IndustryId
+        , programid : data.ProgramId
+        , mcasegmentid : data.MCASegmentId
+        , programjobid : data.ProgramJobId
+        , clientId : data.clientId
+    };
+    if(data.tacticid==""){
+        tacticdata.createdby=data.user;
+        tacticdata.createddate=moment().format("YYYY-MM-DD");
+    }
+    else{
+        tacticdata.updatedby=data.user;
+        tacticdata.updateddate=moment().format("YYYY-MM-DD");
+    }
+    console.log('tactic save' + JSON.stringify(data));
+    console.log('tactic save on ' + JSON.stringify(tacticdata));
     tacticviewmodel.create(tacticdata, function (err, result) {
         if (err) {
           console.log("error is " + err);
-        } else {
-          console.log("Inserted : " +JSON.stringify(tacticdata));
-          console.log("Inserted 1: " +JSON.stringify(result));
-          var SQLStatement = 'SELECT SLICE_NUM() AS ID'
-          redshift.query(SQLStatement, function(err, scopeId){
-            if (err) {
-                console.log('tactic id error is' + err);
-              } else {
-                console.log(JSON.stringify(result));
-                console.log("Inserted Id "  + JSON.stringify(scopeId));
-              }
-          }); 
-            
-          
+        } 
+        else 
+        {
+            if(data.tacticid=="" || data.tacticid == "0" || data.tacticid == undefined) 
+            {
+                var SQLStatement = "SELECT ISNULL(Max(tacticid),0) as tacticid from apps.tactic where createdby='"+data.user+"'";
+                console.log(SQLStatement);
+                redshift.query(SQLStatement, function(err, scopeId){
+                    if (err) {
+                        console.log('tactic id error is' + err);
+                    } else {
+                        console.log('tactic id ' + JSON.stringify(scopeId.rows[0].tacticid));
+                        data.tacticid = scopeId.rows[0].tacticid;
+                        updateinsertmarket(data.tacticid,data, callback);
+                    }
+                }); 
+            }
+            else {//(tacticdata.tacticid != "0" && tacticdata.tacticid != "" && tacticdata.tacticid !=undefined){
+                updateinsertmarket(data.tacticid,data, callback);
+            }
+
             return;
         }
       });
 
     
 };
+function updateinsertmarket(tacticid,data, callback){
+    var sqlmarket = 'delete from apps.tacticmarket where tacticid='+tacticid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function(err, scopeId){
+        if (err) {
+            console.log('tactic id error is' + err);
+        } else {
+            var marketArrayId = [];
+            marketArrayId = data.MarketId;
+            console.log('market id '+JSON.stringify(marketArrayId));
+            for (var i = 0; i < marketArrayId.length; i++) 
+            {
+                var tacticmarketvalue = {
+                    tacticid : tacticid,
+                    marketid : marketArrayId[i]
+                };
+                tacticmarket.create(tacticmarketvalue,function(err,marketres){
+                    if(err){
+                        console.log("Insertion Error while inserting in tactic market table "+ err);
+                    }                    
+                });
+            }
+            return callback({messagae : "Saved Successfully", status : true});
+        }
+    });
+}
+function gettacticId(loginUser,callback){
+    
+    async.parallel([
+        function (callback) { 
+            var SQLStatement = "SELECT ISNULL(Max(tacticid),0) as tacticid from apps.tactic where createdby='"+loginUser+"'";
+            console.log(SQLStatement);
+            redshift.query(SQLStatement, callback) 
+          }
+      ], 
+      function (err, data) {
+            if(err){
+                console.log(err);
+            } else{
+                console.log(JSON.stringify(data));
+                return callback({tacticid : data[0].rows[0].tacticid});
+            }
+      });
+}
