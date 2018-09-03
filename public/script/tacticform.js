@@ -138,6 +138,7 @@ $(document).ready(function () {
 
 
 });
+
 function bindmarket(data){
     $('#lstMarkets').find("option").remove();
     //$('#lstMarkets').append('<option value=0>None selected</option>');

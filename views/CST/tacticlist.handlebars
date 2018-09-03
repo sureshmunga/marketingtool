@@ -147,7 +147,36 @@
                                         <h2> Tactic </h2>
                                         <div class="navbar-header">
                                         </div>
-
+                                        <form id="frmTactilist">
+                                            <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
+                                                <tr>
+                                                    <th>
+                                                       Campaign Id 
+                                                    </th>
+                                                    <th>Tactic</th>
+                                                    <th>Status</th>
+                                                    <th>Creator</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                {{#each tacticlist}}
+                                                <tr>
+                                                    <td>tacticid</td>
+                                                    <td>tacticname</td>
+                                                    <td>status</td>
+                                                    <td>createdby</td>
+                                                    <td>startdate</td>
+                                                    <td>enddatae</td>
+                                                    <td>
+                                                        <a href="#" title="Hide" campaignId=parseInt(tacticid) class="btn-primary" value="Cancel" ><i class="fa fa-remove" aria-hidden="true"></i></a>
+                                                        |
+                                                        <a href="/tactic/tactic"+parseInt(tacticid)+"" title="Hide" campaignId=parseInt(tacticid) class="btn-primary" value="Edit" ><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    </td>                                                    
+                                                </tr>
+                                                {{/each}}
+                                            </table>
+                                        </form>
                                     </div>
                                 </nav>
                             </div>

@@ -10,7 +10,7 @@ var tacticviewmodel = redshift.import('./models/tactic.js');
 var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
 
-module.exports.list = function (req, res) {
+module.exports.gettactic = function (req, res) {
     //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
@@ -23,6 +23,30 @@ module.exports.list = function (req, res) {
         res.render('../views/CST/tactic', { campaign: results[0].rows });
     });
 };
+module.exports.gettacticbyid = function (req, res) {
+    async.parallel([
+      function (callback) { 
+          redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
+        }  
+    ], 
+    function (err, results) {
+        res.render('../views/CST/tactic', { campaign: results[0].rows });
+    });
+};
+
+module.exports.gettacticall = function (req, res) {
+    async.parallel([
+      function (callback) { 
+          console.log('tactic list printing');
+          redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
+        }  
+    ], 
+    function (err, results) {
+        console.log(JSON.stringify(results[0].rows));
+        res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
+    });
+};
+
 module.exports.programlst = function(campaignId, callback){    
     async.parallel([
         function (callback) { 

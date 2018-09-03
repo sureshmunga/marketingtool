@@ -11,7 +11,10 @@ var app = express();
 // Get Homepage
 //router.get('/tactic', tacticModel.list);
 
-router.get('/tactic', tacticModel.list);
+router.get('/tactic', tacticModel.gettactic);
+router.get('/tactic:id', tacticModel.gettacticbyid);
+router.get('/tacticlist',tacticModel.gettacticall);
+
 router.get('/campaign:id', function (req, res) {
     
     tacticModel.programlst(req.params.id, function (response) {
