@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    // handlebars.registerHelper('if_eq', function(a, b, opts) {
+    //     if(a == b)
+    //         return opts.fn(this);
+    //     else
+    //         return opts.inverse(this);
+    //   });
     $('select').chosen().trigger('chosen:updated');
     $(".chosen-choices").outerWidth(705);
     $(document).on('click', 'a[data-select-all="selectunselect"]', function () {
@@ -111,7 +117,10 @@ $(document).ready(function () {
             var tacticData =CollectTacticFormData();
             tacticData.Status = 'Draft';
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
-                alert("Return Save");
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/tactic/tactic'+response.tacticid;
+                }
             });
         }
         else {
@@ -126,7 +135,10 @@ $(document).ready(function () {
             var tacticData =CollectTacticFormData();
             tacticData.Status = 'Active';
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
-                alert("Return Save");
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/tactic/tacticlist';
+                }
             });
         }
         else {

@@ -21,7 +21,7 @@
     "dateformat": "^3.0.3",
     "dom-util": "^0.1.0",
     "express": "*",
-    "express-handlebars": "*",
+    "express-handlebars": "3.0.0",
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",

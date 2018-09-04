@@ -81,13 +81,13 @@
                     </a>
                     <ul class="list-unstyled components" id="pageSubmenu">
                         <li class="active">
-                            <a href="/CST/mastercampaign">Master Campaign</a>
+                            <a href="/CST/mastercampaign">Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/subcampaign">Sub Campaign</a>
+                            <a href="/CST/subcampaign">Program</a>
                         </li>
                         <li>
-                            <a href="/tactic/tacticlist">Tactic</a>
+                            <a href="/tactic/tlist">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -148,6 +148,9 @@
                                         <div class="navbar-header">
                                         </div>
                                         <form id="frmTactilist">
+                                            <a id="btnCreateNew" href="/tactic/tactic" class="btn btn-primary align-left">
+                                                Create New
+                                            </a>
                                             <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
                                                 <tr>
                                                     <th>
@@ -162,16 +165,16 @@
                                                 </tr>
                                                 {{#each tacticlist}}
                                                 <tr>
-                                                    <td>tacticid</td>
-                                                    <td>tacticname</td>
-                                                    <td>status</td>
-                                                    <td>createdby</td>
-                                                    <td>startdate</td>
-                                                    <td>enddatae</td>
+                                                    <td>{{tacticid}}</td>
+                                                    <td>{{tacticname}}</td>
+                                                    <td>{{status}}</td>
+                                                    <td>{{createdby}}</td>
+                                                    <td>{{startdate}}</td>
+                                                    <td>{{enddatae}}</td>
                                                     <td>
-                                                        <a href="#" title="Hide" campaignId=parseInt(tacticid) class="btn-primary" value="Cancel" ><i class="fa fa-remove" aria-hidden="true"></i></a>
+                                                        <a href="#" title="Hide" campaignId={{tacticid}} class="btn-primary" value="Cancel" >Cancel</a>
                                                         |
-                                                        <a href="/tactic/tactic"+parseInt(tacticid)+"" title="Hide" campaignId=parseInt(tacticid) class="btn-primary" value="Edit" ><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                        <a href="/tactic/tactic/{{tacticid}}" title="Hide" campaignId={{tacticid}} class="btn-primary" value="Edit" >Edit</a>
                                                     </td>                                                    
                                                 </tr>
                                                 {{/each}}
