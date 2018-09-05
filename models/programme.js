@@ -91,6 +91,9 @@ var businessgroup = {
 		},
 		clientid: {
 			type: String
+		},
+		createdby:{
+			type: String
 		}
 	}
 };

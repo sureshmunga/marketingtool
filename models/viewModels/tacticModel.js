@@ -11,6 +11,7 @@ var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
 
 module.exports.gettactic = function (req, res) {
+    console.log('isss');
     //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
@@ -18,114 +19,34 @@ module.exports.gettactic = function (req, res) {
         }  
     ], 
     function (err, results) {
-        //console.log('Campaign Rows');
+        // console.log('Campaign Rows');
         // console.log(JSON.stringify(results[0].rows));
         res.render('../views/CST/tactic', { campaign: results[0].rows });
     });
 };
-module.exports.gettacticbyid = function (tacticid, res) {
-    async.parallel([
-        function (callback) { 
-            redshift.query('SELECT tac.tacticid,tac.tacticname,tac.tacticdescription,tac.status,tac.createdby,tac.startdate,tac.enddate,tac.tcampaigndigitalid'
-            +' ,tac.tactictypeid,tac.vendor,tac.namingconvention,tac.businessgroupid,tac.businesslineid,tac.programid,tac.mcasegmentid'
-            +' , tac.programjobid,tac.businesstypeid,tac.industryid,prg.mastercampaignid '
-            +' from apps.tactic tac inner join apps.programs prg on tac.programid=prg.programid '
-            +' where tacticid='+tacticid, callback) 
-        },
-        function (callback) { 
-            redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps.mastercampaigns a', callback) 
-        } ,
-        function (callback) { 
-            redshift.query('SELECT programid,programname FROM apps.programs'
-            +' where mastercampaignid = ( SELECT prg.mastercampaignid FROM apps.programs prg '
-            +' inner join apps.tactic tac on prg.programid=tac.programid where tac.tacticid='+tacticid+')', callback) 
-        } , 
-        function (callback) {
-            redshift.query('select tactictypeId,tactictypeName from apps.tactictypes',callback)
-        },
-        function (callback) { 
-            redshift.query('select job.ProgramJobId,job.pfamilyjobname from apps."programfamilyjobs" job'
-            +' inner join apps."programs" prg on job.programfamilyid=prg.programfamilyid '
-            +' where prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
-          },
-        function (callback) { 
-            redshift.query('select mca.mcasegmentid,mca.mcasegmentname from apps."mcasegments" mca'
-            +' inner join apps."programs" prg on mca.mcasegmentid=prg.mcasegmentid '
-            +' where prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
-          },
-        function (callback) { 
-            redshift.query('select mar.marketid,mar.marketname from apps."market" mar '
-            +' inner join apps."programsmarket" marprg on mar.marketid = marprg.marketid '
-            +' where marprg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
-          },
-        function (callback) { 
-            redshift.query('select bg.businessgroupid,bg.businessgroupname from apps.businessgroups bg '
-            +' inner join apps.programs prg on bg.businessgroupid = prg.businessgroupid '
-            +' where prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
-            +' UNION'
-            +' select bg.businessgroupid,bg.businessgroupname from apps.businessgroups bg '
-            +' inner join apps.programssecbusinessgroups prgbg on bg.businessgroupid=prgbg.businessgroupid '
-            +' where prgbg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
-          },
-        function (callback) { 
-            var statement ='select bg.businesslineid,bg.businesslinename from apps.businesslines bg '
-            +' inner join apps.programs prg on bg.businesslineid = prg.businesslineid '
-            +' where bg.businessgroupid=(SELECT tac.businessgroupid FROM apps.tactic tac where tac.tacticid='+tacticid+') '
-            +' and prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
-            +' UNION'
-            +' select bg.businesslineid,bg.businesslinename from apps.businesslines bg '
-            +' inner join apps.programssecbusinesslines prgbg on bg.businesslineid=prgbg.businesslineid '
-            +' where bg.businessgroupid=(SELECT tac.businessgroupid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
-            +' and prgbg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')';
-            redshift.query(statement, callback) 
-          },
-        function (callback) { 
-            redshift.query('select bg.businesstypeid,bg.businesstypename from apps.businesstype bg '
-            +' inner join apps.programs prg on bg.businesstypeid = prg.businesstypeid '
-            +' where prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
-            +' UNION'
-            +' select bg.businesstypeid,bg.businesstypename from apps.businesstype bg '
-            +' inner join apps.programssecbusinesstype prgbg on bg.businesstypeid=prgbg.businesstypeid '
-            +' where prgbg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
-          },
-        function (callback) { 
-            var statement ='select bg.industryid,bg.industryname from apps.industry bg '
-            +' inner join apps.programs prg on bg.industryid = prg.industryid '
-            +' where bg.businesstypeid=(SELECT tac.businesstypeid FROM apps.tactic tac where tac.tacticid='+tacticid+') '
-            +' and prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
-            +' UNION'
-            +' select bg.industryid,bg.industryname from apps.industry bg '
-            +' inner join apps.programsindustry prgbg on bg.industryid=prgbg.industryid '
-            +' where bg.businesstypeid=(SELECT tac.businesstypeid FROM apps.tactic tac where tac.tacticid='+tacticid+') '
-            +' and prgbg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')';
-            redshift.query(statement, callback) 
-          }
-    ], 
-    function (err, data) {
-        res.render('../views/CST/tactic', 
-        {   tactic : data[0].rows[0]
-            , campaign: data[1].rows 
-            , program:data[2].rows
-            , tactictype:data[3].rows
-            , programjob:data[4].rows
-            , MCASegment:data[5].rows
-            , market:data[6].rows
-            , BusinessGroup:data[7].rows
-            , BusinessLine:data[8].rows
-            , BusinessType : data[9].rows
-            , Industry : data[10].rows
-        });
-    });
-};
-
-module.exports.list = function (req, res) {
+module.exports.gettacticbyid = function (req, res) {
     async.parallel([
       function (callback) { 
-          redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
+          redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
         }  
     ], 
     function (err, results) {
-        res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
+        res.render('../views/CST/tactic', { campaign: results[0].rows });
+    });
+};
+
+module.exports.gettacticall = function (req, res) {
+    console.log('insidee');
+    async.parallel([
+      function (callback) { 
+          console.log('tactic list printing');
+          redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
+        }  
+    ], 
+   
+    function (err, results) {
+        console.log(JSON.stringify(results[0].rows));
+        res.render('../views/CST/ressss', { tacticlist: results[0].rows });
     });
 };
 
@@ -298,8 +219,6 @@ module.exports.ontacticsave = function(data, res, callback){
             {
                 var SQLStatement = "SELECT ISNULL(Max(tacticid),0) as tacticid from apps.tactic where createdby='"+data.user+"'";
                 console.log(SQLStatement);
-                var value = 154;
-                var hex = ('00000' + value.toString(16).toUpperCase()).slice(-5);
                 redshift.query(SQLStatement, function(err, scopeId){
                     if (err) {
                         console.log('tactic id error is' + err);
@@ -342,7 +261,7 @@ function updateinsertmarket(tacticid,data, callback){
                     }                    
                 });
             }
-            return callback({messagae : "Saved Successfully", status : true, tacticid:tacticid});
+            return callback({messagae : "Saved Successfully", status : true});
         }
     });
 }

@@ -36,12 +36,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
 app.set('view engine', 'handlebars');
-exphbs.registerHelper('if_eq', function(a, b, opts) {
-  if(a == b)
-      return opts.fn(this);
-  else
-      return opts.inverse(this);
-});
 
 // BodyParser Middleware
 app.use(bodyParser.json());

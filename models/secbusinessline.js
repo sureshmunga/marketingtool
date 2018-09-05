@@ -4,7 +4,7 @@ var programssecbusinesslines =  {
         programid: {
 		type: String
 	},
-	marketid: {
+	businesslineid: {
 		type: String
 	},
 	clientid: {
