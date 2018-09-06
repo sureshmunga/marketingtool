@@ -152,12 +152,14 @@
                                             <input type="hidden" id="tacticid" value={{tactic.tacticid}}/>
                                             <!--Select Campaign here-->
                                             <div class="form-group required-field">
-                                                <label for="CN">Campaign</label>
-                                                
+                                                <label for="CN">Campaign {{tactic.mastercampaignid}}</label>
+                                                <hidden id="span" value={{tactic.mastercampaignid}}></hidden>
                                                 <select class="form-control" id="drpCampaign" name="campaign" required autofocus>
                                                     <option value="0">--Select Campaign--</option>
-                                                    {{#each campaign}}
-                                                        {{#if_eq mastercampaignid '7'}}
+                                                    {{#each campaign}}  
+                                                    {{!-- <option {{if_eq this tactic.mastercampaignid}}  value={{mastercampaignid}}>{{mastercampaignname}}</option>                                                            --}}
+                                                    
+                                                        {{#if_eq isselect}}
                                                             <option selected="selected"  value={{mastercampaignid}}>{{mastercampaignname}}</option>
                                                         {{else}}
                                                             <option value={{mastercampaignid}}>{{mastercampaignname}}</option>

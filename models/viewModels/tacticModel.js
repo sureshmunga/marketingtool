@@ -33,7 +33,8 @@ module.exports.gettacticbyid = function (tacticid, res) {
             +' where tacticid='+tacticid, callback) 
         },
         function (callback) { 
-            redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps.mastercampaigns a', callback) 
+            redshift.query('SELECT a.mastercampaignid,a.mastercampaignname,(case WHEN mastercampaignid = (select top 1 prg.mastercampaignid from apps.tactic tac inner join apps.programs prg on tac.programid=prg.programid'
+                +' where tacticid='+tacticid+') then TRUE ELSE FALSE END) as IsSelect  FROM apps.mastercampaigns a', callback) 
         } ,
         function (callback) { 
             redshift.query('SELECT programid,programname FROM apps.programs'
@@ -100,6 +101,7 @@ module.exports.gettacticbyid = function (tacticid, res) {
             +' and prgbg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')';
             redshift.query(statement, callback) 
           }
+          
     ], 
     function (err, data) {
         res.render('../views/CST/tactic', 
@@ -114,6 +116,55 @@ module.exports.gettacticbyid = function (tacticid, res) {
             , BusinessLine:data[8].rows
             , BusinessType : data[9].rows
             , Industry : data[10].rows
+            , helpers : {
+                foo: function () { return 'FOO!'; },
+                if_eq: function(a, opts){ 
+                    console.log(a);
+                    if(a==true)
+                      return opts.fn(this);
+                    else
+                      return opts.inverse(this);
+                  },
+                compare: function (lvalue, operator, rvalue, options) {
+                        console.log(lvalue + '##'+ operator + '##' + rvalue);
+                    var operators, result;
+                
+                    if (arguments.length < 3) {
+                        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+                    }
+                
+                    if (options === undefined) {
+                        options = rvalue;
+                        rvalue = operator;
+                        operator = "===";
+                    }
+                
+                    operators = {
+                        '==': function (l, r) { return l == r; },
+                        '===': function (l, r) { return l === r; },
+                        '!=': function (l, r) { return l != r; },
+                        '!==': function (l, r) { return l !== r; },
+                        '<': function (l, r) { return l < r; },
+                        '>': function (l, r) { return l > r; },
+                        '<=': function (l, r) { return l <= r; },
+                        '>=': function (l, r) { return l >= r; },
+                        'typeof': function (l, r) { return typeof l == r; }
+                    };
+                
+                    if (!operators[operator]) {
+                        throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+                    }
+                
+                    result = operators[operator](lvalue, rvalue);
+                
+                    if (result) {
+                        return options.fn(this);
+                    } else {
+                        return options.inverse(this);
+                    }
+                
+                }
+            }
         });
     });
 };
