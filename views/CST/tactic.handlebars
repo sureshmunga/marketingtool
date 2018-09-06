@@ -149,7 +149,7 @@
                                         <div class="navbar-header">
                                         </div>
                                         <form method="post" action="/tactic/tacticsave">
-                                            <input type="hidden" id="tacticid" value={{tactic.tacticid}}/>
+                                            <input type="hidden" id="tacticid" value={{tactic.tacticid}}>
                                             <!--Select Campaign here-->
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign {{tactic.mastercampaignid}}</label>
@@ -157,13 +157,13 @@
                                                 <select class="form-control" id="drpCampaign" name="campaign" required autofocus>
                                                     <option value="0">--Select Campaign--</option>
                                                     {{#each campaign}}  
-                                                    {{!-- <option {{if_eq this tactic.mastercampaignid}}  value={{mastercampaignid}}>{{mastercampaignname}}</option>                                                            --}}
+                                                    {{!-- <option {{if this tactic.mastercampaignid}}  value={{mastercampaignid}}>{{mastercampaignname}}</option>                                                            --}}
                                                     
-                                                        {{#if_eq isselect}}
+                                                        {{#if isselect}}
                                                             <option selected="selected"  value={{mastercampaignid}}>{{mastercampaignname}}</option>
                                                         {{else}}
                                                             <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
-                                                        {{/if_eq}}
+                                                        {{/if}}
                                                     {{/each}} 
                                                     
                                                 </select>
@@ -178,7 +178,12 @@
                                                 <select class="form-control" id="drpProgram" name="program" required autofocus>
                                                     <option value="0">--Select Program--</option>
                                                     {{#each program}}
-                                                    <option value={{programid}}>{{programname}}</option>
+                                                        {{#if isselect}}
+                                                            <option selected="selected"  value={{programid}}>{{programname}}</option>
+                                                        {{else}}
+                                                            <option value={{programid}}>{{programname}}</option>
+                                                        {{/if}}
+                                                    
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -190,7 +195,11 @@
                                                 <select class="form-control" id="drpProgramJob" name="JOB" required autofocus>
                                                     <option value="0">--Select Job--</option>
                                                     {{#each programjob}}
-                                                    <option value={{ProgramJobId}}>{{pfamilyjobname}}</option>
+                                                        {{#if isselect}}
+                                                            <option selected="selected"  value={{ProgramJobId}}>{{pfamilyjobname}}</option>
+                                                        {{else}}
+                                                            <option value={{ProgramJobId}}>{{pfamilyjobname}}</option>
+                                                        {{/if}}
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -202,7 +211,11 @@
                                                 <select class="form-control" id="drpTacticType" name="TacticType" required autofocus>
                                                     <option value="0">--Select Tactic Type--</option>
                                                     {{#each tactictype}}
-                                                    <option value={{tactictypeId}}>{{tactictypeName}}</option>
+                                                        {{#if isselect}}
+                                                            <option selected="selected"  value={{tactictypeId}}>{{tactictypeName}}</option>
+                                                        {{else}}
+                                                            <option value={{tactictypeId}}>{{tactictypeName}}</option>
+                                                        {{/if}}
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -210,7 +223,7 @@
                                             <!--Enter Tactic Name here-->
                                             <div class="form-group required-field">
                                                 <label for="TN">Tactic Name</label>
-                                                <input id="txtTacticName" type="text" class="form-control" name="tacticName" value={{tactic.tacticname}} required autofocus>
+                                                <input id="txtTacticName" type="text" class="form-control" name="tacticName" required autofocus value={{tactic.tacticname}} >
 
                                             </div>
 
@@ -227,7 +240,11 @@
                                                 <select class="form-control" id="drpMCASegment" name="MCASegment" required autofocus>
                                                     <option value="0">--Select MCA Segment--</option>
                                                     {{#each MCASegment}}
-                                                    <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+                                                        {{#if isselect}}
+                                                            <option selected="selected"  value={{mcasegmentid}}>{{mcasegmentname}}</option>
+                                                        {{else}}
+                                                            <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+                                                        {{/if}}
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -237,7 +254,7 @@
                                                 <label for="MAR">Markets</label>
                                                 <select class="chosen-select  form-control" id="lstMarkets" name="Markets" required multiple="true">
                                                     {{#each market}}
-                                                    <option value={{marketid}}>{{marketname}}</option>
+                                                        <option {{#if isselect}} selected="selected" {{/if}}  value={{marketid}}>{{marketname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -262,7 +279,7 @@
                                                 <select class="form-control" id="drpBusinessGroup" name="BusinessGroup" required autofocus>
                                                     <option value="0">--Select Business Group--</option>
                                                     {{#each BusinessGroup}}
-                                                    <option value={{businessgroupid}}>{{businessgroupname}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -273,7 +290,7 @@
                                                 <select class="form-control" id="drpBusinessLine" name="BusinessLine" required autofocus>
                                                     <option value="0">--Select Business Line--</option>
                                                     {{#each BusinessLine}}
-                                                    <option value={{businesslineid}}>{{businesslinename}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businesslineid}}>{{businesslinename}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -284,7 +301,7 @@
                                                 <select class="form-control" id="drpBusinessType" name="BusinessType" required autofocus>
                                                     <option value="0">--Select Business Type--</option>
                                                     {{#each BusinessType}}
-                                                    <option value={{businesstypeid}}>{{businesstypename}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -295,7 +312,7 @@
                                                 <select class="form-control" id="drpIndustry" name="Industry" required autofocus>
                                                     <option value="0">--Select Industry--</option>
                                                     {{#each Industry}}
-                                                    <option value={{industryid}}>{{industryname}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{industryid}}>{{industryname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -303,7 +320,7 @@
                                             <!--Enter Vendor here-->
                                             <div class="form-group required-field">
                                                 <label for="VN">Vendor</label>
-                                                <input id="txtVendor" type="text" class="form-control" name="Vendor" value={{tactic.vendor}} required autofocus>
+                                                <input id="txtVendor" type="text" class="form-control" name="Vendor" required autofocus value={{tactic.vendor}} >
 
                                             </div>
 

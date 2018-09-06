@@ -42,7 +42,7 @@ var hbs = exphbs.create({
       foo: function () { return 'FOO!'; },
       bar: function () { return 'BAR!'; },
       if_eq: function(a, opts){ 
-        if(a)
+        if(a==true)
           return opts.fn(this);
         else
           return opts.inverse(this);
@@ -144,6 +144,7 @@ app.use(function (req, res, next) {
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
   next();
+
 });
 
 
