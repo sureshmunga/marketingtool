@@ -10,7 +10,7 @@ var mcasegments = redshift.import("./models/mcasegment.js");
 var programfamilies = redshift.import("./models/programfamilies.js");
 var secbusinessgroup = redshift.import("./models/secondarybusinessgroup.js");
 var secbusinesstype = redshift.import("./models/secondarybusinesstype.js");
-var markets = redshift.import("./models/markets.js");
+var programsmarket = redshift.import("./models/markets.js");
 var programssecbusinesslines = redshift.import("./models/secbusinessline.js");
 
 exports.businessGroupIns = function (groupname,newBuss,mastercampaignId) {
@@ -223,7 +223,7 @@ exports.secbusinessTypeIns = function (btypeName,subcampaign,programID) {
                 const bTypeID = bTypeIns[i].businesstypeid;
                 console.log("Business type ID is" + bTypeID);
                 secbusinesstype.create({
-                    programID: programID, businesstypeid: bTypeID,
+                    programid: programID, businesstypeid: bTypeID,
                     clientid: subcampaign.clientid
                 }, function (err, data) {
                     if (err) {
@@ -252,8 +252,8 @@ exports.marketIns = function (marketName,subcampaign,programID) {
             for (i = 0; i < MarketINS.length; i++) {
                 const MarketID = MarketINS[i].marketid;
                 console.log("market ID is" + MarketID);
-                markets.create({
-                    programID: programID, marketid: MarketID,
+                programsmarket.create({
+                    programid: programID, marketid: MarketID,
                     clientid: subcampaign.clientid
                 }, function (err, data) {
                     if (err) {
@@ -282,8 +282,8 @@ exports.programssecbusinesslines = function (businessline,subcampaign,programID)
             for (i = 0; i < businessLineIns.length; i++) {
                 const BusinessLineId = businessLineIns[i].businesslineid;
                 console.log("BusinessLineId is" + BusinessLineId);
-                markets.create({
-                    programID: programID, businesslineid: BusinessLineId,
+                programssecbusinesslines.create({
+                    programid: programID, businesslineid: BusinessLineId,
                     clientid: subcampaign.clientid
                 }, function (err, data) {
                     if (err) {

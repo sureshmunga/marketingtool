@@ -16,7 +16,7 @@ var programfamilies = redshift.import("./models/programfamilies.js");
 
 var dom = require('dom-util');
 
-var mcaid = require('../models/masterCampaignModel.js');
+//var mcaid = require('../models/viewModels/asterCampaignModel');
 
 var mastercampaign = redshift.import('./models/mastercampaign.js');
 var subcampaignTab = redshift.import('./models/programme.js');
@@ -207,7 +207,7 @@ module.exports.createprogramFamilies = function (mastercampaignid, programfamily
 }
 
 
-module.exports.createbb = function (newBuss, res, callback) {
+module.exports.createMasterCampaignData = function (newBuss, res, callback) {
   console.log('inside create user' + [newBuss.businessgroupname]);
   const group = newBuss.businessgroupname;
   var username1 = ['Fixed Networks', 'Global Services'];
@@ -220,13 +220,14 @@ module.exports.createbb = function (newBuss, res, callback) {
   var PFamilyName = newBuss.programfamilyname;
   var PName = "" + PFamilyName + "";
   console.log('program family name is' + PName);
-  console.log("sdfsafsafsadf"+newBuss.startdate);
+  console.log("sdfsafsafsadf" + newBuss.startdate);
+  console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
 
   var mastercampaignId;
   mastercampaign.create({
     mastercampaignname: newBuss.campaignName, campaigndescription: newBuss.Campaigndescriptiongoals,
     campaignmanager: newBuss.Campaignmanager, status: newBuss.status, startdate: newBuss.startdate, enddate: newBuss.enddate,
-    namingconvention: newBuss.namingConvention, mcampaigndigitalid: newBuss.mcadigitalid
+    namingconvention: newBuss.namingConvention, mcampaigndigitalid: newBuss.mcadigitalid,createdby: newBuss.createdby
   }, function (err, data) {
     if (err) {
       console.log("error is" + err);
@@ -326,27 +327,15 @@ module.exports.createbb = function (newBuss, res, callback) {
 }
 
 module.exports.createSubcampaign = function (subcampaign, res, callback) {
-  console.log('insideSUbcampaign' + [subcampaign.businessgroupname]);
-  /* const group = newBuss.businessgroupname;
-  var username1 = ['Fixed Networks', 'Global Services'];
-  var segNames1 = newBuss.mcasegmentname;
-  const segName = "" + segNames1 + ""
-  console.log('segName' + segName);
-  const btypeName = newBuss.businesstypename;
-  const bName = "" + btypeName + ""
-  console.log('business type name is with' + bName);
-  var PFamilyName = newBuss.programfamilyname;
-  var PName = "" + PFamilyName + "";
-  console.log('program family name is'+ PName); */
-
+  console.log('insideSUbcampaign' + [subcampaign.totalbudget]);
   var programID;
   subcampaignTab.create({
     programname: subcampaign.programname, programdescription: subcampaign.programdescription,
-    campaignmanager: subcampaign.campaignmanager, budget: subcampaign.budget, spend: subcampaign.spend, status: subcampaign.status, startdate: subcampaign.startdate, enddate: subcampaign.enddate,
+    campaignmanager: subcampaign.campaignmanager, budget: subcampaign.totalbudget, spend: subcampaign.totalspend, status: subcampaign.status, startdate: subcampaign.startdate, enddate: subcampaign.enddate,
     programfamilyid: subcampaign.programfamilyid, mcasegmentid: subcampaign.mcasegmentid, businessgroupid: subcampaign.businessgroupid, businesslineid: subcampaign.businesslineid, businesstypeid: subcampaign.businesstypeid,
     industryid: subcampaign.industryid, mqlgoal: subcampaign.MQLG, mqllow: subcampaign.MQLL, mqlhigh: subcampaign.MQLH, mqlsource: subcampaign.MQLBM, salgoal: subcampaign.SALG, sallow: subcampaign.SALL, salhigh: subcampaign.SALH,
-    salsource: subcampaign.SALB, pipelinegoal: subcampaign.TPLG, pipelinelow: subcampaign.TPLL, pipelinehigh: subcampaign.TPLH, pipelinesource: subcampaign.TPLB, namingconvention: subcampaign.namingConvention, programdigitalid:subcampaign.programdigitalid,
-    mastercampaignid: subcampaign.mastercampaignid, clientid: subcampaign.clientid
+    salsource: subcampaign.SALB, pipelinegoal: subcampaign.TPLG, pipelinelow: subcampaign.TPLL, pipelinehigh: subcampaign.TPLH, pipelinesource: subcampaign.TPLB, namingconvention: subcampaign.namingConvention, programdigitalid: subcampaign.programdigitalid,
+    mastercampaignid: subcampaign.mastercampaignid, clientid: subcampaign.clientid, createdby:subcampaign.createdby
   }, function (err, data) {
     if (err) {
       console.log("error is" + err);

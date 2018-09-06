@@ -13,43 +13,9 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
-    
-    <style>
-        #globalLoader {
-        position: absolute;
-        top: 0px !important;
-        left: 0px !important;
-        width: 100% !important;
-        height: 180% !important;
-        z-index: 1000;
-        background-color: grey;
-        opacity: .8;
-        overflow: hidden !important;
-    }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        top: 250px;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        overflow: hidden !important;
-    }
-.OnLoaderscroll {
-        overflow-y: hidden !important;
-        overflow: hidden !important;
-    }
-
-    .disable-scroll {
-        overflow: hidden !important;
-    }
-    </style>
 </head>
-
 {{> common}}
+
 {{!-- <body class="my-registration-page">
 
     <div class="wrapper">
@@ -88,7 +54,7 @@
                             <a href="/CST/mastercampaign">Master Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/program">program</a>
+                            <a href="/CST/program">Program</a>
                         </li>
                         <li>
                             <a href="#">Tactic</a>
@@ -179,8 +145,8 @@
                                                 <label for="cam">Campaign</label>
                                                 <br>
                                                 <select class="campaign-control" id="CS" name="campaign" required autofocus>
-                                                    {{#each campaign}}
-                                                    <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
+                                                    {{#each programTab}}
+                                                    <option value={{programid}}>{{programname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
@@ -190,35 +156,38 @@
                                                 <label for="PT">Program Type</label>
                                                 <br>
                                                 <select class="form-control" id="PT"  name="programtype" required autofocus>
-                                                    {{!-- {{#each programfamilies}}
-                                                    <option>{{programfamiliyname}}</option> --}}
-                                                    <option value="0">-- Select --</option>
-                                                    {{!-- {{/each}} --}}</select>
+                                                    {{#each pfamily}}
+                                                    <option>{{programfamiliyname}}</option>
+                                                    {{!-- <option value="0">-- Select --</option> --}}
+                                                    {{/each}}</select>
 
                                                 </br>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="PN">Program Name</label>
-                                                <input id="proName" type="text" class="form-control" name="programname" value="" required autofocus>
+                                                <input id="programName" type="text" class="form-control" name="programname" required autofocus {{#each programTab}} value={{programname}}
+                                                    {{/each}}>
 
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="PM">Campaign Manager</label>
-                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" value="" required autofocus>
+                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" required autofocus {{#each programTab}} value={{campaignmanager}}
+                                                    {{/each}}>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="PDG">Program Desciption & Goals</label>
-                                                <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" value="" required autofocus>
+                                                <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" required autofocus {{#each programTab}} value={{programdescription}}
+                                                    {{/each}}>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="MAR">Markets</label>
                                                 <br>
                                                 <select class="market-control" id="mar" name="market" required multiple="true">
-                                                    {{#each market}}
+                                                    {{#each markettab}}
                                                     <option>{{marketname}} </option>
                                                     {{/each}} </select>
                                                 </br>
@@ -226,19 +195,19 @@
 
                                             <div class="form-group required-field">
                                                 <label for="SD">start date</label>
-                                                <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+                                                <input id="str" type="date" class="form-control" name="startdate" value="{{startDate}}" required autofocus>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
-                                                <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+                                                <input id="endate" type="date" class="form-control" name="enddate" value="{{endDate}}" required autofocus>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="MS">MCA segment</label>
                                                 <br>
                                                 <select class="mcasegment-control" id="MSC" name="mcasegment">
-                                                    {{#each mcasegment}}
+                                                    {{#each mcaseg}}
                                                     <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -249,7 +218,7 @@
                                                 <label for="LBG">Lead Business Groups</label>
                                                 <br>
                                                 <select class="businessgroup-control" id="BGC" name="businessgroup">
-                                                    {{#each businessgroups}}
+                                                    {{#each leadbusiness}}
                                                     <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -260,7 +229,7 @@
                                                 <label for="LBL">Lead Business Line</label>
                                                 <br>
                                                 <select class="businesslinecontrol" id="BL" name="businessline">
-                                                    {{#each businessline}}
+                                                    {{#each leadbusinesslin}}
                                                     <option value={{businesslineid}}>{{businesslinename}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -271,7 +240,7 @@
                                                 <label for="SBG">Secondary Business Group</label>
                                                 <br>
                                                 <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
-                                                    {{#each businessgroups}}
+                                                    {{#each secbusinessgro}}
                                                     <option>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -282,7 +251,7 @@
                                                 <label for="SBL">Secondary BLS</label>
                                                 <br>
                                                 <select class="sec-businessline" id="SBL" name="secbusinessline" multiple="true">
-                                                    {{#each businessline}}
+                                                    {{#each secbusinessLin}}
                                                     <option>{{businesslinename}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -293,7 +262,7 @@
                                                 <label for="LBT">Lead Business Type</label>
                                                 <br>
                                                 <select class="lead-businesstype" id="LBT" name="leadbusinesstype">
-                                                    {{#each businesstype}}
+                                                    {{#each leadbusinessty}}
                                                     <option value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -304,7 +273,7 @@
                                                 <label for="LI">Lead Industry</label>
                                                 <br>
                                                 <select class="lead-industrytype" id="IT" name="industrytype">
-                                                    {{#each industry}}
+                                                    {{#each industryLead}}
                                                     <option value={{industryid}}>{{industryname}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -315,7 +284,7 @@
                                                 <label for="SBTY">Secondary Business Type</label>
                                                 <br>
                                                 <select class="sec-businesstype" id="SBT" name="secbusinesstype" multiple="true">
-                                                    {{#each businesstype}}
+                                                    {{#each secbusinesstyp}}
                                                     <option>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
@@ -324,13 +293,15 @@
 
                                             <div class="form-group required-field">
                                                 <label for="TB">Total Budget</label>
-                                                <input id="TB" type="number" class="form-control" name="totalbudget" value="" required autofocus>
+                                                <input id="TB" type="number" class="form-control" name="totalbudget"  required autofocus {{#each programTab}} value={{budget}}
+                                                    {{/each}}>
                                             </div>
                                             <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="TS">Total Spend</label>
-                                                <input id="TS" type="number" class="form-control" name="totalspend" value="" required autofocus>
+                                                <input id="TS" type="number" class="form-control" name="totalspend"  required autofocus {{#each programTab}} value={{spend}}
+                                                    {{/each}}>
                                             </div>
                                             <div class="clear"></div>
 
@@ -346,17 +317,21 @@
                                                         <td>
                                                             Marketing Qualified leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLG" required>
+                                                            <input type="number" style="width: 115px" name="MQLG" required  {{#each programTab}} value={{mqlgoal}}
+                                                    {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLL" required>
+                                                            <input type="number" style="width: 115px" name="MQLL" required {{#each programTab}} value={{mqllow}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLH" required>
+                                                            <input type="number" style="width: 115px" name="MQLH" required {{#each programTab}} value={{mqlhigh}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="MQLBM" required>
+                                                            <input type="text" style="width: 115px" name="MQLBM" required {{#each programTab}} value={{mqlsource}}
+                                                    {{/each}}>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -380,17 +355,21 @@
                                                         <td>
                                                             Sales Accepted Leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALG" required>
+                                                            <input type="number" style="width: 115px" name="SALG" required  {{#each programTab}} value={{salgoal}}
+                                                    {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALL" required>
+                                                            <input type="number" style="width: 115px" name="SALL" required  {{#each programTab}} value={{sallow}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALH" required>
+                                                            <input type="number" style="width: 115px" name="SALH" required  {{#each programTab}} value={{salhigh}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="SALB" required>
+                                                            <input type="text" style="width: 115px" name="SALB" required  {{#each programTab}} value={{salsource}}
+                                                    {{/each}}>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -413,17 +392,21 @@
                                                         <td>
                                                             Total Pipe Line</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLG" required>
+                                                            <input type="number" style="width: 115px" name="TPLG" required  {{#each programTab}} value={{pipelinegoal}}
+                                                    {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLL" required>
+                                                            <input type="number" style="width: 115px" name="TPLL" required  {{#each programTab}} value={{pipelinelow}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLH" required>
+                                                            <input type="number" style="width: 115px" name="TPLH" required {{#each programTab}} value={{pipelinehigh}}
+                                                    {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="TPLB" required>
+                                                            <input type="text" style="width: 115px" name="TPLB" required  {{#each programTab}} value={{pipelinesource}}
+                                                    {{/each}}>
                                                         </td>
                                                     </tr>
                                                 </table>

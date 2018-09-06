@@ -13,9 +13,43 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
-</head>
+    <style>
+        #globalLoader {
+        position: absolute;
+        top: 0px !important;
+        left: 0px !important;
+        width: 100% !important;
+        height: 180% !important;
+        z-index: 1000;
+        background-color: grey;
+        opacity: .8;
+        overflow: hidden !important;
+    }
 
-<body class="my-registration-page">
+    .loader {
+        border: 16px solid #f3f3f3;
+        top: 250px;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        overflow: hidden !important;
+    }
+.OnLoaderscroll {
+        overflow-y: hidden !important;
+        overflow: hidden !important;
+    }
+
+    .disable-scroll {
+        overflow: hidden !important;
+    }
+    </style>
+</head>
+{{> common}}
+
+{{!-- <body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -50,13 +84,13 @@
                     </a>
                     <ul class="list-unstyled components" id="pageSubmenu">
                         <li class="active">
-                            <a href="/CST/mastercampaign">Master Campaign</a>
+                            <a href="/CST/mastercampaign"> Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/subcampaign">Sub Campaign</a>
+                            <a href="/CST/program">Program</a>
                         </li>
                         <li>
-                            <a href="/tactic/tacticlist">Tactic</a>
+                            <a href="#">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -102,7 +136,7 @@
         <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
             <i class="glyphicon glyphicon-align-left"></i>
             <span></span>
-        </button>
+        </button> --}}
         <!-- Page Content Holder -->
         <section class="h-100">
 
@@ -115,22 +149,22 @@
 
                                 <nav class="navbar navbar-default">
                                     <div class="container-fluid">
-                                        <h2> Master Campaign </h2>
+                                        <h2> Campaign </h2>
                                         <div class="navbar-header">
                                         </div>
 
 
 
-                                        <form method="post" action="/cst/campaignregistration">
+                                        <form method="post" id='mass' action="/cst/campaignregistration">
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
-                                                <input id="campname" type="text" class="form-control" name="CampaignName"  required autofocus>
+                                                <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus>
                                             </div>
                                             <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="CM">Campaign Manager</label>
-                                                <input id="cm" type="text" class="form-control" name="Campaignmanager" value="" required autofocus> {{!--
+                                                <input id="cm" type="email" class="form-control" name="Campaignmanager" value="" required autofocus> {{!--
                                                 <input id="CM" type="text" class="form-control" name="Campaign Manager" value="" required autofocus> --}}
                                             </div>
 
@@ -159,7 +193,7 @@
                                             <div class="form-group required-field">
                                                 <label for="MS">MCA segment</label>
                                                 <br>
-                                                <select class="mcasegment-control" id="MS" name="mcasegment" multiple required>
+                                                <select class="mcasegment-control" id="MS" name="mcasegment" multiple="required" required>
                                                     {{#each mcasegment}}
                                                     <option>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
@@ -170,7 +204,7 @@
                                             <div class="form-group required-field">
                                                 <label for="BG">Business Group</label>
                                                 <br>
-                                                <select class="businessgroup-control" id="BG" name="businessgroup" multiple required>
+                                                <select class="businessgroup-control" id="BG" name="businessgroup" multiple="required" required autofocus>
                                                     {{#each businessgroups}}
                                                     <option>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -180,7 +214,7 @@
                                             <div class="form-group required-field">
                                                 <label for="BT">Business Type</label>
                                                 <br>
-                                                <select class="businesstype-control" id="BT" name="businesstype" multiple required required="required">
+                                                <select class="businesstype-control" id="BT" name="businesstype" multiple="required" required>
                                                     {{#each businesstype}}
                                                     <option>{{businesstypename}}</option>
                                                     {{/each}} </select>
@@ -190,7 +224,7 @@
                                             <div class="form-group required-field">
                                                 <label for="PF">Program families</label>
                                                 <br>
-                                                <select class="programfamily-control" id="PF" name="programfamilies" required multiple="true" style="width: 150px">
+                                                <select class="programfamily-control" id="PF" name="programfamilies" multiple="true" style="width: 150px" required>
                                                     {{#each programfamilies}}
                                                     <option>{{programfamiliyname}} </option>
                                                     {{/each}} </select>
@@ -206,9 +240,9 @@
                                                 <label for="ED">End date</label>
                                                 <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
                                             <span></span>
-                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Save Draft</button>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button>
                                         </form>
                                     </div>
 
@@ -226,13 +260,11 @@
                 <!-- Bootstrap Js CDN -->
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
                 <link rel="stylesheet" href="/css/choosen.css">
 
                 <script type="text/javascript">
                     $(document).ready(function () {
-
-                        //alert(paramPairs);
-                        // If there is no query, default to '96'
 
                         $("#PF").outerWidth(155);
                         $("#BT").outerWidth(155);
@@ -242,10 +274,12 @@
                             $('#sidebar').toggleClass('active');
                         });
 
-                        $(".programfamily-control").chosen({
+                        $("#PF").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "program families"
                         })
+                        
+                        
 
                         // $(".programfamily-control").chosen().change(function (e, params) {
                         //   values = $("#PF").chosen().val();
@@ -256,19 +290,39 @@
 
                         $(".businesstype-control").chosen({
 
-                            placeholder_text_multiple: "Business type names"
+                            placeholder_text_multiple: "Business type names",
+                            
                         })
 
-                        $(".businessgroup-control").chosen({
+                        //$(".businesstype-control").chosen();
+                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" });
+                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" })
+                        // $("#mass").validate({
 
-                            placeholder_text_multiple: "Business Group Names"
+                        //rules: {chosen:"required"},
+                        //message: {chosen:"Select a Country"}
+                        //});
+
+
+
+                       // $(".businessgroup-control").chosen({
+
+                         //   placeholder_text_multiple: "Business Group Names"
+                        //})
+
+                         $("#BG").chosen({
+                            //alert($("#PF").value());
+                            placeholder_text_multiple: "Business group"
                         })
 
                         $(".mcasegment-control").chosen({
 
                             placeholder_text_multiple: "MCA segment Names"
                         })
+
+                        $('#mass').validate({ ignore: ":hidden:not(select)" });
                     });
+
 
                 </script>
 </body>

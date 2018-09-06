@@ -17,12 +17,17 @@
     "chosen": "0.0.2",
     "connect-flash": "*",
     "cookie-parser": "^1.4.1",
+    "date-and-time": "^0.6.2",
     "date-format": "^1.2.0",
+    "date-time": "^2.1.0",
     "dateformat": "^3.0.3",
     "dom-util": "^0.1.0",
     "express": "*",
     "express-handlebars": "*",
+<<<<<<< HEAD
     "handlebars": "*",
+=======
+>>>>>>> CST_05092018
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",

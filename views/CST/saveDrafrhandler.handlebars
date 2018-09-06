@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
+{{> common}}
 
-<body class="my-registration-page">
+{{!-- <body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -53,10 +54,10 @@
                             <a href="/CST/mastercampaign">Master Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/subcampaign">Sub Campaign</a>
+                            <a href="/CST/program">Program</a>
                         </li>
                         <li>
-                            <a href="/tactci/tacticlist">Tactic</a>
+                            <a href="#">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -102,7 +103,7 @@
         <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
             <i class="glyphicon glyphicon-align-left"></i>
             <span></span>
-        </button>
+        </button> --}}
         <!-- Page Content Holder -->
         <section class="h-100">
 
@@ -208,7 +209,7 @@
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
-                                                <input id="endate" type="date" class="form-control" name="enddate"  required autofocus  >
+                                                <input id="endate" type="date" class="form-control" name="enddate"  value={{endDate}} required autofocus  >
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
@@ -234,11 +235,7 @@
                 <script type="text/javascript">
                     $(document).ready(function () {
 
-                        var startDate = "{{startDate}}"
-                      //  alert('starDate is' + startDate);
-                        var endDate= "{{enddate}}"
-                       // alert('end date is' + endDate);    
-                        $("#endate").val(endDate);
+                        
 
                         //alert(paramPairs);
                         // If there is no query, default to '96'
@@ -251,6 +248,7 @@
                             $('#sidebar').toggleClass('active');
                         });
 
+                    
                         $(".programfamily-control").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "program families"

@@ -1,30 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var redshift = require('../redshift.js');
-var masterCampaign = require('../models/masterCampaignModel');
+var masterCampaign = require('../models/viewModels/masterCampaignModel');
 var bodyParser = require('body-parser');
 var User = require('../models/userRedshift');
 var dateformat = require('dateformat')
 
 var sunn = require('../models/mcadigitalid');
 var bbb = require('../models/businessgroupnameinsertion');
-
-
+var exphbs = require('express-handlebars');
+var path = require('path');
+var subcampaign = require('../models/viewModels/subcampaignModel');
 
 var app = express()
 var pp;
+
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
+app.set('view engine', 'handlebars');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
-
-
-router.get('/mastercampaign', masterCampaign.list);
-router.get('/subcampaign', masterCampaign.subcampaign1);
-router.get('/savedraft', masterCampaign.saveDraft);
-
-
+router.get('/mastercampaign', masterCampaign.getMasterCampaignList);
+router.get('/subcampaign', subcampaign.subcampaign1);
+router.get('/savedraft', masterCampaign.masterCampaignsaveDraft);
+router.get('/program',subcampaign.getPrograme);
 
 router.get('/getprogramtypes:id', function (req, res) {
     var bbb = require('../models/businessgroupnameinsertion');
@@ -49,27 +51,18 @@ router.get('/log:id', function (req, res) {
 });
 
 router.get('/saveDrafrhandler:id', function (req, res) {
-   // console.log('reee' + req.params.id);
+   
     var result = req.params.id.split(',');
-    console.log('rrrr' + result);
-    var campaignManagerName = result[0];
-    var campaignManager = result[1];
-    var campaignManagerDesc = result[2];
-    var startDate = result[3];
-    var endDate = result[4];
-    var campaignID = result[5];
-    console.log('start date' + startDate + 'End date' + endDate);
-
-    masterCampaign.bhbhbnames1(req,res,campaignID,startDate,endDate)
+    console.log('CampaignId ' + result);
+    var campaignID = result;
+    masterCampaign.getMasterCampaignData(req,res,campaignID)
 });
 
-
-
-
-
-
-
-
+router.get('/subcampaignhandler:id',function(req,res){
+    var programId = req.params.id.split(',');
+    console.log('Program id is ' + programId);
+    subcampaign.getProgramelist(req,res,programId);
+})
 
 
 router.post('/campaignregistration', function (req, res) {
@@ -102,12 +95,29 @@ router.post('/campaignregistration', function (req, res) {
     var mastercampaignid = 1;
     var status = 1;
     var isactive = 1;
-    var mcadigitalid = 'ari123';
+    //var mcadigitalid = 'ari123';
+    var  uniqueNumber = 0;
+
+    var date = Date.now();
+    
+    if (date <= uniqueNumber) {
+        date = ++uniqueNumber;
+    } else {
+        uniqueNumber = date;
+    }
+
+    console.log('unique number is'+date)
+    var uniqueID =date;
+    var mcadigitalid ='M'+ uniqueID.toString().slice(-5);
+    console.log('mca digital ID is' + mcadigitalid);
+
+    //var lastFiveChars = date.substr(-5);
+    //console.log(lastFive);
     var day = dateformat(startdate, "yy")
     console.log("date is" + day);
     var namingConvention = day + campaignName;
     console.log("naming convention is" + namingConvention);
-
+    var user = req.session.passport.user
     var res = sunn.sub(businessgroupname);
     console.log("value is " + res);
     var ff = res.substring(1, res.length - 2);
@@ -129,12 +139,12 @@ router.post('/campaignregistration', function (req, res) {
         status: status,
         isactive: isactive,
         namingConvention: namingConvention,
-        mcadigitalid: mcadigitalid
-
+        mcadigitalid: mcadigitalid,
+        createdby:user
     };
 
 
-    User.createbb(newBuss, res, function (err, user) {
+    User.createMasterCampaignData(newBuss, res, function (err, user) {
         if (err) {
             console.log('out side error');
             res.writeHead(500, { 'contet-type': 'text/html' });
@@ -245,7 +255,22 @@ router.post('/subcampaignregistration', function (req, res) {
     // var mastercampaignid = 1;
     var status = 1;
     var isactive = 1;
-    var programdigitalid = 'pri123';
+    //var programdigitalid = 'pri123';
+    var  uniqueNumber1 = 0;
+
+    var date1 = Date.now();
+    
+    if (date1 <= uniqueNumber1) {
+        date1 = ++uniqueNumber1;
+    } else {
+        uniqueNumber1 = date1;
+    }
+
+    console.log('unique number is'+date1)
+    var uniqueID1 =date1;
+    var programdigitalid ='P'+ uniqueID1.toString().slice(-5);
+    console.log('ProgrM ID is' + programdigitalid);
+    var user = req.session.passport.user;
     var day = dateformat(startdate, "yy")
     console.log("date is" + day);
     var namingConvention = day + mastercampaignID;
@@ -286,7 +311,8 @@ router.post('/subcampaignregistration', function (req, res) {
         status: status,
         isactive: isactive,
         namingConvention: namingConvention,
-        programdigitalid: programdigitalid
+        programdigitalid: programdigitalid,
+        createdby:user
 
     };
 
@@ -302,23 +328,5 @@ router.post('/subcampaignregistration', function (req, res) {
     });
 
 });
-
-
-
-
-//router.get('/mastercampaign', (req, res)=>
-//{
-
-//redshift.query('SELECT mcasegmentid, mcasegmentname FROM apps."mcasegments"', {raw: true}, function(err, data, fields){
-//  if(err) throw err;
-//    console.log(data);
-//    console.log(data[0].mcasegmentname);
-//    console.log(data[0]);
-//    console.log(data.length);
-//  res.render('../views/CST/mastercampaign', {page_title:"Master Campaign", data:data});
-//
-
-//    });
-//});
 
 module.exports = router;
