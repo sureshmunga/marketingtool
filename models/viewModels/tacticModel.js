@@ -12,14 +12,13 @@ var programFamilySelect = sql.select();
 var utilhelpers = require("../utilhelper.js")
 
 module.exports.gettactic = function (req, res) {
-    //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
           redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
         }  
     ], 
     function (err, results) {
-        //console.log('Campaign Rows');
+        // console.log('Campaign Rows');
         // console.log(JSON.stringify(results[0].rows));
         res.render('../views/CST/tactic', { campaign: results[0].rows });
     });
@@ -133,12 +132,12 @@ module.exports.gettacticbyid = function (tacticid, res) {
     });
 };
 
-module.exports.list = function (req, res) {
+module.exports.gettacticall = function (req, res) {
     async.parallel([
       function (callback) { 
           redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
         }  
-    ], 
+    ],
     function (err, results) {
         res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
     });
