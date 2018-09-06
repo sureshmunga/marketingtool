@@ -24,7 +24,7 @@ module.exports.gettactic = function (req, res) {
         res.render('../views/CST/tactic', { campaign: results[0].rows });
     });
 };
-module.exports.gettacticbyid = function (tacticid, res) {    
+module.exports.gettacticbyid = function (tacticid, res) {        
     async.parallel([
         function (callback) { 
             redshift.query('SELECT tac.tacticid,tac.tacticname,tac.tacticdescription,tac.status,tac.createdby,tac.startdate,tac.enddate,tac.tcampaigndigitalid'
@@ -115,7 +115,8 @@ module.exports.gettacticbyid = function (tacticid, res) {
           }
           
     ], 
-    function (err, data) {
+    function (err, data) {        
+        if(err) res.render('../views/error/custormerror',{message : err});
         res.render('../views/CST/tactic', 
         {   tactic : data[0].rows[0]
             , campaign: data[1].rows 
@@ -340,8 +341,9 @@ module.exports.ontacticsave = function(data, res, callback){
 };
 
 function updateinsertmarket(tacticid,data, callback){
-    
-    var tdigitalid = 'T'+utilhelpers.getDID(tacticid);
+    var hexId = tacticid.toString(32).toUpperCase();
+    console.log(hexId);
+    var tdigitalid = 'T'+ utilhelpers.getFormat(hexId);
     console.log(tdigitalid);
     var sqldid = "update apps.tactic set tcampaigndigitalid='"+tdigitalid+"' where tacticid="+tacticid;
     console.log(sqldid);
@@ -356,7 +358,6 @@ function updateinsertmarket(tacticid,data, callback){
         } else {
             var marketArrayId = [];
             marketArrayId = data.MarketId;
-            console.log('market id '+JSON.stringify(marketArrayId));
             for (var i = 0; i < marketArrayId.length; i++) 
             {
                 var tacticmarketvalue = {
