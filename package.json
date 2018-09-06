@@ -24,10 +24,7 @@
     "dom-util": "^0.1.0",
     "express": "*",
     "express-handlebars": "*",
-<<<<<<< HEAD
     "handlebars": "*",
-=======
->>>>>>> CST_05092018
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",

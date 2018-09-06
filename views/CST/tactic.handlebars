@@ -49,6 +49,7 @@
     </style>
 </head>
 <body  class="my-registration-page">
+    
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
@@ -87,7 +88,7 @@
                             <a href="/CST/subcampaign">Sub Campaign</a>
                         </li>
                         <li>
-                            <a href="/tactic/tacticlist">Tactic</a>
+                            <a href="/tactic/tlist">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -151,10 +152,13 @@
                                             <input type="hidden" id="tacticid" value={{tactic.tacticid}}>
                                             <!--Select Campaign here-->
                                             <div class="form-group required-field">
-                                                <label for="CN">Campaign</label>                                                
+                                                <label for="CN">Campaign {{tactic.mastercampaignid}}</label>
+                                                <hidden id="span" value={{tactic.mastercampaignid}}></hidden>
                                                 <select class="form-control" id="drpCampaign" name="campaign" required autofocus>
                                                     <option value="0">--Select Campaign--</option>
                                                     {{#each campaign}}  
+                                                    {{!-- <option {{if this tactic.mastercampaignid}}  value={{mastercampaignid}}>{{mastercampaignname}}</option>                                                            --}}
+                                                    
                                                         {{#if isselect}}
                                                             <option selected="selected"  value={{mastercampaignid}}>{{mastercampaignname}}</option>
                                                         {{else}}
@@ -164,6 +168,7 @@
                                                     
                                                 </select>
                                                 </br>
+                                                
                                             </div>
                                             <div class="clear"></div>
 
@@ -225,8 +230,7 @@
                                             <!--Enter Tactic Description & Goal here-->
                                             <div class="form-group required-field">
                                                 <label for="DG">Description & Goal</label>
-                                                <textarea id="txtDescription" type="text" class="form-control" name="DescriptionName" required autofocus>
-                                                    </textarea>
+                                                <textarea id="txtDescription" type="text" class="form-control" name="DescriptionName" required autofocus>{{tactic.tacticdescription}}</textarea>
 
                                             </div>
 
@@ -258,14 +262,14 @@
                                             <!--Enter Start Date here-->
                                             <div class="form-group required-field">
                                                 <label for="SD">Start Date</label>
-                                                <input id="txtStartDate" type="date" class="form-control" name="StartDate" value="" required autofocus>
+                                                <input id="txtStartDate" type="date" class="form-control" name="StartDate" value={{tactic.startdate}} required autofocus>
 
                                             </div>
 
                                             <!--Enter End Date here-->
                                             <div class="form-group required-field">
                                                 <label for="ED">End Date</label>
-                                                <input id="txtEndDate" type="date" class="form-control" name="EndDate" value="" required autofocus>
+                                                <input id="txtEndDate" type="date" class="form-control" name="EndDate" value={{tactic.enddate}} required autofocus>
 
                                             </div>
 
@@ -336,6 +340,7 @@
             </div>
         </section>
     </div>
+    
     <!-- jQuery CDN -->
                 <script src="https://code.jquery.com/jquery-1.12.0.min.js">
                 </script>
