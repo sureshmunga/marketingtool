@@ -137,7 +137,7 @@ $(document).ready(function () {
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
                 alert(response.messagae);
                 if(response.status){
-                    location.href='/tactic/tacticlist';
+                    location.href='/tactic/tlist';
                 }
             });
         }

@@ -341,9 +341,7 @@ module.exports.ontacticsave = function(data, res, callback){
 };
 
 function updateinsertmarket(tacticid,data, callback){
-    var hexId = tacticid.toString(32).toUpperCase();
-    console.log(hexId);
-    var tdigitalid = 'T'+ utilhelpers.getFormat(hexId);
+    var tdigitalid = 'T'+ utilhelpers.getDID(tacticid);
     console.log(tdigitalid);
     var sqldid = "update apps.tactic set tcampaigndigitalid='"+tdigitalid+"' where tacticid="+tacticid;
     console.log(sqldid);
