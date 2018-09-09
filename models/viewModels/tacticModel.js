@@ -303,7 +303,7 @@ module.exports.ontacticsave = function(data, res, callback){
         tacticdata.updatedby=data.user;
         tacticdata.updateddate=moment().format("YYYY-MM-DD");
     }
-    console.log(JSON.stringify(tacticdata));
+    //console.log(JSON.stringify(tacticdata));
     if(data.tacticid=="" || data.tacticid == "/" || data.tacticid == "0" || data.tacticid == undefined) 
     {
         tacticviewmodel.create(tacticdata, function (err, result) {
@@ -327,16 +327,34 @@ module.exports.ontacticsave = function(data, res, callback){
           });
     }
     else{
-        tacticviewmodel.update(tacticdata, function (err, result) {
-            if (err) {
-              console.log("error is " + err);
-            } 
+        var SQLUpdate = "update apps.tactic set tacticName='"+data.Name+"'"
+                               +" , tacticDescription='"+ data.TacticDescription+"'"
+                               +" , status='"+ data.status+"'"
+                               +" , startDate='"+ data.StartDate+"'"
+                               +" , endDate='"+ data.EndDate+"'"
+                               +" , tacticTypeId='"+ data.TacticTypeId+"'"
+                               +" , vendor='"+data.Vendor+"'"
+                               +" , businessgroupid='"+ data.BusinessGroupId+"'"
+                               +" , businesslineid ='"+ data.BusinessLineId+"'"
+                               +" , isactive = '1'"
+                               +" , businesstypeid ='"+ data.BusinessTypeId+"'"
+                               +" , industryid ='"+ data.IndustryId+"'"
+                               +" , programid ='"+ data.ProgramId+"'"
+                               +" , mcasegmentid ='"+ data.MCASegmentId+"'"
+                               +" , programjobid ='"+ data.ProgramJobId+"'"
+                               +" , clientId ='1'"
+                               +" , updatedby='"+data.user+"'"
+                               +" , updateddate='"+moment().format("YYYY-MM-DD")+"'"
+                               +" where tacticid ="+data.tacticid;
+        console.log(JSON.stringify(SQLUpdate));
+        redshift.query(SQLUpdate,function(err){
+            if(err) console.log('while updating tactic error throws : '+ err);
             else 
             {
                 updateinsertmarket(data.tacticid,data, callback);
                 return;
             }
-          });
+        });
     }
 };
 
