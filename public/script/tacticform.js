@@ -6,7 +6,8 @@ $(document).ready(function () {
     //         return opts.inverse(this);
     //   });
     $('select').chosen().trigger('chosen:updated');
-    $(".chosen-choices").outerWidth(705);
+    $(".chosen-choices").outerWidth(676);
+    
     $(document).on('click', 'a[data-select-all="selectunselect"]', function () {
         var selectallElement = $(this).attr('data-target-id');
         var nextStage = $(this).attr('data-next-stage');
@@ -148,6 +149,13 @@ $(document).ready(function () {
         return false;
     });
 
+    $(document).on('click','#btnDigitaltouchpoint',function(){
+        
+        $('select').chosen().trigger('chosen:updated');
+        $('#drpSource').chosen().trigger('chosen:updated');
+        $(".chosen-choices").outerWidth('100%');
+        retrun;
+    });
 
 });
 
