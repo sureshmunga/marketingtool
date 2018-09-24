@@ -54,6 +54,7 @@ module.exports.masterCampaignsaveDraft = function (req, res) {
 
 exports.getMasterCampaignData = function (req, res, id) {
 
+
   
   
   var cmpaignId = id;
@@ -114,6 +115,7 @@ exports.getMasterCampaignData = function (req, res, id) {
     function (callback) { redshift.query(mcaSegment, callback) },
     function (callback) { redshift.query(businessType, callback) },
     function (callback) { redshift.query(programFamily, callback) },
+
     function (callback) { redshift.query(mastercampaign.select('apps.mastercampaigns.mastercampaignid', 'apps.mastercampaigns.campaignmanager', 'apps.mastercampaigns.campaigndescription', 'apps.mastercampaigns.mastercampaignname', 'apps.mastercampaigns.startdate', 'apps.mastercampaigns.enddate').from('apps.mastercampaigns').where($in('apps.mastercampaigns.mastercampaignid', cmpaignId)).toParams(), callback) },
   
   ], function (err, results) {

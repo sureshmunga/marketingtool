@@ -13,7 +13,9 @@ var markets = sql.select(), $in = sql.in;
 var secbusinessgroups = sql.select(), $in = sql.in;
 var secbusinesslines = sql.select(), $in = sql.in;
 var secbusinesstype = sql.select(), $in = sql.in;
+
 var campaign = sql.select(), $in = sql.in;
+
 
 var date = require('date-and-time');
 
@@ -39,6 +41,7 @@ module.exports.subcampaign = function (req, res) {
 }
 module.exports.subcampaign1 = function (req, res) {
   async.parallel([
+
     // function (callback) {
     //   redshift.query('SELECT mcasegmentid,    mcasegmentname FROM apps."mcasegments"', callback)
     //   console.log("callback result is" + callback);
@@ -59,6 +62,7 @@ module.exports.subcampaign1 = function (req, res) {
     // console.log('campaign' + results[5].rows);
     //res.render('../views/CST/subcampaign', { mcasegment: results[0].rows, businessgroups: results[1].rows, businesstype: results[2].rows, programfamilies: results[3].rows, market: results[4].rows, campaign: results[5].rows, businessline: results[6].rows, industry: results[7].rows });
     res.render('../views/CST/subcampaign', { campaign: results[1].rows,market: results[0].rows,industry: results[2].rows});
+
   });
 }
 
@@ -79,6 +83,7 @@ exports.getProgramelist = function (req, res, id) {
 
   var programId = id;
   console.log("campaign ID is " + programId);
+
   var mastercampaig = "select a.mastercampaignid,b.programid,a.mastercampaignname,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.mastercampaigns a LEFT JOIN apps.programs b "
   +"  a.mastercampaignid = b.mastercampaignid"
   +"  and b.programid ="+programId+""
@@ -100,6 +105,7 @@ exports.getProgramelist = function (req, res, id) {
     function (callback) { redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) }
   ], function (err, results) {
     console.log('program data ' +JSON.stringify(results[0].rows));
+
     var startdate = results[0].rows[0].startdate;
     var formatStartDate = date.format(startdate, 'YYYY-MM-DD');
     console.log('formatted date ', formatStartDate);
@@ -117,6 +123,7 @@ exports.getProgramelist = function (req, res, id) {
     console.log('sec business types are' + JSON.stringify(results[9].rows));
     console.log('program families are ' + JSON.stringify(results[10].rows));
     res.render('../views/CST/editProgram', { programTab: results[0].rows ,startDate:formatStartDate, endDate:Formattedenddate, mcaseg:results[1].rows,leadbusiness: results[2].rows,leadbusinesslin:results[3].rows,leadbusinessty:results[4].rows,industryLead:results[5].rows ,
+
                                              markettab: results[6].rows,secbusinessgro: results[7].rows,secbusinessLin:results[8].rows,secbusinesstyp:results[9].rows,pfamily:results[10].rows ,campaign:results[11].rows  });
     
   });
@@ -168,3 +175,4 @@ exports.getProgramData = function (req, res, id) {
     
   });
 }
+

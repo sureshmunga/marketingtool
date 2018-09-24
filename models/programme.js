@@ -94,6 +94,7 @@ var businessgroup = {
 		},
 		createdby:{
 			type: String
+
 		},
 		createddate:{
 			type: Date
@@ -103,6 +104,7 @@ var businessgroup = {
 		},
 		updateddate:{
 			type: Date
+
 		}
 	}
 };

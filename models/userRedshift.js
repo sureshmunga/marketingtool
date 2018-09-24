@@ -230,6 +230,7 @@ module.exports.createMasterCampaignData = function (newBuss, res, callback) {
   console.log("sdfsafsafsadf" + newBuss.startdate);
   console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
 
+
   //var masterdigitalid = 'M'+ utilhelpers.getDID(tacticid);
   var date = new Date();
 
@@ -238,6 +239,7 @@ module.exports.createMasterCampaignData = function (newBuss, res, callback) {
 
   var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.createdby + "'";
   redshift.query(SQLStatement, function (err, scopeId) {
+
     if (err) {
       console.log('tactic id error is' + err);
     } else {
@@ -728,6 +730,7 @@ module.exports.UpdateSubcampaign = function (subcampaign, res, callback) {
   })
 }
 
+
 function updateSubBusinessGroups(programId, subcampaign) {
   return new Promise(function (resolve, reject) {
 
@@ -896,6 +899,7 @@ module.exports.createMasterCampaignSaveDraft = function (newBuss, res, callback)
 
   var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.user + "'";
   redshift.query(SQLStatement, function (err, scopeId) {
+
     if (err) {
       console.log('tactic id error is' + err);
     } else {

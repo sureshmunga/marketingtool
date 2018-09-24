@@ -28,6 +28,7 @@ router.get('/subcampaign', subcampaign.subcampaign1);
 router.get('/savedraft', masterCampaign.masterCampaignsaveDraft);
 router.get('/program',subcampaign.getPrograme);
 
+
 router.get('/getprogramtypes:id', function (req, res) {
     var bbb = require('../models/businessgroupnameinsertion');
     bbb.names1(req.params.id, function (response) {
@@ -45,6 +46,7 @@ router.get('/getbusinesslines:id', function (req, res) {
         res.send(response)
     });
 })
+
 
 router.get('/getindustry:id', function (req, res) {
     console.log('inside new function');
@@ -457,6 +459,7 @@ router.post('/subcampaignregistration', function (req, res) {
         }
     });
 });
+
 
 
 

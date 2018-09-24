@@ -1,0 +1,137 @@
+
+<div class="modal fade" id="dvDigitalPoint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Tactic type</label>
+                    <div class="col-lg-8"> 
+                        <input id="txtType" type="text" value="" class="form-control" placeholder="Tactic Type" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Tactic Name</label>
+                    <div class="col-lg-8">
+                        <input id="txtTacticName" type="text" value="" class="form-control" placeholder="Tactic Name" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Tactic ID</label>
+                    <div class="col-lg-8">
+                        <input id="txtTacticID" type="text" value="" class="form-control" placeholder="Tactic ID" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="row form-group" id="divSource">
+                    <label class="col-lg-4 text-right" id="lblSource">Source</label>
+                    <div class="col-lg-8">
+                        <select id="drpSource" class="form-control">
+                            <option value="0">None Selected</option>
+                        </select>
+                    </div>
+                    <div id="dvsource" class="text-danger"></div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="row form-group" id="divOther">
+                    <label class="col-lg-4 text-right" id="lblOther">Other</label>
+                    <div class="col-lg-8">
+                        <input id="txtOther" type="text" value="" class="form-control" placeholder="Source Name" />
+                    </div>    
+                </div>                    
+                <div id="dvother" class="text-danger"></div>
+                <div class="clear"></div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right" id="lblMedium">Medium</label>
+                    <div class="col-lg-8">
+                        <select id="drpMedium" class="form-control">
+                            <option value="0">None Selected</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="dvMedium" class="text-danger"></div>
+                <div class="clear"></div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Content</label>
+                    <div class="col-lg-8">
+                        <input type="text" id="txtContent" value="" class="form-control" placeholder="use for A/B testing and content ads" />
+                    </div>
+                </div>
+                <div id="dvContent text-danger"></div>
+                <div class="clear"></div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Terms </label>
+                    <div class="col-lg-8">
+                        <input type="text" id="txtTerms" value="" class="form-control" placeholder="use for paid search" />
+                    </div>
+                </div>
+                <div id="dvTerms"></div>
+                <div class="clear"></div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 text-right">Url </label>
+                    <div class="col-lg-8">
+                        <input type="text" id="txtUrl" value="" class="form-control" placeholder="please enter url without https://" />
+                    </div>
+                </div>
+                <div id="dvUrl" class="text-danger"></div>
+                <div class="clear"></div>
+                
+                <div class="row">
+                    <div class="col-lg-4">&nbsp;</div>
+                    <div class="col-lg-8">
+                        <button type="button" id="btnAdd" class="btn btn-primary btn-sm" onclick="Addrow form-group();">Add</button>
+                    </div>
+                </div>
+                <div class="clear"></div>    
+                
+                <div class="row">
+                    <span class="text-right text-danger" style="font-size:smaller;float:right!important;margin-right: 60px;margin-bottom: 10px;">* If you are using Hooutsuite leave blank for Source, Medium, Content & Terms</span>
+                </div>
+                
+                <input type="hidden" id="hdnIndex" />
+                <div class="row col-lg-12">                    
+                    <table id="gridReport" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+                        <thead>
+                            <tr class="bg-skyblue text-white">
+                                <th>Digital ID</th>
+                                <th>Source</th>
+                                <th>Medium</th>
+                                <th>Content</th>
+                                <th>Term</th>  
+                                <th>Url</th>                
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="clear"></div>
+                <div class="clear"></div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" disabled="disabled" type="button" onclick="return savedigitalpoint('Draft');" class="btn btn-default">Save as draft</button>
+                <button id="btnsubmit" disabled="disabled" type="button" onclick="return savedigitalpoint('Complete');" class="btn btn-primary">Submit & Export</button>
+                <button id="btnReExport" disabled="disabled" type="button" onclick="return ReExportdigitalpoint();" class="btn btn-default">Re-Export</button>
+            </div>
+        </div>
+    </div>
+</div>

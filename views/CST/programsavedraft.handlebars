@@ -157,7 +157,9 @@
                     })
 
                     $("#data_table tr").click(function (event) {
+
                         alert('sf');
+
                         $(this).addClass('selected').siblings().removeClass('selected');
                         var programName = $(this).find('td:first').html();
                         var cmapaignManager = $(this).find("td:eq(1)").html();
