@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
+{{> common}} {{!--
 
 <body class="my-registration-page">
 
@@ -53,10 +54,10 @@
                             <a href="/CST/mastercampaign">Master Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/subcampaign">Sub Campaign</a>
+                            <a href="/CST/program">Program</a>
                         </li>
                         <li>
-                            <a href="/tactci/tacticlist">Tactic</a>
+                            <a href="#">Tactic</a>
                         </li>
                     </ul>
                 </li>
@@ -102,7 +103,7 @@
         <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
             <i class="glyphicon glyphicon-align-left"></i>
             <span></span>
-        </button>
+        </button> --}}
         <!-- Page Content Holder -->
         <section class="h-100">
 
@@ -121,7 +122,8 @@
 
 
 
-                                        <form method="post" action="/cst/campaignregistration">
+                                        <form method="post" action="/cst/updatecampaignregistration">
+                                            <input type="hidden" name="camID" id="camID1" {{#each mastercampaign}} value={{mastercampaignid}} {{/each}}>
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
                                                 <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus {{#each mastercampaign}} value={{mastercampaignname}}
@@ -131,7 +133,7 @@
 
                                             <div class="form-group required-field">
                                                 <label for="CM">Campaign Manager</label>
-                                                <input id="cm" type="text" class="form-control" name="Campaignmanager"  required autofocus {{#each mastercampaign}} value={{campaignmanager}}
+                                                <input id="cm" type="text" class="form-control" name="Campaignmanager" required autofocus {{#each mastercampaign}} value={{campaignmanager}}
                                                     {{/each}}> {{!--
                                                 <input id="CM" type="text" class="form-control" name="Campaign Manager" value="" required autofocus> --}}
                                             </div>
@@ -155,16 +157,17 @@
                                             </table> --}}
                                             <div class="form-group required-field">
                                                 <label for="CG">Campaign Description & Goals</label>
-                                                <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals"  required autofocus {{#each mastercampaign}} value={{campaigndescription}}
-                                                    {{/each}}>
+                                                <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals" required autofocus {{#each mastercampaign}}
+                                                    value={{campaigndescription}} {{/each}}>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="MS">MCA segment</label>
                                                 <br>
                                                 <select class="mcasegment-control" id="MS" name="mcasegment" multiple required>
-                                                    {{#each mcasegment}}
-                                                    <option>{{mcasegmentname}}</option>
+                                                    {{#each mcasegment}} {{!--
+                                                    <option>{{mcasegmentname}}</option> --}}
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{mcasegmentid}}>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
@@ -175,7 +178,8 @@
                                                 <br>
                                                 <select class="businessgroup-control" id="BG" name="businessgroup" multiple required>
                                                     {{#each businessgroups}}
-                                                    <option>{{businessgroupname}}</option>
+
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -185,7 +189,8 @@
                                                 <br>
                                                 <select class="businesstype-control" id="BT" name="businesstype" multiple required required="required">
                                                     {{#each businessType}}
-                                                    <option>{{businesstypename}}</option>
+
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -195,22 +200,23 @@
                                                 <br>
                                                 <select class="programfamily-control" id="PF" name="programfamilies" required multiple="true" style="width: 150px">
                                                     {{#each programFamilies}}
-                                                    <option>{{programfamiliyname}} </option>
+                                                    {{!-- <option>{{programfamiliyname}} </option> --}}
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{programfamiliyid}}>{{programfamiliyname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="SD">start date</label>
-                                                <input id="str" type="date" class="form-control" name="startdate" value={{startDate}} required autofocus  >
-                                                
+                                                <input id="str" type="date" class="form-control" name="startdate" value={{startDate}} required autofocus>
+
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
-                                                <input id="endate" type="date" class="form-control" name="enddate"  required autofocus  >
+                                                <input id="endate" type="date" class="form-control" name="enddate" value={{endDate}} required autofocus>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
 
                                         </form>
                                     </div>
@@ -234,11 +240,7 @@
                 <script type="text/javascript">
                     $(document).ready(function () {
 
-                        var startDate = "{{startDate}}"
-                      //  alert('starDate is' + startDate);
-                        var endDate= "{{enddate}}"
-                       // alert('end date is' + endDate);    
-                        $("#endate").val(endDate);
+
 
                         //alert(paramPairs);
                         // If there is no query, default to '96'
@@ -249,6 +251,25 @@
                         $("#MS").outerWidth(155);
                         $('#sidebarCollapse').on('click', function () {
                             $('#sidebar').toggleClass('active');
+                        });
+
+
+                        $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
+                            if (true) {
+                                var campaignData = CollectTacticFormData();
+                                campaignData.Status = 'Draft';
+                                $.post('/cst/updatecampaignregistration', { data: campaignData }, function (response) {
+                                    alert(response.messagae);
+                                    if (response.status) {
+                                        location.href = '/cst/savedraft';
+                                    }
+                                });
+                            }
+                            else {
+                                var pos = $(focusId).offset().top;
+                                $('body, html').animate({ scrollTop: pos - 70 });
+                            }
+                            return false;
                         });
 
                         $(".programfamily-control").chosen({
@@ -279,6 +300,43 @@
                         })
                     });
 
+                    function CollectTacticFormData() {
+
+                        var data = {
+                        };
+                       // data.TacticId = $('#tacticid').val();
+                        data.CampaignId = $('#camID1').val();
+                        data.campname = $('#campname').val();
+                        data.campaignManager = $('#cm').val();
+                        data.campaignDesc = $('#Cdg').val();
+                        data.mcaSegment = [];
+                        $('#MS').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.mcaSegment.push($('#MS option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+                        data.businessGroup = [];
+                        $('#BG').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.businessGroup.push($('#BG option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.businessType = [];
+                        $('#BT').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.businessType.push($('#BT option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.programFamilies = [];
+                        $('#PF').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.programFamilies.push($('#PF option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.StartDate = $("#str").val();
+                        data.EndDate = $("#endate").val();
+                        // data.StartDate = $.datepicker.formatDate('mm/dd/yy', $("#txtStartDate").datepicker("getDate"));
+                        // data.EndDate = $.datepicker.formatDate('mm/dd/yy', $("#txtEndDate").datepicker("getDate"));
+
+                                                //data.TacticCampaignReachResponseViewModels = Getmetricreachdata();
+
+                        return data;
+                    }
                 </script>
 </body>
 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
 {{> common}}
+
 <body class="my-registration-page">
 
     <div class="wrapper">
@@ -23,15 +24,14 @@
             
             <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
                 <tr>
-                    <th>Master campaign Name</th>
-                    <th>Manager</th>
+                    <th>Program Name</th>
+                    <th>Campaign Manager</th>
                     <th>Description</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    
                 </tr>
 
                 {{!--
-                <table class=“cooltable”> --}} {{#each mastercampaign}}
+                <table class=“cooltable”> --}} {{#each program}}
                     <tr>
                         {{!--
                         <td>
@@ -44,12 +44,11 @@
                             <input type="text" id='m1' value={{campaignmanager}}>
                         </td> --}}
 
-                        <td>{{mastercampaignname}}</td>
+                        <td>{{programname}}</td>
                         <td>{{campaignmanager}}</td>
-                        <td>{{campaigndescription}}</td>
-                        <td>{{startdate}}</td>
-                        <td>{{enddate}}</td>
-                        <td style="visibility: hidden">{{mastercampaignid}}</td>
+                        <td>{{programdescription}}</td>
+                        
+                        <td style="visibility: hidden">{{programid}}</td>
                         <td>
                             <input type="button" class="add" value="Edit">
                         </td>
@@ -59,7 +58,7 @@
                    
                 </table>
                 <br>
-                 <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/mastercampaign'" style="float: right;">Create One</button>
+                 <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/subcampaign'" style="float: right;">Create One</button>
         </div>
 
 
@@ -158,69 +157,15 @@
                     })
 
                     $("#data_table tr").click(function (event) {
+                        alert('sf');
                         $(this).addClass('selected').siblings().removeClass('selected');
-                        var campaignName = $(this).find('td:first').html();
+                        var programName = $(this).find('td:first').html();
                         var cmapaignManager = $(this).find("td:eq(1)").html();
-                        var cmapaignDescription = $(this).find("td:eq(2)").html();
-                        var startDate = $(this).find("td:eq(3)").html();
-                        var endDate = $(this).find("td:eq(4)").html();
-                        var campaignId = $(this).find("td:eq(5)").html();
-
-                        var ss = new Date(startDate);
-                        var dd = ss.getDate();
-                        //alert('dateee' + dd);
-                        var date;
-                         if(dd<9){
-                           date  = '0'+dd;
-                        }else{
-                            date = dd;
-                        }
-                        var mon = ss.getMonth();
-                        var month;
-                        if(mon<9){
-                           month  = '0'+mon;
-                        }else{
-                            month = mon;
-                        }
-                        var yy = ss.getFullYear();
-
-                        var sff = yy+'-'+month+'-'+date;
-
-                        var ss1 = new Date(endDate);
-                        var dd1 = ss1.getDate();
-                         var date1;
-                         if(dd1<9){
-                           date1  = '0'+dd1;
-                        }else{
-                            date1 = dd1;
-                        }
-                        var mon1 = ss1.getMonth();
-                        var month1;
-                       
-                        if(mon1<9){
-                           month1  = '0'+mon;
-                        }else{
-                            month1 = mon1;
-                        }
-                        var yy1 = ss1.getFullYear();
-
-                        var sff1 = yy1+'-'+month1+'-'+date1;
-
-                        
-
-                        
-                        //var date = dateformat(startdate, "dd-mm-yyyy")
-                        // console.log("date is" + day);
-                        //alert(campaignName);
-                        //alert(value1);
+                        var Description = $(this).find("td:eq(2)").html();
+                        var programid = $(this).find("td:eq(3)").html();
                         event.preventDefault();
-                        //var yy = [campaignName + ',' + cmapaignManager + ',' + cmapaignDescription + ',' + sff + ',' + sff1+','+campaignId]
-                        //alert('yy' + yy)
-                        var yy = campaignId
-
-                        // res.render('/cst/mastercampaign');
-                        //window.location.href = '/cst/saveDrafrhandler?' + yy;
-                        window.location.href = '/cst/saveDrafrhandler' + yy;
+                        var Id = programid;
+                        window.location.href = '/cst/subcampaignhandler' + Id;
 
                     });
 

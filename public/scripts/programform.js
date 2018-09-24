@@ -1,6 +1,13 @@
 $(document).ready(function () {
+    // handlebars.registerHelper('if_eq', function(a, b, opts) {
+    //     if(a == b)
+    //         return opts.fn(this);
+    //     else
+    //         return opts.inverse(this);
+    //   });
     $('select').chosen().trigger('chosen:updated');
-    $(".chosen-choices").outerWidth(705);
+    $(".chosen-choices").outerWidth(676);
+    
     $(document).on('click', 'a[data-select-all="selectunselect"]', function () {
         var selectallElement = $(this).attr('data-target-id');
         var nextStage = $(this).attr('data-next-stage');
@@ -70,7 +77,8 @@ $(document).ready(function () {
     $(document).on('change','#drpProgram',function(){
         var drpProgram = $('#drpProgram').val();
         
-        $.get('/tactic/program'+drpProgram,function(response){
+        const newLocal = '/tactic/program';
+        $.get(newLocal+drpProgram,function(response){
             bindProgramjob(response.programjob);
             bindMCASegment(response.MCASegment);
             bindmarket(response.market);
@@ -94,6 +102,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change','#drpBusinessType', function() {
+        alert('chen')
         var drpProgram = $('#drpProgram').val();
         var drpBusinessType = $('#drpBusinessType').val();
         var data={
@@ -111,7 +120,10 @@ $(document).ready(function () {
             var tacticData =CollectTacticFormData();
             tacticData.Status = 'Draft';
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
-                alert("Return Save");
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/tactic/tactic/'+response.tacticid;
+                }
             });
         }
         else {
@@ -126,7 +138,10 @@ $(document).ready(function () {
             var tacticData =CollectTacticFormData();
             tacticData.Status = 'Active';
             $.post('/tactic/tacticsave',{data:tacticData},function(response){
-                alert("Return Save");
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/tactic/tlist';
+                }
             });
         }
         else {
@@ -136,6 +151,13 @@ $(document).ready(function () {
         return false;
     });
 
+    $(document).on('click','#btnDigitaltouchpoint',function(){
+        
+        $('select').chosen().trigger('chosen:updated');
+        $('#drpSource').chosen().trigger('chosen:updated');
+        $(".chosen-choices").outerWidth('100%');
+        retrun;
+    });
 
 });
 
