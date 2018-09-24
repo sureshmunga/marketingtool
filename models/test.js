@@ -24,8 +24,49 @@ return final;
     console.log(str);
     return str;
 }
- */
+
+*/
 
 
- var sss= require('../models/businessgroupnameinsertion');
- sss.names1();
+//  var sss= require('../models/businessgroupnameinsertion');
+//  sss.names1();
+
+
+ var  uniqueNumber = 0;
+
+ var date = Date.now();
+    
+    if (date <= uniqueNumber) {
+        date = ++uniqueNumber;
+    } else {
+        uniqueNumber = date;
+    }
+
+    console.log('unique number is'+date)
+    var dd =date;
+
+    var lastFive = dd.toString().slice(-6);
+
+    //var lastFiveChars = date.substr(-5);
+    console.log(lastFive);
+
+ 
+
+
+// function uniqueNumber() {
+//     var date = Date.now();
+    
+//     if (date <= uniqueNumber.previous) {
+//         date = ++uniqueNumber.previous;
+//     } else {
+//         uniqueNumber.previous = date;
+//     }
+
+//     return date;
+// }
+
+// uniqueNumber.previous = 0;
+
+// function ID(){
+//   return uniqueNumber();
+// };

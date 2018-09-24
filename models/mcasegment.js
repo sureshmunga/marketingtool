@@ -9,6 +9,18 @@ var mcasegment =  {
 	},
 	clientid: {
 		type: String
+	},
+	createdby:{
+		type: String
+	},
+	createddate:{
+		type: Date
+	},
+	updatedby:{
+		type: String
+	},
+	updateddate:{
+		type: Date
 	}
 }
 };

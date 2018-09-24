@@ -27,6 +27,12 @@ var mastercampaign = {
 		},
 		isactive: {
 			type: String
+		},
+		createdby:{
+			type: String
+		},
+		createddate:{
+			type: Date
 		}
 	}
 };

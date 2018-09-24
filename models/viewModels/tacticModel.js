@@ -11,6 +11,7 @@ var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
 
 module.exports.gettactic = function (req, res) {
+    console.log('isss');
     //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
@@ -35,15 +36,17 @@ module.exports.gettacticbyid = function (req, res) {
 };
 
 module.exports.gettacticall = function (req, res) {
+    console.log('insidee');
     async.parallel([
       function (callback) { 
           console.log('tactic list printing');
           redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
         }  
     ], 
+   
     function (err, results) {
         console.log(JSON.stringify(results[0].rows));
-        res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
+        res.render('../views/CST/ressss', { tacticlist: results[0].rows });
     });
 };
 

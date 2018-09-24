@@ -4,11 +4,23 @@ var programssecbusinesslines =  {
         programid: {
 		type: String
 	},
-	marketid: {
+	businesslineid: {
 		type: String
 	},
 	clientid: {
 		type: String
+	},
+	createdby:{
+		type: String
+	},
+	createddate:{
+		type: Date
+	},
+	updatedby:{
+		type: String
+	},
+	updateddate:{
+		type: Date
 	}
 }
 };

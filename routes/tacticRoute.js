@@ -13,7 +13,7 @@ var app = express();
 
 router.get('/tactic', tacticModel.gettactic);
 router.get('/tactic:id', tacticModel.gettacticbyid);
-router.get('/tacticlist',tacticModel.gettacticall);
+router.get('/ressss',tacticModel.gettacticall);
 
 router.get('/campaign:id', function (req, res) {
     

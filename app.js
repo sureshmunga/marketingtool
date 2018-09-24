@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var que = require('./models/userRedshift');
 var redshiftClient = require('./redshift.js');
 var redshift = require('./redshift.js');
+var hbs = require('hbs');
 
 
 
@@ -22,7 +23,7 @@ var redshift = require('./redshift.js');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var cst = require('./routes/masterCampaignRoute');
-var tactic= require('./routes/tacticRoute');
+
 // Init App
 var app = express();
 
@@ -33,9 +34,23 @@ var app = express();
 	});
 }); */
 // View Engine
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
-app.set('view engine', 'handlebars');
+//h.registerPartials(__dirname + '/views/CST/common');
+ app.set('views', path.join(__dirname, 'views'));
+//  app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' },
+//  partialsDir  : [
+//   //  path to your partials
+//   __dirname + '/views/partials',
+// ]));
+app.engine('handlebars', exphbs({
+  //extname: 'handlebars', 
+  defaultLayout: 'layoutOrig', 
+  layoutsDir: __dirname + '/views/layouts',
+  partialsDir  : [
+      //  path to your partials
+      __dirname + '/views/partials',
+  ]
+}));
+ app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -92,7 +107,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/cst', cst);
 
-app.use('/tactic', tactic);
 // Set Port
 app.set('port', (process.env.PORT || 4000));
 
