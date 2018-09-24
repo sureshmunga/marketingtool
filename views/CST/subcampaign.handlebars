@@ -194,10 +194,10 @@
                                                 <label for="PT">Program Type</label>
                                                 <br>
                                                 <select class="form-control" id="PT" name="programtype" required autofocus>
-                                                   {{#each pfamily}}
+                                                    {{#each pfamily}}
                                                     <option value={{programfamiliyid}}>{{programfamiliyname}}</option>
-                                                    {{!-- <option value="0">-- Select Program Type--</option> --}}
-                                                    {{/each}} --}}</select>
+                                                    {{!--
+                                                    <option value="0">-- Select Program Type--</option> --}} {{/each}} --}}</select>
 
                                                 </br>
                                             </div>
@@ -371,17 +371,17 @@
                                                         <td>
                                                             Marketing Qualified leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLG" required>
+                                                            <input type="number" id="MQLG" style="width: 115px" id="MQLG" name="MQLG" required>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLL" required>
+                                                            <input type="number" style="width: 115px" id="MQLL" name="MQLL" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLH" required>
+                                                            <input type="number" style="width: 115px" id="MQLH" name="MQLH" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="MQLBM" required>
+                                                            <input type="text" style="width: 115px" id="MQLBM" name="MQLBM" required>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -405,17 +405,17 @@
                                                         <td>
                                                             Sales Accepted Leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALG" required>
+                                                            <input type="number" style="width: 115px" id="SALG" name="SALG" required>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALL" required>
+                                                            <input type="number" style="width: 115px" id="SALL" name="SALL" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALH" required>
+                                                            <input type="number" style="width: 115px" id="SALH" name="SALH" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="SALB" required>
+                                                            <input type="text" style="width: 115px" id="SALB" name="SALB" required>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -438,24 +438,30 @@
                                                         <td>
                                                             Total Pipe Line</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLG" required>
+                                                            <input type="number" style="width: 115px" id="TPLG" name="TPLG" required>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLL" required>
+                                                            <input type="number" style="width: 115px" id="TPLL" name="TPLL" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLH" required>
+                                                            <input type="number" style="width: 115px" id="TPLH" name="TPLH" required>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="TPLB" required>
+                                                            <input type="text" style="width: 115px" id="TPLB" name="TPLB" required>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="clear"></div>
 
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            {{!--
+                                            <button type="submit" class="btn btn-primary btn-block">Submit</button> --}}
+
+                                            <div class="panel-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
+                                            </div>
                                         </form>
                                     </div>
 
@@ -505,6 +511,24 @@
 
                             $('#sidebarCollapse').on('click', function () {
                                 $('#sidebar').toggleClass('active');
+                            });
+
+                            $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
+                                if (true) {
+                                    var campaignData = CollectFormData();
+                                    campaignData.Status = 'Draft';
+                                    $.post('/cst/subcampaignsavedradt', { data: campaignData }, function (response) {
+                                        alert(response.messagae);
+                                        if (response.status) {
+                                            location.href = '/cst/savedraft';
+                                        }
+                                    });
+                                }
+                                else {
+                                    var pos = $(focusId).offset().top;
+                                    $('body, html').animate({ scrollTop: pos - 70 });
+                                }
+                                return false;
                             });
 
                             $(".campaign-control").on('change', function (event) {
@@ -562,7 +586,7 @@
                                         $('#SBT').append('<option value=0>None selected</option>');
                                         $.each(data.bustype, function (index, item) {
                                             $('#SBT').append('<option value=' + item.businesstypeid + '>' + item.businesstypename + '</option>');
-                                        }); 
+                                        });
 
                                         $("#str").val(data.startdate);
                                         $("#endate").val(data.enddate);
@@ -580,9 +604,9 @@
                             $(".businessgroup-control").on('change', function (event) {
                                 var val = $("#BGC option:selected").val();
                                 $("#SBG option").removeClass('disabled-result result-selected').prop('disabled', false);
-                                        $("#SBG").trigger('chosen:updated');
-                                        $("#SBG option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
-                                        $("#SBG").trigger('chosen:updated');
+                                $("#SBG").trigger('chosen:updated');
+                                $("#SBG option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
+                                $("#SBG").trigger('chosen:updated');
 
 
                                 //alert(val);
@@ -598,7 +622,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                  //      alert(JSON.stringify(data.leadBu.length));
+                                        //      alert(JSON.stringify(data.leadBu.length));
                                         $('#BL').find("option").remove();
                                         $('#BL').append('<option value=0>None selected</option>');
                                         $.each(data.leadBu, function (index, item) {
@@ -671,9 +695,9 @@
 
                                 var val = $("#LBT option:selected").val();
                                 $("#SBT option").removeClass('disabled-result result-selected').prop('disabled', false);
-                                        $("#SBT").trigger('chosen:updated');
-                                        $("#SBT option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
-                                        $("#SBT").trigger('chosen:updated');
+                                $("#SBT").trigger('chosen:updated');
+                                $("#SBT option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
+                                $("#SBT").trigger('chosen:updated');
                                 //alert(val);
                                 var Resdata = '';
 
@@ -784,6 +808,49 @@
                         });
 
 
+                        function CollectFormData() {
+                            var data = {
+                            };
+                            // data.TacticId = $('#tacticid').val();
+                            //data.CampaignId = $('#camID1').val();
+                            data.mastercampaigID = $('#CS').val();
+                                data.programtypeID = $('#PT').val();
+                                data.programName = $('#proName').val();
+                                data.campaignManager = $('#campaignmanager').val();
+                                data.programDesc = $('#prodecgoals').val();
+                                data.markets = $('#mar').val();
+                                data.startDate = $('#str').val();
+                                data.endDate = $('#endate').val();
+                                data.mcaSegment = $('#MSC').val();
+                                data.leadBusinessGroup = $('#BGC').val();
+                                data.leadBusinessLine = $('#BL').val();
+                                data.secBusinessGroup = $('#SBG').val();
+                                data.secBusinessLines = $('#SBL').val();
+                                data.leadBusinessType = $('#LBT').val();
+                                data.LeadIndustry = $('#IT').val();
+                                data.secBusinessType = $('#SBT').val();
+                                data.totalBudget = $('#TB').val();
+                                data.totalSpend = $('#TS').val();
+                                data.MQLG = $('#MQLG').val();
+                                data.MQLL = $('#MQLL').val();
+                                data.MQLH = $('#MQLH').val();
+                                data.MQLBM = $('#MQLBM').val();
+                                data.SALG = $('#SALG').val();
+                                data.SALL = $('#SALL').val();
+                                data.SALH = $('#SALH').val();
+                                data.SALB = $('#SALB').val();
+                                data.TPLG = $('#TPLG').val();
+                                data.TPLL = $('#TPLL').val();
+                                data.TPLH = $('#TPLH').val();
+                                data.TPLB = $('#TPLB').val();
+                                
+                            // data.StartDate = $.datepicker.formatDate('mm/dd/yy', $("#txtStartDate").datepicker("getDate"));
+                            // data.EndDate = $.datepicker.formatDate('mm/dd/yy', $("#txtEndDate").datepicker("getDate"));
+
+                            //data.TacticCampaignReachResponseViewModels = Getmetricreachdata();
+
+                            return data;
+                        }
 
                 </script>
 </body>

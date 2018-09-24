@@ -237,7 +237,7 @@ exports.SecbusinessGroupIns = function (groupname, subcampaign, programID) {
 
 
     var bGroupIns = groupname;
-    console.log("data is " + JSON.stringify(bGroupIns));
+    //console.log("data is " + JSON.stringify(bGroupIns));
     for (i = 0; i < bGroupIns.length; i++) {
         var bGroupID = bGroupIns[i];
         console.log("bid is" + bGroupID);
