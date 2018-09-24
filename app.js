@@ -34,8 +34,19 @@ var app = express();
 }); */
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
+//app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
 app.set('view engine', 'handlebars');
+
+app.engine('handlebars', exphbs({
+  //extname: 'handlebars', 
+  defaultLayout: 'layoutOrig', 
+  layoutsDir: __dirname + '/views/layouts',
+  partialsDir  : [
+      //  path to your partials
+      __dirname + '/views/partials',
+  ]
+}));
+
 
 var hbs = exphbs.create({
   helpers: {

@@ -248,7 +248,7 @@
                                             <div class="form-group required-field">
                                                 <label for="LBG">Lead Business Groups</label>
                                                 <br>
-                                                <select class="businessgroup-control" id="BGC" name="businessgroup">
+                                                <select class="businessgroup-control chosen-select " id="BGC" name="businessgroup">
                                                     {{#each businessgroups}}
                                                     <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -270,7 +270,7 @@
                                             <div class="form-group required-field">
                                                 <label for="SBG">Secondary Business Group</label>
                                                 <br>
-                                                <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
+                                                <select class="chosen-select " id="SBG" name="secbusinesgroup" multiple="true">
                                                     {{#each businessgroups}}
                                                     <option>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -462,6 +462,8 @@
 
                 <script type="text/javascript">
                     $(document).ready(function () {
+                         $('select').chosen().trigger('chosen:updated');
+                        $(".chosen-choices").outerWidth(676);
                         $("#PF").outerWidth(155);
                         $("#BT").outerWidth(155);
                         $("#BG").outerWidth(155);
@@ -477,7 +479,13 @@
                         $("#IT").outerWidth(710);
                         $("#SBT").outerWidth(156);
                         $("#CS").outerWidth(710);
+                        $("#BGC").on('change',function(){
+                            $("#SBG option").removeClass('disabled-result result-selected').prop('disabled', false);
+                            $("#SBG").trigger('chosen:updated');
+                            $("#SBG option[value=" + $("#BGC").val() + "]").addClass('result-selected').attr('disabled', 'disabled');
+                            $("#SBG").trigger('chosen:updated');
 
+                        });
                         $('#sidebarCollapse').on('click', function () {
                             $('#sidebar').toggleClass('active');
                         });
