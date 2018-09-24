@@ -53,14 +53,67 @@ module.exports.masterCampaignsaveDraft = function (req, res) {
 
 
 exports.getMasterCampaignData = function (req, res, id) {
+
+  
   
   var cmpaignId = id;
   console.log("campaign ID is " + cmpaignId);
+//   sELECT distinct a.programfamiliyname,b.programfamilyid,a.programfamiliyid
+// FROM apps.programfamilies a LEFT JOIN apps.mastercampaignsprogramfamilies b
+// ON a.programfamiliyid = b.programfamilyid and b.mastercampaignid=153
+  var programFamily = "select a.programfamiliyname,b.programfamilyid,a.programfamiliyid,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.programfamilies a LEFT JOIN apps.mastercampaignsprogramfamilies b"
+  +"  on a.programfamiliyid = b.programfamilyid"
+  +"  and mastercampaignid ="+cmpaignId+""
+  console.log(JSON.stringify(programFamily));
+  redshift.query(programFamily,function(err,res){
+      if(err) console.log('get Program families  : '+ err);
+      else 
+      {
+          console.log('res ' + JSON.stringify(res));
+      }
+  });
+
+  var businessGroup = "select a.businessgroupname,b.businessgroupid,a.businessgroupid,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.businessgroups a LEFT JOIN apps.mastercampaignsbusinessgroups b"
+  +"  on a.businessgroupid = b.businessgroupid"
+  +"  and mastercampaignid ="+cmpaignId+""
+  console.log(JSON.stringify(businessGroup));
+  redshift.query(businessGroup,function(err,res){
+      if(err) console.log('get business groups : '+ err);
+      else 
+      {
+          console.log('res ' + JSON.stringify(res));
+      }
+  });
+
+  var businessType = "select a.businesstypename,b.businesstypeid,a.businesstypeid,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.businesstype a LEFT JOIN apps.mastercampaignsbusinesstype b"
+  +"  on a.businesstypeid = b.businesstypeid"
+  +"  and mastercampaignid ="+cmpaignId+""
+  console.log(JSON.stringify(businessType));
+  redshift.query(businessType,function(err,res){
+      if(err) console.log('get businessType : '+ err);
+      else 
+      {
+          console.log('res ' + JSON.stringify(res));
+      }
+  });
+
+  var mcaSegment = "select a.mcasegmentname,b.mcasegmentid,a.mcasegmentid,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.mcasegments a LEFT JOIN apps.mastercampaignsmcasegments b"
+  +"  on a.mcasegmentid = b.mcasegmentid"
+  +"  and mastercampaignid ="+cmpaignId+""
+  console.log(JSON.stringify(mcaSegment));
+  redshift.query(mcaSegment,function(err,res){
+      if(err) console.log('get businessType : '+ err);
+      else 
+      {
+          console.log('res ' + JSON.stringify(res));
+      }
+  });
+  
     async.parallel([
-    function (callback) { redshift.query(select.distinct('apps.businessgroups.businessgroupname', 'apps.businessgroups.businessgroupid').from('apps.businessgroups').where($in('apps.mastercampaignsbusinessgroups.mastercampaignid', cmpaignId)).innerJoin('apps.mastercampaignsbusinessgroups').on('apps.mastercampaignsbusinessgroups.businessgroupid', 'apps.businessgroups.businessgroupid').toParams(), callback) },
-    function (callback) { redshift.query(mcaselect.distinct('apps.mcasegments.mcasegmentname', 'apps.mcasegments.mcasegmentid').from('apps.mcasegments').where($in('apps.mastercampaignsmcasegments.mastercampaignid', cmpaignId)).innerJoin('apps.mastercampaignsmcasegments').on('apps.mastercampaignsmcasegments.mcasegmentid', 'apps.mcasegments.mcasegmentid').toParams(), callback) },
-    function (callback) { redshift.query(businesstypeselect.distinct('apps.businesstype.businesstypename', 'apps.businesstype.businesstypeid').from('apps.businesstype').where($in('apps.mastercampaignsbusinesstype.mastercampaignid', cmpaignId)).innerJoin('apps.mastercampaignsbusinesstype').on('apps.mastercampaignsbusinesstype.businesstypeid', 'apps.businesstype.businesstypeid').toParams(), callback) },
-    function (callback) { redshift.query(programFamilySelect.distinct('apps.programfamilies.programfamiliyname', 'apps.programfamilies.programfamiliyid').from('apps.programfamilies').where($in('apps.mastercampaignsprogramfamilies.mastercampaignid', cmpaignId)).innerJoin('apps.mastercampaignsprogramfamilies').on('apps.mastercampaignsprogramfamilies.programfamilyid', 'apps.programfamilies.programfamiliyid').toParams(), callback) },
+    function (callback) { redshift.query(businessGroup, callback) },
+    function (callback) { redshift.query(mcaSegment, callback) },
+    function (callback) { redshift.query(businessType, callback) },
+    function (callback) { redshift.query(programFamily, callback) },
     function (callback) { redshift.query(mastercampaign.select('apps.mastercampaigns.mastercampaignid', 'apps.mastercampaigns.campaignmanager', 'apps.mastercampaigns.campaigndescription', 'apps.mastercampaigns.mastercampaignname', 'apps.mastercampaigns.startdate', 'apps.mastercampaigns.enddate').from('apps.mastercampaigns').where($in('apps.mastercampaigns.mastercampaignid', cmpaignId)).toParams(), callback) },
   
   ], function (err, results) {

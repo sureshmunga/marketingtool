@@ -31,10 +31,31 @@ router.get('/program',subcampaign.getPrograme);
 router.get('/getprogramtypes:id', function (req, res) {
     var bbb = require('../models/businessgroupnameinsertion');
     bbb.names1(req.params.id, function (response) {
-        console.log('campaign data are' + response);
+        console.log('campaign data are' + JSON.stringify(response));
         res.send(response)
     });
 })
+
+
+router.get('/getbusinesslines:id', function (req, res) {
+    console.log('inside new function' + req.params.id);
+    var bbb = require('../models/businessgroupnameinsertion');
+    bbb.businesslines(req.params.id, function (response) {
+        console.log('campaign data are' + JSON.stringify(response));
+        res.send(response)
+    });
+})
+
+router.get('/getindustry:id', function (req, res) {
+    console.log('inside new function');
+    var bbb = require('../models/businessgroupnameinsertion');
+    bbb.industry(req.params.id, function (response) {
+        console.log('industry data are' + JSON.stringify(response));
+        res.send(response)
+    });
+})
+
+
 
 router.get('/savedraft', function (req, res) {
     /* var bbb = require('../models/businessgroupnameinsertion');
@@ -115,7 +136,7 @@ router.post('/campaignregistration', function (req, res) {
     //console.log(lastFive);
     var day = dateformat(startdate, "yy")
     console.log("date is" + day);
-    var namingConvention = day + campaignName;
+    var namingConvention = day + '-'+ campaignName;
     console.log("naming convention is" + namingConvention);
     var user = req.session.passport.user
     var res = sunn.sub(businessgroupname);
@@ -155,6 +176,59 @@ router.post('/campaignregistration', function (req, res) {
     });
 
 });
+
+router.post('/updatecampaignregistration', function (req, res) {
+    
+
+    console.log('in campaignpage' + JSON.stringify(req.body));
+
+    console.log('user session '+ JSON.stringify(req.session.passport.user));
+    var start = req.body["data[StartDate]"];
+    var day = dateformat(start, "yy")
+    console.log("date is" + day);
+    var campaignName = req.body["data[campname]"];
+    var namingConvention = day + '-'+ campaignName;
+    var data = {
+        "CampaignId":req.body["data[CampaignId]"],
+        "CampaignName":req.body["data[campname]"],
+        "CampaignManager":req.body["data[campaignManager]"],
+        "CampaignDescription":req.body["data[campaignDesc]"],
+        "mcaSegmentId":req.body["data[mcaSegment][]"],
+        "businessGroupID":req.body["data[businessGroup][]"],
+        "businessTypeId":req.body["data[businessType][]"],
+        "programFamiliesID":req.body["data[programFamilies][]"],
+        "StartDate":req.body["data[StartDate]"],
+        "EndDate":req.body["data[EndDate]"],
+        "Status":req.body["data[Status]"],
+        "user":req.session.passport.user,
+        "namingconvention":namingConvention
+    };
+
+
+    // User.updateMasterCampaignData(data, res, function (err, user) {
+    //     if (err) {
+    //         console.log('out side error');
+    //         res.writeHead(500, { 'contet-type': 'text/html' });
+    //         res.send('<h1>Error Connecting data<h1>');
+    //     } else {
+    //         console.log("ins");
+    //     }
+    // });
+    // User.updateMasterCampaignData(subcampaign, res).then(function(response){
+    //     res.send(response)
+    // })
+    // }).catch(function(err){
+    //     console.log('error is' + err)
+    // })
+
+    User.updateMasterCampaignData(data, res).then(function(response){
+        console.log('ressssssss' + JSON.stringify(response))
+        res.send(response)
+    }).catch(function(err){
+console.log('error is ibefre updae finctio'+ err);
+    })
+});
+
 
 router.post('/subcampaignregistration', function (req, res) {
 
@@ -323,10 +397,194 @@ router.post('/subcampaignregistration', function (req, res) {
             res.writeHead(500, { 'contet-type': 'text/html' });
             res.send('<h1>Error Connecting data<h1>');
         } else {
-            console.log("ins");
+            console.log("Updated succesfully" + user);
         }
     });
-
 });
+
+
+
+router.post('/updatesubcampaignregistration', function (req, res) {
+
+    console.log('in subregistration' + req.body.programid);
+    var mastercampaignID = req.body.campaign;
+    console.log('in subcampaignpage' + mastercampaignID);
+    var programfamilyid = req.body.programtype;
+    console.log('in programtype' + programfamilyid);
+    var programname = req.body.programname;
+    console.log('in programname' + programname);
+
+    var campaignmanager = req.body.campaignmanager;
+    console.log('in campaignmanager' + campaignmanager);
+
+    var prodescgoals = req.body.prodescgoals;
+    console.log('in prodescgoals' + prodescgoals);
+
+    var market = req.body.market;
+    console.log('in market' + market);
+
+    var mcasegmentID = req.body.mcasegment;
+    console.log('in mcasegment' + mcasegmentID);
+
+    var businessgroupid = req.body.businessgroup;
+    console.log('in businessgroup' + businessgroupid);
+
+    var businesslineid = req.body.businessline;
+    console.log('in businessline' + businesslineid);
+
+    var secbusinesgroup = req.body.secbusinesgroup;
+    console.log('in secbusinesgroup' + secbusinesgroup);
+
+    var secbusinessline = req.body.secbusinessline;
+    console.log('in secbusinessline' + secbusinessline);
+
+    var leadbusinesstype = req.body.leadbusinesstype;
+    console.log('in leadbusinesstype' + leadbusinesstype);
+
+    var industrytype = req.body.industrytype;
+    console.log('in industrytype' + industrytype);
+
+    var secbusinesstype = req.body.secbusinesstype;
+    console.log('in secbusinesstype' + secbusinesstype);
+
+
+    var totalbudget = req.body.totalbudget;
+    console.log('in totalbudget' + totalbudget);
+
+
+    var totalspend = req.body.totalspend;
+    console.log('in totalspend' + totalspend);
+
+
+    var MQLG = req.body.MQLG;
+    console.log('in MQLG' + MQLG);
+
+
+    var MQLL = req.body.MQLL;
+    console.log('in MQLL' + MQLL);
+
+
+    var MQLH = req.body.MQLH;
+    console.log('in MQLH' + MQLH);
+
+    var MQLBM = req.body.MQLBM;
+    console.log('in MQLBM' + MQLBM);
+
+    var SALG = req.body.SALG;
+    console.log('in SALG' + SALG);
+
+    var SALL = req.body.SALL;
+    console.log('in SALL' + SALL);
+
+    var SALH = req.body.SALH;
+    console.log('in SALH' + SALH);
+
+    var SALB = req.body.SALB;
+    console.log('in SALB' + SALB);
+
+    var TPLG = req.body.TPLG;
+    console.log('in TPLG' + TPLG);
+
+    var TPLL = req.body.TPLL;
+    console.log('in TPLL' + TPLL);
+
+    var TPLH = req.body.TPLH;
+    console.log('in TPLH' + TPLH);
+
+    var TPLB = req.body.TPLB;
+    console.log('in TPLB' + TPLB);
+
+    var startdate = req.body.startdate;
+    console.log("startdate " + startdate);
+    var enddate = req.body.enddate;
+    console.log('end date ' + enddate);
+
+    var clientid = 1;
+    // var mastercampaignid = 1;
+    var status = 1;
+    var isactive = 1;
+    //var programdigitalid = 'pri123';
+    var  uniqueNumber1 = 0;
+
+    var date1 = Date.now();
+    
+    if (date1 <= uniqueNumber1) {
+        date1 = ++uniqueNumber1;
+    } else {
+        uniqueNumber1 = date1;
+    }
+
+    console.log('unique number is'+date1)
+    var uniqueID1 =date1;
+    var programdigitalid ='P'+ uniqueID1.toString().slice(-5);
+    console.log('ProgrM ID is' + programdigitalid);
+    var user = req.session.passport.user;
+    var day = dateformat(startdate, "yy")
+    console.log("date is" + day);
+    var namingConvention = day + mastercampaignID;
+    console.log("naming convention is" + namingConvention);
+
+    var subcampaign = {
+        mastercampaignid: mastercampaignID,
+        programfamilyid: programfamilyid,
+        programname: programname,
+        campaignmanager: campaignmanager,
+        programdescription: prodescgoals,
+        marketname: market,
+        startdate: startdate,
+        enddate: enddate,
+        mcasegmentid: mcasegmentID,
+        businessgroupid: businessgroupid,
+        businesslineid: businesslineid,
+        secbusinesgroup: secbusinesgroup,
+        secbusinessline: secbusinessline,
+        businesstypeid: leadbusinesstype,
+        industryid: industrytype,
+        secbusinesstype: secbusinesstype,
+        totalbudget: totalbudget,
+        totalspend: totalspend,
+        MQLG: MQLG,
+        MQLL: MQLL,
+        MQLH: MQLH,
+        MQLBM: MQLBM,
+        SALG: SALG,
+        SALL: SALL,
+        SALH: SALH,
+        SALB: SALB,
+        TPLG: TPLG,
+        TPLL: TPLL,
+        TPLH: TPLH,
+        TPLB: TPLB,
+        clientid: clientid,
+        status: status,
+        isactive: isactive,
+        namingConvention: namingConvention,
+        programdigitalid: programdigitalid,
+        updatedby:user,
+        programId:req.body.programid
+
+    };
+
+
+    User.UpdateSubcampaign(subcampaign, res, function (err, user) {
+        if (err) {
+            console.log('out side error');
+            res.writeHead(500, { 'contet-type': 'text/html' });
+            res.send('<h1>Error Connecting data<h1>');
+        } else {
+            console.log("Updated succesfully" + user);
+            res.render('../views/CST/programsavedraft');
+        }
+    });
+});
+
+    // User.createSubcampaign(subcampaign, res).then(function(response){
+    //     res.send(response)
+    // })
+    // }).catch(function(err){
+    //     console.log('error is' + err)
+    // })
+
+
 
 module.exports = router;

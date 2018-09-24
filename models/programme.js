@@ -94,6 +94,15 @@ var businessgroup = {
 		},
 		createdby:{
 			type: String
+		},
+		createddate:{
+			type: Date
+		},
+		updatedby:{
+			type: String
+		},
+		updateddate:{
+			type: Date
 		}
 	}
 };

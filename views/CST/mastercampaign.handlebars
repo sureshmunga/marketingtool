@@ -156,6 +156,7 @@
 
 
                                         <form method="post" id='mass' action="/cst/campaignregistration">
+                                        
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
                                                 <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus>
@@ -240,9 +241,14 @@
                                                 <label for="ED">End date</label>
                                                 <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
                                             </div>
-                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
+                                            {{!-- <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
                                             <span></span>
-                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button> --}}
+
+                                             <div class="panel-footer">
+                                                <button id="btnSubmit" id='validateit' type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-default" id="btntacticDraft">Save Draft</button>
+                                            </div>
                                         </form>
                                     </div>
 
