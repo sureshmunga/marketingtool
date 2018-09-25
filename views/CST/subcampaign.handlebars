@@ -11,49 +11,135 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="/css/bootstrap.css">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/css/style4.css"> 
+    <link rel="stylesheet" href="/css/style4.css"> {{!--
+    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 
-
-<body class="my-registration-page">
-
-    
     <style>
         #globalLoader {
-        position: absolute;
-        top: 0px !important;
-        left: 0px !important;
-        width: 100% !important;
-        height: 180% !important;
-        z-index: 1000;
-        background-color: grey;
-        opacity: .8;
-        overflow: hidden !important;
-    }
+            position: absolute;
+            top: 0px !important;
+            left: 0px !important;
+            width: 100% !important;
+            height: 180% !important;
+            z-index: 1000;
+            background-color: grey;
+            opacity: .8;
+            overflow: hidden !important;
+        }
 
-    .loader {
-        border: 16px solid #f3f3f3;
-        top: 250px;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        overflow: hidden !important;
-    }
-.OnLoaderscroll {
-        overflow-y: hidden !important;
-        overflow: hidden !important;
-    }
+        .loader {
+            border: 16px solid #f3f3f3;
+            top: 250px;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            overflow: hidden !important;
+        }
 
-    .disable-scroll {
-        overflow: hidden !important;
-    }
+        .OnLoaderscroll {
+            overflow-y: hidden !important;
+            overflow: hidden !important;
+        }
+
+        .disable-scroll {
+            overflow: hidden !important;
+        }
     </style>
 </head>
 
-{{> common}}
+{{> common}} {{!--
 
+<body class="my-registration-page">
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Marketing Measurement & Management</h3>
+                <strong>M3</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-home"></i>
+                        How to Use
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">CST</a>
+                        </li>
+                        <li>
+                            <a href="#">DISCOVER/AAE</a>
+                        </li>
+                        <li>
+                            <a href="#">Adhoc</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        CST
+                    </a>
+                    <ul class="list-unstyled components" id="pageSubmenu">
+                        <li class="active">
+                            <a href="/CST/mastercampaign">Master Campaign</a>
+                        </li>
+                        <li>
+                            <a href="/CST/program">program</a>
+                        </li>
+                        <li>
+                            <a href="#">Tactic</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-duplicate"></i>
+                        DISCOVER/AAE
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-link"></i>
+                        ADMIN
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-paperclip"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-send"></i>
+                        Contact
+                    </a>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        About
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
+        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+            <i class="glyphicon glyphicon-align-left"></i>
+            <span></span>
+        </button> --}}
         <!-- Page Content Holder -->
         <section class="h-100">
 
@@ -175,12 +261,8 @@
                                             <div class="form-group required-field">
                                                 <label for="LBG">Lead Business Groups</label>
                                                 <br>
-
                                                 <select class="businessgroup-control" id="BGC" name="businessgroup">
                                                     <option value="0">-- Select Business groups--</option>
-
-                                                <select class="businessgroup-control chosen-select " id="BGC" name="businessgroup">
-
                                                     {{#each businessgroups}}
                                                     <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -205,7 +287,7 @@
                                             <div class="form-group required-field">
                                                 <label for="SBG">Secondary Business Group</label>
                                                 <br>
-                                                <select class="chosen-select " id="SBG" name="secbusinesgroup" multiple="true">
+                                                <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
                                                     {{#each businessgroups}}
                                                     <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -410,7 +492,6 @@
                 </script> --}}
 
                 <script type="text/javascript">
-
                         $(document).ready(function () {
                             $("#PF").outerWidth(155);
                             $("#BT").outerWidth(155);
@@ -435,11 +516,12 @@
                             $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
                                 if (true) {
                                     var campaignData = CollectFormData();
+                                    var dd = $('#PT').val();
                                     campaignData.Status = 'Draft';
                                     $.post('/cst/subcampaignsavedradt', { data: campaignData }, function (response) {
-                                        alert(response.messagae);
-                                        if (response.status) {
-                                            location.href = '/cst/savedraft';
+                                        alert(response.message);
+                                        if (response.message) {
+                                            location.href = '/cst/subcampaignhandler' + dd;
                                         }
                                     });
                                 }
@@ -449,36 +531,6 @@
                                 }
                                 return false;
                             });
-
-                    $(document).ready(function () {
-                         $('select').chosen().trigger('chosen:updated');
-                        $(".chosen-choices").outerWidth(676);
-                        $("#PF").outerWidth(155);
-                        $("#BT").outerWidth(155);
-                        $("#BG").outerWidth(155);
-                        $("#MS").outerWidth(155);
-                        $("#PT").outerWidth(710);
-                        $("#mar").outerWidth(156);
-                        $("#MSC").outerWidth(710);
-                        $("#BGC").outerWidth(710);
-                        $("#SBG").outerWidth(156);
-                        $("#BL").outerWidth(710);
-                        $("#SBL").outerWidth(156);
-                        $("#LBT").outerWidth(710);
-                        $("#IT").outerWidth(710);
-                        $("#SBT").outerWidth(156);
-                        $("#CS").outerWidth(710);
-                        $("#BGC").on('change',function(){
-                            $("#SBG option").removeClass('disabled-result result-selected').prop('disabled', false);
-                            $("#SBG").trigger('chosen:updated');
-                            $("#SBG option[value=" + $("#BGC").val() + "]").addClass('result-selected').attr('disabled', 'disabled');
-                            $("#SBG").trigger('chosen:updated');
-
-                        });
-                        $('#sidebarCollapse').on('click', function () {
-                            $('#sidebar').toggleClass('active');
-                        });
-
 
                             $(".campaign-control").on('change', function (event) {
                                 var val = $("#CS option:selected").val();
@@ -501,7 +553,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify(data.mcasegment.length));
+                                        //alert(JSON.stringify(data.mcasegment.length));
                                         //alert(Resdata);
 
                                         //alert('resdata' + ResData);
@@ -599,13 +651,13 @@
                             $(".sec-businessgroupcontrol").on('change', function (event) {
                                 //alert('inside sec business group change');
                                 var val = $("#BGC option:selected").val();
-                                alert('selected businedd groups is ' + val);
+                                //alert('selected businedd groups is ' + val);
                                 var secBusinessgroup = [];
                                 $('#SBG').closest('.form-group').find('ul li.search-choice').each(function () {
                                     secBusinessgroup.push($('#SBG option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
                                 });
 
-                                alert('sec business group dddd' + val + secBusinessgroup);
+                               // alert('sec business group dddd' + val + secBusinessgroup);
                                 var Resdata = '';
 
                                 event.preventDefault();
@@ -618,7 +670,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify(data.leadBu.length));
+                                  //      alert(JSON.stringify(data.leadBu.length));
 
                                         $('#SBL').find("option").remove();
                                         $('#SBL').append('<option value=0>None selected</option>');
@@ -660,7 +712,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify('indusss' + data.leadind.length));
+                                    //    alert(JSON.stringify('indusss' + data.leadind.length));
                                         $('#IT').find("option").remove();
                                         $('#IT').append('<option value=0>None selected</option>');
                                         $.each(data.leadind, function (index, item) {

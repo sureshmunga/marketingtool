@@ -39,21 +39,33 @@ module.exports.getMasterCampaignList = function (req, res) {
 
 
 module.exports.masterCampaignsaveDraft = function (req, res) {
+
   async.parallel([
     function (callback) {
       redshift.query('SELECT a.mastercampaignid,a.mastercampaignname,a.campaignmanager,a.campaigndescription,a.startdate,a.enddate FROM apps."mastercampaigns" a', callback)
       //console.log("callback result is" + callback);
     }
   ], function (err, results) {
-    console.log(JSON.stringify(results[0].rows));
+    console.log(results[0].rows.length)
+    // var startdate = results[0].rows[0].startdate;
+    // var formatStartDate = date.format(startdate, 'YYYY-MM-DD');
+    for(var i=0;i<results[0].rows.length;i++){
+      var ff=[]
+      var startdd = results[0].rows[i].startdate;
+      var ff = date.format(startdd, 'YYYY-MM-DD');
+      // var enddateee = console.log(results[0].rows[i].enddate);
+      // var formatenddate = date.format(enddateee, 'YYYY-MM-DD');
+    }
+    console.log('formatted date ', ff);
+    console.log(results[0].rows[0].startdate);
+    console.log(results[0].rows[0].enddate);
 
-    res.render('../views/CST/savedraft', { mastercampaign: results[0].rows });
+    res.render('../views/CST/savedraft', { mastercampaign: results[0].rows, });
   });
 }
 
 
 exports.getMasterCampaignData = function (req, res, id) {
-
 
   
   
@@ -115,7 +127,6 @@ exports.getMasterCampaignData = function (req, res, id) {
     function (callback) { redshift.query(mcaSegment, callback) },
     function (callback) { redshift.query(businessType, callback) },
     function (callback) { redshift.query(programFamily, callback) },
-
     function (callback) { redshift.query(mastercampaign.select('apps.mastercampaigns.mastercampaignid', 'apps.mastercampaigns.campaignmanager', 'apps.mastercampaigns.campaigndescription', 'apps.mastercampaigns.mastercampaignname', 'apps.mastercampaigns.startdate', 'apps.mastercampaigns.enddate').from('apps.mastercampaigns').where($in('apps.mastercampaigns.mastercampaignid', cmpaignId)).toParams(), callback) },
   
   ], function (err, results) {

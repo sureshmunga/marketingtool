@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
     <style>
         #globalLoader {
-
             position: absolute;
             top: 0px !important;
             left: 0px !important;
@@ -51,42 +50,7 @@
 </head>
 {{> common}} {{!--
 
-        position: absolute;
-        top: 0px !important;
-        left: 0px !important;
-        width: 100% !important;
-        height: 180% !important;
-        z-index: 1000;
-        background-color: grey;
-        opacity: .8;
-        overflow: hidden !important;
-    }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        top: 250px;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        overflow: hidden !important;
-    }
-.OnLoaderscroll {
-        overflow-y: hidden !important;
-        overflow: hidden !important;
-    }
-
-    .disable-scroll {
-        overflow: hidden !important;
-    }
-    </style>
-</head>
-
-
-
-{{!-- <body class="my-registration-page">
+<body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -193,10 +157,7 @@
 
 
                                         <form method="post" id='mass' action="/cst/campaignregistration">
-<<<<<<< HEAD
 
-=======
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
                                                 <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus>
@@ -281,7 +242,6 @@
                                                 <label for="ED">End date</label>
                                                 <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
                                             </div>
-<<<<<<< HEAD
                                             {{!--
                                             <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
                                             <span></span>
@@ -291,11 +251,6 @@
                                                 <button id="btnSubmit" id='validateit' type="submit" class="btn btn-primary">Submit</button>
                                                 <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
                                             </div>
-=======
-                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
-                                            <span></span>
-                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button>
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
                                         </form>
                                     </div>
 
@@ -327,14 +282,13 @@
                             $('#sidebar').toggleClass('active');
                         });
 
-<<<<<<< HEAD
                         $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
                             if (true) {
                                 var campaignData = CollectFormData();
                                 campaignData.Status = 'Draft';
                                 $.post('/cst/campaignsavedradt', { data: campaignData }, function (response) {
-                                    alert(response.messagae);
-                                    if (response.status) {
+                                    alert(response.message);
+                                    if (response.message) {
                                         location.href = '/cst/savedraft';
                                     }
                                 });
@@ -346,14 +300,10 @@
                             return false;
                         });
 
-=======
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
                         $("#PF").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "program families"
                         })
-                        
-                        
 
 
 
@@ -367,11 +317,7 @@
                         $(".businesstype-control").chosen({
 
                             placeholder_text_multiple: "Business type names",
-<<<<<<< HEAD
 
-=======
-                            
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
                         })
 
                         //$(".businesstype-control").chosen();
@@ -385,21 +331,12 @@
 
 
 
-<<<<<<< HEAD
                         // $(".businessgroup-control").chosen({
 
                         //   placeholder_text_multiple: "Business Group Names"
                         //})
 
                         $("#BG").chosen({
-=======
-                       // $(".businessgroup-control").chosen({
-
-                         //   placeholder_text_multiple: "Business Group Names"
-                        //})
-
-                         $("#BG").chosen({
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
                             //alert($("#PF").value());
                             placeholder_text_multiple: "Business group"
                         })
@@ -412,7 +349,6 @@
                         $('#mass').validate({ ignore: ":hidden:not(select)" });
                     });
 
-<<<<<<< HEAD
                     function CollectFormData(){
                          var data = {
                         };
@@ -449,8 +385,6 @@
 
                         return data;
                     }
-=======
->>>>>>> f360c6ee214f3be388d76c1ce274d954b3c909cc
 
                 </script>
 </body>

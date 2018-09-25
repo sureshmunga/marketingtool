@@ -18,15 +18,30 @@
 
 <body class="my-registration-page">
 
-    <div class="wrapper">
-        <!-- Sidebar Holder -->
-        <div id="wrapper">
-            
-            <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
+   <section class="h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
+                <div class="card fat">
+                    <div class="card-body">
+
+                        <div id="content">
+                            <nav class="navbar navbar-default">
+                                <div class="container-fluid">
+                                    <h2> Program </h2>
+                                    <div class="navbar-header">
+                                    </div>
+             <a id="btnCreateNew" href="/cst/subcampaign" class="btn btn-primary align-left">
+                                                Create New
+                                            </a>
+                                            <br>
+                                            </br>
+            <table align='left' cellspacing=2 cellpadding=5 id="data_table" border=1>
                 <tr>
-                    <th>Program Name</th>
-                    <th>Campaign Manager</th>
-                    <th>Description</th>
+                    <th bgcolor="#7386D5">Program Name</th>
+                    <th bgcolor="#7386D5">Campaign Manager</th>
+                    <th bgcolor="#7386D5">Description</th>
+                    {{!-- <th bgcolor="#7386D5"> </th> --}}
+                    <th bgcolor="#7386D5">Action</th>
                     
                 </tr>
 
@@ -47,19 +62,27 @@
                         <td>{{programname}}</td>
                         <td>{{campaignmanager}}</td>
                         <td>{{programdescription}}</td>
-                        
-                        <td style="visibility: hidden">{{programid}}</td>
                         <td>
-                            <input type="button" class="add" value="Edit">
+                            <button name="edit" style="background-color:white"><img src="/img/download.png"/></button>
                         </td>
+                        <td style="visibility: hidden">{{programid}}</td>
+                        
                     </tr>
 
                     {{/each}}
                    
                 </table>
                 <br>
-                 <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/subcampaign'" style="float: right;">Create One</button>
+                 {{!-- <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/subcampaign'" style="float: right;">Create One</button> --}}
         </div>
+        </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 
 
@@ -157,14 +180,12 @@
                     })
 
                     $("#data_table tr").click(function (event) {
-
                         alert('sf');
-
                         $(this).addClass('selected').siblings().removeClass('selected');
                         var programName = $(this).find('td:first').html();
                         var cmapaignManager = $(this).find("td:eq(1)").html();
                         var Description = $(this).find("td:eq(2)").html();
-                        var programid = $(this).find("td:eq(3)").html();
+                        var programid = $(this).find("td:eq(4)").html();
                         event.preventDefault();
                         var Id = programid;
                         window.location.href = '/cst/subcampaignhandler' + Id;

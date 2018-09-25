@@ -15,74 +15,98 @@
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
 {{> common}}
+
 <body class="my-registration-page">
 
-    <div class="wrapper">
-        <!-- Sidebar Holder -->
-        <div id="wrapper">
-            
-            <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
-                <tr>
-                    <th>Master campaign Name</th>
-                    <th>Manager</th>
-                    <th>Description</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                </tr>
+    <section class="h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
+                <div class="card fat">
+                    <div class="card-body">
 
-                {{!--
-                <table class=“cooltable”> --}} {{#each mastercampaign}}
-                    <tr>
-                        {{!--
-                        <td>
-                            <input type="text" id='name' value={{mastercampaignname}}>
-                        </td>
-                        <td>
-                            <input type="text" id='manager' value={{campaignmanager}}>
-                        </td>
-                        <td>
-                            <input type="text" id='m1' value={{campaignmanager}}>
-                        </td> --}}
+                        <div id="content">
+                            <nav class="navbar navbar-default">
+                                <div class="container-fluid">
+                                    <h2> Campaign </h2>
+                                    <div class="navbar-header">
+                                    </div>
 
-                        <td>{{mastercampaignname}}</td>
-                        <td>{{campaignmanager}}</td>
-                        <td>{{campaigndescription}}</td>
-                        <td>{{startdate}}</td>
-                        <td>{{enddate}}</td>
-                        <td style="visibility: hidden">{{mastercampaignid}}</td>
-                        <td>
-                            <input type="button" class="add" value="Edit">
-                        </td>
-                    </tr>
+                                    <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
+                                        <tr>
+                                            <th bgcolor="#7386D5">Master campaign Name</th>
+                                            <th bgcolor="#7386D5">Manager</th>
+                                            <th bgcolor="#7386D5">Description</th>
+                                            <th bgcolor="#7386D5">Start Date</th>
+                                            <th bgcolor="#7386D5">End Date</th>
+                                            
+                                            <th bgcolor="#7386D5">Action</th>
+                                        </tr>
 
-                    {{/each}}
-                   
-                </table>
-                <br>
-                 <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/mastercampaign'" style="float: right;">Create One</button>
-        </div>
+                                        {{!--
+                                        <table class=“cooltable”> --}} {{#each mastercampaign}}
+                                            <tr>
+                                                {{!--
+                                                <td>
+                                                    <input type="text" id='name' value={{mastercampaignname}}>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id='manager' value={{campaignmanager}}>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id='m1' value={{campaignmanager}}>
+                                                </td> --}}
+
+                                                <td>{{mastercampaignname}}</td>
+                                                <td>{{campaignmanager}}</td>
+                                                <td>{{campaigndescription}}</td>
+                                                <td>{{startdate}}</td>
+                                                <td>{{enddate}}</td>
+                                                
+                                                <td>
+                                                    {{!-- <input type="button" class="add" value="Edit"> --}}
+                                                    <button name="edit" style="background-color:white"><img src="/img/download.png"/></button>
+
+                                                    {{!-- <input type="image" src='/img/download.png' alt=Submit width="1" height="1"> --}}
+                                                </td>
+                                                <td style="visibility: hidden">{{mastercampaignid}}</td>
+                                            </tr>
+
+                                            {{/each}}
+
+                                        </table>
+                                        <br>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/mastercampaign'" style="float: right;">Create One</button>
+                                </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js">
-        </script>
-        <!-- Bootstrap Js CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="moment.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+                <!-- jQuery CDN -->
+                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+                </script>
+                <!-- Bootstrap Js CDN -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <script src="moment.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
 
-        <link rel="stylesheet" href="/css/choosen.css"> {{!--
-        <script>
+                <link rel="stylesheet" href="/css/choosen.css"> {{!--
+                <script>
 
-            function subcampaign() {
-                //alert('in ajax');
-                var val = $("#mar option:selected").val();
-                alert('market values ' + val);
-        </script> --}} {{!--
-        <script type="text/javascript">
+                    function subcampaign() {
+                        //alert('in ajax');
+                        var val = $("#mar option:selected").val();
+                        alert('market values ' + val);
+                </script> --}} {{!--
+                <script type="text/javascript">
                 function add_row() {
                     var tableRows = document.getElementsByTagName("tr");
                     alert(tableRows.length);
@@ -91,145 +115,145 @@
                     }
                 }
 
-        </script> --}}
-        <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#PF").outerWidth(155);
-                    $("#BT").outerWidth(155);
-                    $("#BG").outerWidth(155);
-                    $("#MS").outerWidth(155);
-                    $("#PT").outerWidth(710);
-                    $("#mar").outerWidth(156);
-                    $("#MSC").outerWidth(710);
-                    $("#BGC").outerWidth(710);
-                    $("#SBG").outerWidth(156);
-                    $("#BL").outerWidth(710);
-                    $("#SBL").outerWidth(156);
-                    $("#LBT").outerWidth(710);
-                    $("#IT").outerWidth(710);
-                    $("#SBT").outerWidth(156);
-                    $("#CS").outerWidth(710);
+                </script> --}}
+                <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#PF").outerWidth(155);
+                            $("#BT").outerWidth(155);
+                            $("#BG").outerWidth(155);
+                            $("#MS").outerWidth(155);
+                            $("#PT").outerWidth(710);
+                            $("#mar").outerWidth(156);
+                            $("#MSC").outerWidth(710);
+                            $("#BGC").outerWidth(710);
+                            $("#SBG").outerWidth(156);
+                            $("#BL").outerWidth(710);
+                            $("#SBL").outerWidth(156);
+                            $("#LBT").outerWidth(710);
+                            $("#IT").outerWidth(710);
+                            $("#SBT").outerWidth(156);
+                            $("#CS").outerWidth(710);
 
-                    $('#sidebarCollapse').on('click', function () {
-                        $('#sidebar').toggleClass('active');
-                    });
-
-
-                    $(".programfamily-control").chosen({
-                        //alert($("#PF").value());
-                        placeholder_text_multiple: "program families"
-                    })
-
-                    $(".sec-businesstype").chosen({
-                        //alert($("#PF").value());
-                        placeholder_text_multiple: "Secondary business types"
-                    })
-
-                    // $(".programfamily-control").chosen().change(function (e, params) {
-                    //   values = $("#PF").chosen().val();
-                    //placeholder_text_multiple: "program families"
-                    //values is an array containing all the results.
-                    // });
+                            $('#sidebarCollapse').on('click', function () {
+                                $('#sidebar').toggleClass('active');
+                            });
 
 
-                    $(".businesstype-control").chosen({
+                            $(".programfamily-control").chosen({
+                                //alert($("#PF").value());
+                                placeholder_text_multiple: "program families"
+                            })
 
-                        placeholder_text_multiple: "Program type names"
-                    })
+                            $(".sec-businesstype").chosen({
+                                //alert($("#PF").value());
+                                placeholder_text_multiple: "Secondary business types"
+                            })
 
-                    $(".sec-businessgroupcontrol").chosen({
+                            // $(".programfamily-control").chosen().change(function (e, params) {
+                            //   values = $("#PF").chosen().val();
+                            //placeholder_text_multiple: "program families"
+                            //values is an array containing all the results.
+                            // });
 
-                        placeholder_text_multiple: "Secondary Business Group Names"
-                    })
 
-                    $(".sec-businessline").chosen({
+                            $(".businesstype-control").chosen({
 
-                        placeholder_text_multiple: "Secondary buysiness lines"
-                    })
+                                placeholder_text_multiple: "Program type names"
+                            })
 
-                    $(".programtype-control").chosen({
+                            $(".sec-businessgroupcontrol").chosen({
 
-                        placeholder_text_multiple: "Program type names"
-                    })
+                                placeholder_text_multiple: "Secondary Business Group Names"
+                            })
 
-                    $(".market-control").chosen({
+                            $(".sec-businessline").chosen({
 
-                        placeholder_text_multiple: "market names"
-                    })
+                                placeholder_text_multiple: "Secondary buysiness lines"
+                            })
 
-                    $("#data_table tr").click(function (event) {
-                        $(this).addClass('selected').siblings().removeClass('selected');
-                        var campaignName = $(this).find('td:first').html();
-                        var cmapaignManager = $(this).find("td:eq(1)").html();
-                        var cmapaignDescription = $(this).find("td:eq(2)").html();
-                        var startDate = $(this).find("td:eq(3)").html();
-                        var endDate = $(this).find("td:eq(4)").html();
-                        var campaignId = $(this).find("td:eq(5)").html();
+                            $(".programtype-control").chosen({
 
-                        var ss = new Date(startDate);
-                        var dd = ss.getDate();
-                        //alert('dateee' + dd);
-                        var date;
-                         if(dd<9){
-                           date  = '0'+dd;
-                        }else{
-                            date = dd;
-                        }
-                        var mon = ss.getMonth();
-                        var month;
-                        if(mon<9){
-                           month  = '0'+mon;
-                        }else{
-                            month = mon;
-                        }
-                        var yy = ss.getFullYear();
+                                placeholder_text_multiple: "Program type names"
+                            })
 
-                        var sff = yy+'-'+month+'-'+date;
+                            $(".market-control").chosen({
 
-                        var ss1 = new Date(endDate);
-                        var dd1 = ss1.getDate();
-                         var date1;
-                         if(dd1<9){
-                           date1  = '0'+dd1;
-                        }else{
-                            date1 = dd1;
-                        }
-                        var mon1 = ss1.getMonth();
-                        var month1;
-                       
-                        if(mon1<9){
-                           month1  = '0'+mon;
-                        }else{
-                            month1 = mon1;
-                        }
-                        var yy1 = ss1.getFullYear();
+                                placeholder_text_multiple: "market names"
+                            })
 
-                        var sff1 = yy1+'-'+month1+'-'+date1;
+                            $("#data_table tr").click(function (event) {
+                                $(this).addClass('selected').siblings().removeClass('selected');
+                                var campaignName = $(this).find('td:first').html();
+                                var cmapaignManager = $(this).find("td:eq(1)").html();
+                                var cmapaignDescription = $(this).find("td:eq(2)").html();
+                                var startDate = $(this).find("td:eq(3)").html();
+                                var endDate = $(this).find("td:eq(4)").html();
+                                var campaignId = $(this).find("td:eq(6)").html();
 
-                        
+                                var ss = new Date(startDate);
+                                var dd = ss.getDate();
+                                //alert('dateee' + dd);
+                                var date;
+                                if (dd < 9) {
+                                    date = '0' + dd;
+                                } else {
+                                    date = dd;
+                                }
+                                var mon = ss.getMonth();
+                                var month;
+                                if (mon < 9) {
+                                    month = '0' + mon;
+                                } else {
+                                    month = mon;
+                                }
+                                var yy = ss.getFullYear();
 
-                        
-                        //var date = dateformat(startdate, "dd-mm-yyyy")
-                        // console.log("date is" + day);
-                        //alert(campaignName);
-                        //alert(value1);
-                        event.preventDefault();
-                        //var yy = [campaignName + ',' + cmapaignManager + ',' + cmapaignDescription + ',' + sff + ',' + sff1+','+campaignId]
-                        //alert('yy' + yy)
-                        var yy = campaignId
+                                var sff = yy + '-' + month + '-' + date;
 
-                        // res.render('/cst/mastercampaign');
-                        //window.location.href = '/cst/saveDrafrhandler?' + yy;
-                        window.location.href = '/cst/saveDrafrhandler' + yy;
+                                var ss1 = new Date(endDate);
+                                var dd1 = ss1.getDate();
+                                var date1;
+                                if (dd1 < 9) {
+                                    date1 = '0' + dd1;
+                                } else {
+                                    date1 = dd1;
+                                }
+                                var mon1 = ss1.getMonth();
+                                var month1;
 
-                    });
+                                if (mon1 < 9) {
+                                    month1 = '0' + mon;
+                                } else {
+                                    month1 = mon1;
+                                }
+                                var yy1 = ss1.getFullYear();
 
-                    
-                });
+                                var sff1 = yy1 + '-' + month1 + '-' + date1;
 
 
 
-        </script>
+
+                                //var date = dateformat(startdate, "dd-mm-yyyy")
+                                // console.log("date is" + day);
+                                //alert(campaignName);
+                                //alert(value1);
+                                event.preventDefault();
+                                //var yy = [campaignName + ',' + cmapaignManager + ',' + cmapaignDescription + ',' + sff + ',' + sff1+','+campaignId]
+                                //alert('yy' + yy)
+                                var yy = campaignId
+
+                                // res.render('/cst/mastercampaign');
+                                //window.location.href = '/cst/saveDrafrhandler?' + yy;
+                                window.location.href = '/cst/saveDrafrhandler' + yy;
+
+                            });
+
+
+                        });
+
+
+
+                </script>
 </body>
 
 

@@ -14,14 +14,9 @@
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
-
 {{> common}} {{!--
 
 <body class="my-registration-page">
-
-
-{{!-- <body class="my-registration-page">
-
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -127,13 +122,9 @@
 
 
 
-
                                         <form method="post" action="/cst/updatesubcampaignregistration">
                                         <input type='hidden' id="programid" name="programid" required autofocus {{#each programTab}}
                                                     value={{programid}} {{/each}}>
-
-                                        <form method="post" action="/cst/subcampaignregistration">
-
                                             {{!--
                                             <div class="line"></div>
                                             <select class="form-control" id="sel1">
@@ -156,17 +147,11 @@
                                                 <label for="cam">Campaign</label>
                                                 <br>
                                                 <select class="campaign-control" id="CS" name="campaign" required autofocus>
-
                                                     {{#each campaign}}
                                                     {{!-- {{#if isselect}} --}}
                                                     <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
                                                     {{/each}} </select>
                                                      {{!-- {{/if}} --}}
-
-                                                    {{#each programTab}}
-                                                    <option value={{programid}}>{{programname}}</option>
-                                                    {{/each}} </select>
-
                                                 </br>
 
                                             </div>
@@ -174,20 +159,12 @@
                                             <div class="form-group required-field">
                                                 <label for="PT">Program Type</label>
                                                 <br>
-
                                                 <select class="form-control" id="PT" name="programtype" required autofocus>
                                                     {{#each pfamily}}
                                                     <option value={{programfamiliyid}}>{{programfamiliyname}}</option>
                                                     {{!--
                                                     <option value="0">-- Select --</option> --}} {{/each}}
                                                 </select>
-
-                                                <select class="form-control" id="PT"  name="programtype" required autofocus>
-                                                    {{#each pfamily}}
-                                                    <option>{{programfamiliyname}}</option>
-                                                    {{!-- <option value="0">-- Select --</option> --}}
-                                                    {{/each}}</select>
-
 
                                                 </br>
                                             </div>
@@ -201,13 +178,8 @@
 
                                             <div class="form-group required-field">
                                                 <label for="PM">Campaign Manager</label>
-
                                                 <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" required autofocus {{#each programTab}}
                                                     value={{campaignmanager}} {{/each}}>
-
-                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" required autofocus {{#each programTab}} value={{campaignmanager}}
-                                                    {{/each}}>
-
                                             </div>
 
                                             <div class="form-group required-field">
@@ -222,11 +194,7 @@
                                                 <select class="market-control" id="mar" name="market" required multiple="true">
                                                     {{#each markettab}}
 
-
                                                     <option {{#if isselect}} selected="selected" {{/if}} value={{marketid}}>{{marketname}}</option>
-
-                                                    <option>{{marketname}} </option>
-
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -257,11 +225,7 @@
                                                 <br>
                                                 <select class="businessgroup-control" id="BGC" name="businessgroup">
                                                     {{#each leadbusiness}}
-
                                                     <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
-
-                                                    <option value={{businessgroupid}}>{{businessgroupname}}</option>
-
                                                     {{/each}} </select>
                                                 </br>
 
@@ -282,14 +246,9 @@
                                                 <label for="SBG">Secondary Business Group</label>
                                                 <br>
                                                 <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
-
                                                     {{#each secbusinessgro}} {{!--
                                                     <option>{{businessgroupname}}</option> --}}
                                                     <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
-
-                                                    {{#each secbusinessgro}}
-                                                    <option>{{businessgroupname}}</option>
-
                                                     {{/each}} </select>
                                                 </br>
 
@@ -301,10 +260,7 @@
                                                 <select class="sec-businessline" id="SBL" name="secbusinessline" multiple="true">
                                                     {{#each secbusinessLin}}
                                                     <option>{{businesslinename}}</option>
-
                                                     <option {{#if isselect}} selected="selected" {{/if}} value={{businesslineid}}>{{businesslinename}}</option>
-
-
                                                     {{/each}} </select>
                                                 </br>
 
@@ -336,14 +292,9 @@
                                                 <label for="SBTY">Secondary Business Type</label>
                                                 <br>
                                                 <select class="sec-businesstype" id="SBT" name="secbusinesstype" multiple="true">
-
                                                     {{#each secbusinesstyp}} {{!--
                                                     <option>{{businesstypename}}</option> --}}
                                                     <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
-
-                                                    {{#each secbusinesstyp}}
-                                                    <option>{{businesstypename}}</option>
-
                                                     {{/each}} </select>
                                                 </br>
 
@@ -351,22 +302,14 @@
 
                                             <div class="form-group required-field">
                                                 <label for="TB">Total Budget</label>
-
                                                 <input id="TB" type="number" class="form-control" name="totalbudget" required autofocus {{#each programTab}} value={{budget}}
-
-                                                <input id="TB" type="number" class="form-control" name="totalbudget"  required autofocus {{#each programTab}} value={{budget}}
-
                                                     {{/each}}>
                                             </div>
                                             <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="TS">Total Spend</label>
-
                                                 <input id="TS" type="number" class="form-control" name="totalspend" required autofocus {{#each programTab}} value={{spend}}
-
-                                                <input id="TS" type="number" class="form-control" name="totalspend"  required autofocus {{#each programTab}} value={{spend}}
-
                                                     {{/each}}>
                                             </div>
                                             <div class="clear"></div>
@@ -383,7 +326,6 @@
                                                         <td>
                                                             Marketing Qualified leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-
                                                             <input type="number" style="width: 115px" name="MQLG" required {{#each programTab}} value={{mqlgoal}} {{/each}}>
 
                                                         </td>
@@ -395,23 +337,6 @@
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
                                                             <input type="text" style="width: 115px" name="MQLBM" required {{#each programTab}} value={{mqlsource}} {{/each}}>
-
-                                                            <input type="number" style="width: 115px" name="MQLG" required  {{#each programTab}} value={{mqlgoal}}
-                                                    {{/each}}>
-
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLL" required {{#each programTab}} value={{mqllow}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLH" required {{#each programTab}} value={{mqlhigh}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="MQLBM" required {{#each programTab}} value={{mqlsource}}
-                                                    {{/each}}>
-
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -435,7 +360,6 @@
                                                         <td>
                                                             Sales Accepted Leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-
                                                             <input type="number" style="width: 115px" name="SALG" required {{#each programTab}} value={{salgoal}} {{/each}}>
 
                                                         </td>
@@ -447,23 +371,6 @@
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
                                                             <input type="text" style="width: 115px" name="SALB" required {{#each programTab}} value={{salsource}} {{/each}}>
-
-                                                            <input type="number" style="width: 115px" name="SALG" required  {{#each programTab}} value={{salgoal}}
-                                                    {{/each}}>
-
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALL" required  {{#each programTab}} value={{sallow}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALH" required  {{#each programTab}} value={{salhigh}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="SALB" required  {{#each programTab}} value={{salsource}}
-                                                    {{/each}}>
-
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -486,7 +393,6 @@
                                                         <td>
                                                             Total Pipe Line</td>
                                                         <td style="padding:0 10px 0 10px;">
-
                                                             <input type="number" style="width: 115px" name="TPLG" required {{#each programTab}} value={{pipelinegoal}} {{/each}}>
 
                                                         </td>
@@ -498,23 +404,6 @@
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
                                                             <input type="text" style="width: 115px" name="TPLB" required {{#each programTab}} value={{pipelinesource}} {{/each}}>
-
-                                                            <input type="number" style="width: 115px" name="TPLG" required  {{#each programTab}} value={{pipelinegoal}}
-                                                    {{/each}}>
-
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLL" required  {{#each programTab}} value={{pipelinelow}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLH" required {{#each programTab}} value={{pipelinehigh}}
-                                                    {{/each}}>
-                                                        </td>
-                                                        <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="TPLB" required  {{#each programTab}} value={{pipelinesource}}
-                                                    {{/each}}>
-
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -542,19 +431,13 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
 
-
                 <link rel="stylesheet" href="/css/choosen.css"> {{!--
                 <script>
-
-                <link rel="stylesheet" href="/css/choosen.css"> 
-                {{!-- <script>
-
 
                     function subcampaign() {
                         //alert('in ajax');
                         var val = $("#mar option:selected").val();
                         alert('market values ' + val);
-
                 </script> --}}
 
                 <script type="text/javascript">
@@ -720,55 +603,10 @@
                                         $.each(data.leadind, function (index, item) {
                                             $('#IT').append('<option value=' + item.industryid + '>' + item.industryname + '</option>');
                                         });
-
-                </script>  --}}
-
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#PF").outerWidth(155);
-                        $("#BT").outerWidth(155);
-                        $("#BG").outerWidth(155);
-                        $("#MS").outerWidth(155);
-                        $("#PT").outerWidth(710);
-                        $("#mar").outerWidth(156);
-                        $("#MSC").outerWidth(710);
-                        $("#BGC").outerWidth(710);
-                        $("#SBG").outerWidth(156);
-                        $("#BL").outerWidth(710);
-                        $("#SBL").outerWidth(156);
-                        $("#LBT").outerWidth(710);
-                        $("#IT").outerWidth(710);
-                        $("#SBT").outerWidth(156);
-                        $("#CS").outerWidth(710);
-
-                        $('#sidebarCollapse').on('click', function () {
-                            $('#sidebar').toggleClass('active');
-                        });
-
-                        $(".campaign-control").on('change', function (event) {
-                            var val = $("#CS option:selected").val();
-                            //alert(val);
-                            var Resdata = '';
-                            var ele = document.getElementById('PT');
-                            ele.innerHTML =
-                                '<option>' + "Please select value" + '</option>';
-                            //alert('value is' + val);
-                            event.preventDefault();
-                            $.ajax({
-                                type: "GET",
-                                url: 'http://localhost:4000/cst/getprogramtypes' + val,
-                                //data: "value=" + val,        //POST variable name value
-                                success: function (data) {
-                                   // alert('data is '+ data);
-                                    //if (data) {
-                                       // alert('Success' + data);
-                                        ResData = data;
-
                                         //alert(Resdata);
 
                                         //alert('resdata' + ResData);
                                         //alert(final);programfamiliyid
-
 
                                         //}
                                         //else {
@@ -823,65 +661,6 @@
 
                         });
 
-                                        var ele = document.getElementById('PT');
-                                        for (var i = 0; i < ResData.length; i++) {
-                                            // POPULATE SELECT ELEMENT WITH JSON.
-                                            ele.innerHTML =
-                                                '<option value="'+ResData[i].programfamiliyid+'">' + ResData[i].programfamiliyname + '</option>';
-                                        }
-                                    //}
-                                    //else {
-                                      //  alert('Fail');
-
-                                    //}
-                                }
-                            });
-                        });
-                        $(".programfamily-control").chosen({
-                            //alert($("#PF").value());
-                            placeholder_text_multiple: "program families"
-                        })
-
-                        $(".sec-businesstype").chosen({
-                            //alert($("#PF").value());
-                            placeholder_text_multiple: "Secondary business types"
-                        })
-
-                        // $(".programfamily-control").chosen().change(function (e, params) {
-                        //   values = $("#PF").chosen().val();
-                        //placeholder_text_multiple: "program families"
-                        //values is an array containing all the results.
-                        // });
-
-
-                        $(".businesstype-control").chosen({
-
-                            placeholder_text_multiple: "Program type names"
-                        })
-
-                        $(".sec-businessgroupcontrol").chosen({
-
-                            placeholder_text_multiple: "Secondary Business Group Names"
-                        })
-
-                        $(".sec-businessline").chosen({
-
-                            placeholder_text_multiple: "Secondary buysiness lines"
-                        })
-
-                        $(".programtype-control").chosen({
-
-                            placeholder_text_multiple: "Program type names"
-                        })
-
-                        $(".market-control").chosen({
-
-                            placeholder_text_multiple: "market names"
-                        })
-
-                    });
-
-
 
 
                 </script>
@@ -889,4 +668,3 @@
 
 
 </html>
-

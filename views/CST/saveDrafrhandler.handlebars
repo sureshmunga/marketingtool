@@ -14,12 +14,9 @@
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
 </head>
+{{> common}} {{!--
 
-
-{{> common}}
-
-
-{{!-- <body class="my-registration-page">
+<body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -217,11 +214,7 @@
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
-
                                                 <input id="endate" type="date" class="form-control" name="enddate" value={{endDate}} required autofocus>
-
-                                                <input id="endate" type="date" class="form-control" name="enddate"  value={{endDate}} required autofocus  >
-
                                             </div>
                                             <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
 
@@ -249,10 +242,6 @@
 
 
 
-
-                        
-
-
                         //alert(paramPairs);
                         // If there is no query, default to '96'
 
@@ -263,7 +252,6 @@
                         $('#sidebarCollapse').on('click', function () {
                             $('#sidebar').toggleClass('active');
                         });
-
 
 
                         $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
@@ -283,9 +271,6 @@
                             }
                             return false;
                         });
-
-
-                    
 
                         $(".programfamily-control").chosen({
                             //alert($("#PF").value());
