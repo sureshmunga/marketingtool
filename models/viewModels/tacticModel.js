@@ -145,7 +145,7 @@ module.exports.gettacticall = function (req, res) {
     function (err, results) {
 
         console.log(JSON.stringify(results[0].rows));
-       // res.render('../views/CST/ressss', { tacticlist: results[0].rows });
+
 
         res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
 
