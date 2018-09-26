@@ -23,6 +23,8 @@ var hbs = require('hbs');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var cst = require('./routes/masterCampaignRoute');
+var tactic= require('./routes/tacticRoute');
+
 
 // Init App
 var app = express();
@@ -106,6 +108,7 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/cst', cst);
+app.use('/tactic', tactic);
 
 // Set Port
 app.set('port', (process.env.PORT || 4000));

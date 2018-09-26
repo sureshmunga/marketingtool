@@ -233,6 +233,9 @@ exports.names1 = function (id, callback) {
 }
 
 exports.SecbusinessGroupIns = function (groupname, subcampaign, programID) {
+    return new Promise(function(resolve,reject){
+
+    
     console.log('inside sec business group Insertion' + groupname + 'master campaign id is ' + programID);
 
 
@@ -250,14 +253,19 @@ exports.SecbusinessGroupIns = function (groupname, subcampaign, programID) {
                 // data.send("<h1>" + err + "<h1>")
                 return err;
             } else {
+                resolve(data);
                 console.log("inserted sec business group succesfully" + programID);
             }
         });
     }
+})
 }
 
 
 exports.secbusinessTypeIns = function (btypeName, subcampaign, programID) {
+    return new Promise(function(resolve,reject){
+
+    
     console.log('inside business type Insertion' + btypeName + 'programID is' + programID);
 
     // var statement = select('businesstypeid').from('apps.businesstype').where($in('businesstypename', btypeName)).toParams();
@@ -278,14 +286,19 @@ exports.secbusinessTypeIns = function (btypeName, subcampaign, programID) {
                 //data.send("<h1>" + err + "<h1>")
                 return err;
             } else {
+                resolve(data)
                 console.log("inserted sec business type succesfully" + bTypeID);
             }
         });
     }
+})
 }
 
 
 exports.marketIns = function (marketName, subcampaign, programID) {
+    return new Promise(function(resolve,reject){
+
+    
     console.log('inside market Insertion' + marketName + 'programID is' + programID);
 
     var MarketINS = marketName;
@@ -303,13 +316,18 @@ exports.marketIns = function (marketName, subcampaign, programID) {
                 return err;
             } else {
                 console.log("inserted market succesfully" + MarketID);
+                resolve(data);
             }
         });
     }
+})
 
 }
 
 exports.programssecbusinesslines = function (businessline, subcampaign, programID) {
+    return new Promise(function(resolve,reject){
+
+    
     console.log('inside businessline' + businessline + 'programID is' + programID);
 
     //var statement = select('businesslineid').from('apps.businesslines').where($in('businesslinename', businessline)).toParams();
@@ -329,9 +347,11 @@ exports.programssecbusinesslines = function (businessline, subcampaign, programI
                 return err;
             } else {
                 console.log("inserted BusinessLineId succesfully" + BusinessLineId + dataa);
+                resolve(dataa);
             }
         });
     }
+})
 }
 
 

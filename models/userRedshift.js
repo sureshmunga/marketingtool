@@ -214,151 +214,95 @@ module.exports.createprogramFamilies = function (mastercampaignid, programfamily
 }
 
 
-module.exports.createMasterCampaignData = function (newBuss, res, callback) {
-  console.log('inside create user' + [newBuss.businessgroupname]);
-  const group = newBuss.businessgroupname;
-  var username1 = ['Fixed Networks', 'Global Services'];
-  var segNames1 = newBuss.mcasegmentname;
-  const segName = "" + segNames1 + ""
-  console.log('segName' + segName);
-  const btypeName = newBuss.businesstypename;
-  const bName = "" + btypeName + ""
-  console.log('business type name is with' + bName);
-  var PFamilyName = newBuss.programfamilyname;
-  var PName = "" + PFamilyName + "";
-  console.log('program family name is' + PName);
-  console.log("sdfsafsafsadf" + newBuss.startdate);
-  console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
+module.exports.createMasterCampaignData = function (newBuss, res) {
+  return new Promise(function (resolve, reject) {
 
-  //var masterdigitalid = 'M'+ utilhelpers.getDID(tacticid);
-  var date = new Date();
+    //var res1 = res2;
+    console.log('inside create user' + [newBuss.businessgroupname]);
+    const group = newBuss.businessgroupname;
+    var username1 = ['Fixed Networks', 'Global Services'];
+    var segNames1 = newBuss.mcasegmentname;
+    const segName = "" + segNames1 + ""
+    console.log('segName' + segName);
+    const btypeName = newBuss.businesstypename;
+    const bName = "" + btypeName + ""
+    console.log('business type name is with' + bName);
+    var PFamilyName = newBuss.programfamilyname;
+    var PName = "" + PFamilyName + "";
+    console.log('program family name is' + PName);
+    console.log("sdfsafsafsadf" + newBuss.startdate);
+    console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
 
-  var mastercampaignId;
+    //var masterdigitalid = 'M'+ utilhelpers.getDID(tacticid);
+    var date = new Date();
+
+    var mastercampaignId;
+    var prfamilies;
 
 
-  var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.createdby + "'";
-  redshift.query(SQLStatement, function (err, scopeId) {
-    if (err) {
-      console.log('tactic id error is' + err);
-    } else {
-      console.log('tactic id ' + JSON.stringify(scopeId.rows[0].mastercampaignid));
-      mastercampaignId = scopeId.rows[0].mastercampaignid;
-    }
-    var masterdigitalid = 'M' + utilhelpers.getDID(mastercampaignId);
-    var namconventionn = newBuss.namingConvention + '-' + masterdigitalid;
-    mastercampaign.create({
-      mastercampaignname: newBuss.campaignName, campaigndescription: newBuss.Campaigndescriptiongoals,
-      campaignmanager: newBuss.Campaignmanager, status: newBuss.status, startdate: newBuss.startdate, enddate: newBuss.enddate,
-      namingconvention: namconventionn, mcampaigndigitalid: masterdigitalid, createdby: newBuss.createdby, createddate: date
-    }, function (err, data) {
+    var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.createdby + "'";
+    redshift.query(SQLStatement, function (err, scopeId) {
       if (err) {
-        console.log("error is" + err);
+        console.log('tactic id error is' + err);
       } else {
-        console.log("campaign manager inserted succesfully" + JSON.stringify(data));
-        redshift.query('select max(mastercampaignid)  from apps."mastercampaigns"', function (err, data) {
-          if (err) {
-            console.log('master campaign id error is' + err);
-          } else {
-            console.log("master camapign id is " + JSON.stringify(data.rows[0].max));
-            mastercampaignId111 = JSON.stringify(data.rows[0].max);
+        console.log('tactic id ' + JSON.stringify(scopeId.rows[0].mastercampaignid));
+        mastercampaignId = scopeId.rows[0].mastercampaignid;
+      }
+      var masterdigitalid = 'M' + utilhelpers.getDID(mastercampaignId);
+      var namconventionn = newBuss.namingConvention + '-' + masterdigitalid;
+      mastercampaign.create({
+        mastercampaignname: newBuss.campaignName, campaigndescription: newBuss.Campaigndescriptiongoals,
+        campaignmanager: newBuss.Campaignmanager, status: newBuss.status, startdate: newBuss.startdate, enddate: newBuss.enddate,
+        namingconvention: namconventionn, mcampaigndigitalid: masterdigitalid, createdby: newBuss.createdby, createddate: date
+      }, function (err, data) {
+        if (err) {
+          console.log("error is" + err);
+        } else {
+          console.log("campaign manager inserted succesfully" + JSON.stringify(data));
+          redshift.query('select max(mastercampaignid)  from apps."mastercampaigns"', function (err, data) {
+            if (err) {
+              console.log('master campaign id error is' + err);
+            } else {
+              console.log("master camapign id is " + JSON.stringify(data.rows[0].max));
+              mastercampaignId111 = JSON.stringify(data.rows[0].max);
 
-            SaveDraftMcaSegments(newBuss,mastercampaignId111).then(function(mcass){
-              saveDraftBusinessGroups(newBuss,mastercampaignId111).then(function(bussgg){
-                saveDraftBusinessTypes(newBuss,mastercampaignId111).then(function(bustypess){
-                  saveDraftProgramfamilies(newBuss,mastercampaignId111).then(function(pfamilies){
-                    console.log('saveddddd draft' + JSON.stringify(pfamilies));
+              SaveDraftMcaSegments(newBuss, mastercampaignId111).then(function (mcass) {
+                saveDraftBusinessGroups(newBuss, mastercampaignId111).then(function (bussgg) {
+                  saveDraftBusinessTypes(newBuss, mastercampaignId111).then(function (bustypess) {
+                    saveDraftProgramfamilies(newBuss, mastercampaignId111).then(function (pfamilies) {
+                      console.log('saveddddd draft' + JSON.stringify(pfamilies));
+                      prfamilies = pfamilies
 
+                      if (pfamilies) {
+                        resolve({ "message": "saved succesfully" });
+                        //res.render('../views/CST/savedraft');
+                        console.log('inside ffff');
+
+
+
+                        //res.render('../views/CST/savedraft');
+                      }
+
+                    })
                   })
                 })
               })
-            })  
-            // var busgrpName = "" + newBuss.businessgroupname + "";
-            // console.log("Business Group Name is" + busgrpName);
-            // if (busgrpName.includes(',')) {
-            //   var bssgroupArray = busgrpName.split(',');
-            //   var bGroupName;
-            //   for (var i = 0; i < bssgroupArray.length; i++) {
-            //     bGroupNames = bssgroupArray[i];
-            //     bGroupName = bGroupNames;
-            //     console.log("Businedd Group Name is" + bGroupName);
-            //     bgroupNamins.businessGroupIns(bGroupName, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.businessGroupIns(busgrpName, newBuss, mastercampaignId111);
-            // }
-            // if (bName.includes(',')) {
-            //   console.log("inside business if condition");
-            //   var bNameArray = bName.split(',');
-            //   var bTypeN;
-            //   for (var i = 0; i < bNameArray.length; i++) {
-            //     bTypeNames = bNameArray[i];
-            //     bTypeN = bTypeNames;
-            //     console.log("businesstype Name is" + bTypeN);
-            //     bgroupNamins.businessTypeIns(bTypeN, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.businessTypeIns(bName, newBuss, mastercampaignId111);
-            // }
-            // if (segName.includes(',')) {
-            //   var segNameArray = segName.split(',');
-            //   for (var i = 0; i < segNameArray.length; i++) {
-            //     segNames = segNameArray[i];
-            //     segN = segNames;
-            //     bgroupNamins.mcaSegmentInsertion(segN, newBuss, mastercampaignId111)
-            //   }
-            // } else {
-            //   bgroupNamins.mcaSegmentInsertion(segName, newBuss, mastercampaignId111);
-            // }
-            // if (PName.includes(',')) {
-            //   console.log("inside program families if condition");
-            //   var PNamearray = PName.split(',');
-            //   var PnameF;
-            //   for (var i = 0; i < PNamearray.length; i++) {
-            //     PfamilyNames = PNamearray[i];
-            //     PnameF = PfamilyNames;
-            //     console.log("program Name is" + PnameF);
-            //     bgroupNamins.programFamilyIns(PnameF, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.programFamilyIns(PName, newBuss, mastercampaignId111);
-            // }
 
-            /* redshift.parameterizedQuery('SELECT programfamiliyid FROM apps."programfamilies" WHERE "programfamiliyname" = $1', [newBuss.programfamilyname], { raw: true }, function (err, res) {
-              if (err) {
-  
-              } else {
-                console.log("programfamiliyname is " + JSON.stringify(res));
-                var programfamiliyname = res;
-                console.log('programfamiliyname id is' + programfamiliyname[0].programfamiliyid);
-                programfamilies.create({
-                  mastercampaignid: mastercampaignId, programfamilyid: newBuss.programfamilyid,
-                  clientid: newBuss.clientid
-                }, function (err, data) {
-                  if (err) {
-                    console.log("errors business data is " + err);
-                    //.send("<h1>" + err + "<h1>")
-  
-                    return err;
-                  }
-                  else {
-                    console.log("programfamily data is " + JSON.stringify(data));
-  
-                  }
-                });
-              }
-  
-            }); */
-          }
-        });
-      }
-    });
-  })
+            }
+          });
+        }
+      });
+    })
+    // if(prfamilies){
+    //   res.render('../views/CST/savedraft');
+    // }
+  });
 }
 
 module.exports.createSubcampaign = function (subcampaign, res, callback) {
+  return new Promise(function(resolve,reject){
+
+  
   console.log('insideSUbcampaign' + [subcampaign.totalbudget]);
   var programID;
   var SQLStatement = "SELECT ISNULL(Max(programid),0) as programid from apps.programs";
@@ -392,29 +336,66 @@ module.exports.createSubcampaign = function (subcampaign, res, callback) {
 
             var secbusgrpName = "" + subcampaign.secbusinesgroup + "";
             console.log("Sec Business Group Name is" + secbusgrpName);
-            bgroupNamins.SecbusinessGroupIns(subcampaign.secbusinesgroup, subcampaign, programID);
-            bgroupNamins.secbusinessTypeIns(subcampaign.businesstypeid, subcampaign, programID);
-            //bgroupNamins.marketIns(MarketTypeN, subcampaign, programID);
-            var prMarket = "" + subcampaign.marketname + "";
-            console.log("program market Name is" + prMarket);
-            if (prMarket.includes(',')) {
-              console.log("inside program market if condition");
-              var PmarketArray = prMarket.split(',');
-              var MarketTypeN;
-              for (var i = 0; i < PmarketArray.length; i++) {
-                MarketTypeNames = PmarketArray[i];
-                MarketTypeN = MarketTypeNames;
-                console.log("MarketType Name is" + MarketTypeN);
-                bgroupNamins.marketIns(MarketTypeN, subcampaign, programID);
-              }
-            }
-            else {
-              bgroupNamins.marketIns(prMarket, subcampaign, programID);
-            }
+            bgroupNamins.SecbusinessGroupIns(subcampaign.secbusinesgroup, subcampaign, programID).then(function (secbgroupins) {
+              bgroupNamins.secbusinessTypeIns(subcampaign.businesstypeid, subcampaign, programID).then(function (secbtypeins) {
+                bgroupNamins.programssecbusinesslines(subcampaign.secbusinessline, subcampaign, programID).then(function(busiline){
+                var prMarket = "" + subcampaign.marketname + "";
+                console.log("program market Name is" + prMarket);
+                if (prMarket.includes(',')) {
+                  console.log("inside program market if condition");
+                  var PmarketArray = prMarket.split(',');
+                  var MarketTypeN;
+                  for (var i = 0; i < PmarketArray.length; i++) {
+                    MarketTypeNames = PmarketArray[i];
+                    MarketTypeN = MarketTypeNames;
+                    console.log("MarketType Name is" + MarketTypeN);
+                    bgroupNamins.marketIns(MarketTypeN, subcampaign, programID).then(function (markk) {
+                      // var secBusinessLines = "" + subcampaign.secbusinessline + "";
+                      // console.log("secBusinessLines are" + secBusinessLines);
+                      // bgroupNamins.programssecbusinesslines(subcampaign.secbusinessline, subcampaign, programID).then(function(progdd){
+                       resolve({"message":"saved succesfully"});
+                      // });
 
-            var secBusinessLines = "" + subcampaign.secbusinessline + "";
-            console.log("secBusinessLines are" + secBusinessLines);
-            bgroupNamins.programssecbusinesslines(subcampaign.secbusinessline, subcampaign, programID);
+                    });
+                  }
+                }
+                else {
+                  bgroupNamins.marketIns(prMarket, subcampaign, programID).then(function (markk) {
+                    // var secBusinessLines = "" + subcampaign.secbusinessline + "";
+                    // console.log("secBusinessLines are" + secBusinessLines);
+                    // bgroupNamins.programssecbusinesslines(subcampaign.secbusinessline, subcampaign, programID).then(function(busiline){
+                      resolve({"message":"saved succesfully"});
+                    // });
+
+                  });
+                }
+
+
+              })
+            });
+          });
+
+            //bgroupNamins.marketIns(MarketTypeN, subcampaign, programID);
+            // var prMarket = "" + subcampaign.marketname + "";
+            // console.log("program market Name is" + prMarket);
+            // if (prMarket.includes(',')) {
+            //   console.log("inside program market if condition");
+            //   var PmarketArray = prMarket.split(',');
+            //   var MarketTypeN;
+            //   for (var i = 0; i < PmarketArray.length; i++) {
+            //     MarketTypeNames = PmarketArray[i];
+            //     MarketTypeN = MarketTypeNames;
+            //     console.log("MarketType Name is" + MarketTypeN);
+            //     bgroupNamins.marketIns(MarketTypeN, subcampaign, programID);
+            //   }
+            // }
+            // else {
+            //   bgroupNamins.marketIns(prMarket, subcampaign, programID);
+            // }
+
+            // var secBusinessLines = "" + subcampaign.secbusinessline + "";
+            // console.log("secBusinessLines are" + secBusinessLines);
+            // bgroupNamins.programssecbusinesslines(subcampaign.secbusinessline, subcampaign, programID);
             // if (secBusinessLines.includes(',')) {
             //   console.log("inside secBusinessLines if condition");
             //   var secBusinessArray = secBusinessLines.split(',');
@@ -434,6 +415,7 @@ module.exports.createSubcampaign = function (subcampaign, res, callback) {
         });
       }
     });
+  })
   })
 }
 
@@ -700,7 +682,7 @@ module.exports.UpdateSubcampaign = function (subcampaign, res, callback) {
               updateSecBusinessBusinessType(subcampaign.programId, subcampaign).then(function (secbusinessTypeData) {
                 updateMarkets(subcampaign.programId, subcampaign).then(function (marketData) {
                   resolve({ "messagae": "Saved Successfully" });
-                  res.render('../views/CST/programsavedraft');
+                  res.render('../views/index');
                   console.log('updated sucessfully');
                 })
 
@@ -873,178 +855,109 @@ function updateMarkets(programId, subcampaign) {
 
 
 module.exports.createMasterCampaignSaveDraft = function (newBuss, res, callback) {
-  console.log('inside create user' + [newBuss.businessgroupname]);
-  const group = newBuss.businessgroupname;
-  var username1 = ['Fixed Networks', 'Global Services'];
-  var segNames1 = newBuss.mcasegmentname;
-  const segName = "" + segNames1 + ""
-  console.log('segName' + segName);
-  const btypeName = newBuss.businesstypename;
-  const bName = "" + btypeName + ""
-  console.log('business type name is with' + bName);
-  var PFamilyName = newBuss.programfamilyname;
-  var PName = "" + PFamilyName + "";
-  console.log('program family name is' + PName);
-  console.log("sdfsafsafsadf" + newBuss.startdate);
-  console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
+  return new Promise(function (resolve, reject) {
 
-  //var masterdigitalid = 'M'+ utilhelpers.getDID(tacticid);
-  var date = new Date();
+    console.log('inside create user' + [newBuss.businessgroupname]);
+    const group = newBuss.businessgroupname;
+    var username1 = ['Fixed Networks', 'Global Services'];
+    var segNames1 = newBuss.mcasegmentname;
+    const segName = "" + segNames1 + ""
+    console.log('segName' + segName);
+    const btypeName = newBuss.businesstypename;
+    const bName = "" + btypeName + ""
+    console.log('business type name is with' + bName);
+    var PFamilyName = newBuss.programfamilyname;
+    var PName = "" + PFamilyName + "";
+    console.log('program family name is' + PName);
+    console.log("sdfsafsafsadf" + newBuss.startdate);
+    console.log("sdfsafsafsadf" + newBuss.mcadigitalid);
 
-  var mastercampaignId;
+    //var masterdigitalid = 'M'+ utilhelpers.getDID(tacticid);
+    var date = new Date();
+
+    var mastercampaignId;
 
 
-  var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.user + "'";
-  redshift.query(SQLStatement, function (err, scopeId) {
-    if (err) {
-      console.log('tactic id error is' + err);
-    } else {
-      console.log('tactic id ' + JSON.stringify(scopeId.rows[0].mastercampaignid));
-      mastercampaignId = scopeId.rows[0].mastercampaignid;
-    }
-    var masterdigitalid = 'M' + utilhelpers.getDID(mastercampaignId);
-    var namconventionn = newBuss.namingconvention + '-' + masterdigitalid;
-    mastercampaign.create({
-      mastercampaignname: newBuss.CampaignName, campaigndescription: newBuss.CampaignDescription,
-      campaignmanager: newBuss.CampaignManager, status: newBuss.Status, startdate: newBuss.StartDate, enddate: newBuss.EndDate,
-      namingconvention: namconventionn, mcampaigndigitalid: masterdigitalid, createdby: newBuss.user, createddate: date
-    }, function (err, data) {
+    var SQLStatement = "SELECT ISNULL(Max(mastercampaignid),0) as mastercampaignid from apps.mastercampaigns where createdby='" + newBuss.user + "'";
+    redshift.query(SQLStatement, function (err, scopeId) {
       if (err) {
-        console.log("error is" + err);
+        console.log('tactic id error is' + err);
       } else {
-        console.log("campaign manager inserted succesfully" + JSON.stringify(data));
-        redshift.query('select max(mastercampaignid)  from apps."mastercampaigns"', function (err, data) {
-          if (err) {
-            console.log('master campaign id error is' + err);
-          } else {
-            console.log("master camapign id is " + JSON.stringify(data.rows[0].max));
-            mastercampaignId111 = JSON.stringify(data.rows[0].max);
+        console.log('tactic id ' + JSON.stringify(scopeId.rows[0].mastercampaignid));
+        mastercampaignId = scopeId.rows[0].mastercampaignid;
+      }
+      var masterdigitalid = 'M' + utilhelpers.getDID(mastercampaignId);
+      var namconventionn = newBuss.namingconvention + '-' + masterdigitalid;
+      mastercampaign.create({
+        mastercampaignname: newBuss.CampaignName, campaigndescription: newBuss.CampaignDescription,
+        campaignmanager: newBuss.CampaignManager, status: newBuss.Status, startdate: newBuss.StartDate, enddate: newBuss.EndDate,
+        namingconvention: namconventionn, mcampaigndigitalid: masterdigitalid, createdby: newBuss.user, createddate: date
+      }, function (err, data) {
+        if (err) {
+          console.log("error is" + err);
+        } else {
+          console.log("campaign manager inserted succesfully" + JSON.stringify(data));
+          redshift.query('select max(mastercampaignid)  from apps."mastercampaigns"', function (err, data) {
+            if (err) {
+              console.log('master campaign id error is' + err);
+            } else {
+              console.log("master camapign id is " + JSON.stringify(data.rows[0].max));
+              mastercampaignId111 = JSON.stringify(data.rows[0].max);
 
 
-            // var busgrpName = "" + newBuss.businessgroupname + "";
-            // bgroupNamins.businessGroupIns(bGroupName, newBuss, mastercampaignId111);
-            // console.log("Business Group Name is" + busgrpName);
-            // bgroupNamins.businessTypeIns(bTypeN, newBuss, mastercampaignId111);
-            // bgroupNamins.mcaSegmentInsertion(segN, newBuss, mastercampaignId111)
-            // bgroupNamins.programFamilyIns(PnameF, newBuss, mastercampaignId111);
+              // var busgrpName = "" + newBuss.businessgroupname + "";
+              // bgroupNamins.businessGroupIns(bGroupName, newBuss, mastercampaignId111);
+              // console.log("Business Group Name is" + busgrpName);
+              // bgroupNamins.businessTypeIns(bTypeN, newBuss, mastercampaignId111);
+              // bgroupNamins.mcaSegmentInsertion(segN, newBuss, mastercampaignId111)
+              // bgroupNamins.programFamilyIns(PnameF, newBuss, mastercampaignId111);
 
-            SaveDraftMcaSegments(newBuss,mastercampaignId111).then(function(mcass){
-              saveDraftBusinessGroups(newBuss,mastercampaignId111).then(function(bussgg){
-                saveDraftBusinessTypes(newBuss,mastercampaignId111).then(function(bustypess){
-                  saveDraftProgramfamilies(newBuss,mastercampaignId111).then(function(pfamilies){
-                    console.log('saveddddd draft' + JSON.stringify(pfamilies));
+              SaveDraftMcaSegments(newBuss, mastercampaignId111).then(function (mcass) {
+                saveDraftBusinessGroups(newBuss, mastercampaignId111).then(function (bussgg) {
+                  saveDraftBusinessTypes(newBuss, mastercampaignId111).then(function (bustypess) {
+                    saveDraftProgramfamilies(newBuss, mastercampaignId111).then(function (pfamilies) {
+                      console.log('saveddddd draft' + JSON.stringify(pfamilies));
+                      resolve({ "message": "savedsuccesfully" });
+                      // res.render('../views/CST/savedraft');
 
+
+                    })
                   })
                 })
               })
-            })
-            // if (busgrpName.includes(',')) {
-            //   var bssgroupArray = busgrpName.split(',');
-            //   var bGroupName;
-            //   for (var i = 0; i < bssgroupArray.length; i++) {
-            //     bGroupNames = bssgroupArray[i];
-            //     bGroupName = bGroupNames;
-            //     console.log("Businedd Group Name is" + bGroupName);
-            //     bgroupNamins.businessGroupIns(bGroupName, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.businessGroupIns(busgrpName, newBuss, mastercampaignId111);
-            // }
-            // if (bName.includes(',')) {
-            //   console.log("inside business if condition");
-            //   var bNameArray = bName.split(',');
-            //   var bTypeN;
-            //   for (var i = 0; i < bNameArray.length; i++) {
-            //     bTypeNames = bNameArray[i];
-            //     bTypeN = bTypeNames;
-            //     console.log("businesstype Name is" + bTypeN);
-            //     bgroupNamins.businessTypeIns(bTypeN, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.businessTypeIns(bName, newBuss, mastercampaignId111);
-            // }
-            // if (segName.includes(',')) {
-            //   var segNameArray = segName.split(',');
-            //   for (var i = 0; i < segNameArray.length; i++) {
-            //     segNames = segNameArray[i];
-            //     segN = segNames;
-            //     bgroupNamins.mcaSegmentInsertion(segN, newBuss, mastercampaignId111)
-            //   }
-            // } else {
-            //   bgroupNamins.mcaSegmentInsertion(segName, newBuss, mastercampaignId111);
-            // }
-            // if (PName.includes(',')) {
-            //   console.log("inside program families if condition");
-            //   var PNamearray = PName.split(',');
-            //   var PnameF;
-            //   for (var i = 0; i < PNamearray.length; i++) {
-            //     PfamilyNames = PNamearray[i];
-            //     PnameF = PfamilyNames;
-            //     console.log("program Name is" + PnameF);
-            //     bgroupNamins.programFamilyIns(PnameF, newBuss, mastercampaignId111);
-            //   }
-            // }
-            // else {
-            //   bgroupNamins.programFamilyIns(PName, newBuss, mastercampaignId111);
-            // }
 
-            /* redshift.parameterizedQuery('SELECT programfamiliyid FROM apps."programfamilies" WHERE "programfamiliyname" = $1', [newBuss.programfamilyname], { raw: true }, function (err, res) {
-              if (err) {
-  
-              } else {
-                console.log("programfamiliyname is " + JSON.stringify(res));
-                var programfamiliyname = res;
-                console.log('programfamiliyname id is' + programfamiliyname[0].programfamiliyid);
-                programfamilies.create({
-                  mastercampaignid: mastercampaignId, programfamilyid: newBuss.programfamilyid,
-                  clientid: newBuss.clientid
-                }, function (err, data) {
-                  if (err) {
-                    console.log("errors business data is " + err);
-                    //.send("<h1>" + err + "<h1>")
-  
-                    return err;
-                  }
-                  else {
-                    console.log("programfamily data is " + JSON.stringify(data));
-  
-                  }
-                });
-              }
-  
-            }); */
-          }
-        });
-      }
+            }
+          });
+        }
+
+      })
     });
   })
 }
 
 function SaveDraftMcaSegments(mcasegmentsid, campaignID) {
   return new Promise(function (resolve, reject) {
-    console.log('sfsfsfsfsf'+mcasegmentsid.mcaSegmentId)
+    console.log('sfsfsfsfsf' + mcasegmentsid.mcaSegmentId)
     var mcaSegmentId = [];
-        mcaSegmentId = mcasegmentsid.mcaSegmentId;
-        for (var i = 0; i < mcaSegmentId.length; i++) {
-          var mcaSegmentValue = {
-            mastercampaignid: campaignID,
-            mcasegmentid: mcaSegmentId[i],
-            clientid: '1',
-            createdby: mcasegmentsid.user,
-            createddate: date
-          };
-          mcasegments.create(mcaSegmentValue, function (err, res) {
-            if (err) {
-              console.log("Insertion Error while inserting in save draft mca segments table " + err);
-            } else {
-              console.log("MCA segments save draft inserted successfully " + res);
-              resolve(res);
+    mcaSegmentId = mcasegmentsid.mcaSegmentId;
+    for (var i = 0; i < mcaSegmentId.length; i++) {
+      var mcaSegmentValue = {
+        mastercampaignid: campaignID,
+        mcasegmentid: mcaSegmentId[i],
+        clientid: '1',
+        createdby: mcasegmentsid.user,
+        createddate: date
+      };
+      mcasegments.create(mcaSegmentValue, function (err, res) {
+        if (err) {
+          console.log("Insertion Error while inserting in save draft mca segments table " + err);
+        } else {
+          console.log("MCA segments save draft inserted successfully " + res);
+          resolve(res);
 
-            }
-          });
         }
+      });
+    }
 
     // var sqlsegments = 'delete from apps.mastercampaignsmcasegments where mastercampaignid=' + campaignID;
     // console.log(sqlsegments);
@@ -1080,7 +993,7 @@ function SaveDraftMcaSegments(mcasegmentsid, campaignID) {
 }
 
 function saveDraftProgramfamilies(programfamiliesid, campaignID) {
- // var PFamilyName = newBuss.programfamilyname;
+  // var PFamilyName = newBuss.programfamilyname;
   return new Promise(function (resolve, reject) {
     var programfamilyId = [];
     programfamilyId = programfamiliesid.programFamiliesID;
@@ -1142,25 +1055,25 @@ function saveDraftBusinessTypes(businesstypeID, campaignID) {
   //const btypeName = newBuss.businesstypename;
   return new Promise(function (resolve, reject) {
     var businessTypeId = [];
-        businessTypeId = businesstypeID.businessTypeId;
-        for (var i = 0; i < businessTypeId.length; i++) {
-          var businesstypeValue = {
-            mastercampaignid: campaignID,
-            businesstypeid: businessTypeId[i],
-            clientid: '1',
-            createdby: businesstypeID.user,
-            createddate: date
-          };
-          businesstype.create(businesstypeValue, function (err, res) {
-            if (err) {
-              console.log("Insertion Error while inserting in save draft business type table " + err);
-            } else {
-              console.log("save draft business type succesfully " + res);
-              resolve(res)
+    businessTypeId = businesstypeID.businessTypeId;
+    for (var i = 0; i < businessTypeId.length; i++) {
+      var businesstypeValue = {
+        mastercampaignid: campaignID,
+        businesstypeid: businessTypeId[i],
+        clientid: '1',
+        createdby: businesstypeID.user,
+        createddate: date
+      };
+      businesstype.create(businesstypeValue, function (err, res) {
+        if (err) {
+          console.log("Insertion Error while inserting in save draft business type table " + err);
+        } else {
+          console.log("save draft business type succesfully " + res);
+          resolve(res)
 
-            }
-          });
         }
+      });
+    }
 
 
     // var sqlbusinesstypes = 'delete from apps.mastercampaignsbusinesstype where mastercampaignid=' + campaignID;
@@ -1201,25 +1114,25 @@ function saveDraftBusinessGroups(businessGroupID, campaignID) {
   return new Promise(function (resolve, reject) {
     //var group = newBuss.businessgroupname;
     var businessGroupIds = [];
-        businessGroupIds = businessGroupID.businessGroupID;
-        for (var i = 0; i < businessGroupIds.length; i++) {
-          var businessGroupValue = {
-            mastercampaignid: campaignID,
-            businessgroupid: businessGroupIds[i],
-            clientid: '1',
-            updatedby: businessGroupID.user,
-            updateddate: date
-          };
-          businessgroup.create(businessGroupValue, function (err, res) {
-            if (err) {
-              console.log("Insertion Error while inserting in save draft Business group " + err);
-            } else {
-              console.log("save draft Business group inserted succesfuly " + res);
-              resolve({ "messagae": "Saved Successfully", status: true, campaignid: campaignID });
+    businessGroupIds = businessGroupID.businessGroupID;
+    for (var i = 0; i < businessGroupIds.length; i++) {
+      var businessGroupValue = {
+        mastercampaignid: campaignID,
+        businessgroupid: businessGroupIds[i],
+        clientid: '1',
+        updatedby: businessGroupID.user,
+        updateddate: date
+      };
+      businessgroup.create(businessGroupValue, function (err, res) {
+        if (err) {
+          console.log("Insertion Error while inserting in save draft Business group " + err);
+        } else {
+          console.log("save draft Business group inserted succesfuly " + res);
+          resolve({ "messagae": "Saved Successfully", status: true, campaignid: campaignID });
 
-            }
-          });
         }
+      });
+    }
     // var sqlbusinessGroups = 'delete from apps.mastercampaignsbusinessgroups where mastercampaignid=' + campaignID;
     // console.log(sqlbusinessGroups);
     // redshift.query(sqlbusinessGroups, function (err, scopeId) {

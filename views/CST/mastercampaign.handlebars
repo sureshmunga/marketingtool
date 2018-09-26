@@ -287,8 +287,8 @@
                                 var campaignData = CollectFormData();
                                 campaignData.Status = 'Draft';
                                 $.post('/cst/campaignsavedradt', { data: campaignData }, function (response) {
-                                    alert(response.messagae);
-                                    if (response.status) {
+                                    alert(response.message);
+                                    if (response.message) {
                                         location.href = '/cst/savedraft';
                                     }
                                 });

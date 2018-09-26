@@ -516,11 +516,12 @@
                             $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
                                 if (true) {
                                     var campaignData = CollectFormData();
+                                    var dd = $('#PT').val();
                                     campaignData.Status = 'Draft';
                                     $.post('/cst/subcampaignsavedradt', { data: campaignData }, function (response) {
-                                        alert(response.messagae);
-                                        if (response.status) {
-                                            location.href = '/cst/savedraft';
+                                        alert(response.message);
+                                        if (response.message) {
+                                            location.href = '/cst/subcampaignhandler' + dd;
                                         }
                                     });
                                 }
@@ -552,7 +553,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify(data.mcasegment.length));
+                                        //alert(JSON.stringify(data.mcasegment.length));
                                         //alert(Resdata);
 
                                         //alert('resdata' + ResData);
@@ -650,13 +651,13 @@
                             $(".sec-businessgroupcontrol").on('change', function (event) {
                                 //alert('inside sec business group change');
                                 var val = $("#BGC option:selected").val();
-                                alert('selected businedd groups is ' + val);
+                                //alert('selected businedd groups is ' + val);
                                 var secBusinessgroup = [];
                                 $('#SBG').closest('.form-group').find('ul li.search-choice').each(function () {
                                     secBusinessgroup.push($('#SBG option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
                                 });
 
-                                alert('sec business group dddd' + val + secBusinessgroup);
+                               // alert('sec business group dddd' + val + secBusinessgroup);
                                 var Resdata = '';
 
                                 event.preventDefault();
@@ -669,7 +670,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify(data.leadBu.length));
+                                  //      alert(JSON.stringify(data.leadBu.length));
 
                                         $('#SBL').find("option").remove();
                                         $('#SBL').append('<option value=0>None selected</option>');
@@ -711,7 +712,7 @@
                                         //if (data) {
                                         // alert('Success' + data);
                                         ResData = data;
-                                        alert(JSON.stringify('indusss' + data.leadind.length));
+                                    //    alert(JSON.stringify('indusss' + data.leadind.length));
                                         $('#IT').find("option").remove();
                                         $('#IT').append('<option value=0>None selected</option>');
                                         $.each(data.leadind, function (index, item) {
