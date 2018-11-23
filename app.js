@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var que = require('./models/userRedshift');
 var redshiftClient = require('./redshift.js');
 var redshift = require('./redshift.js');
-var hbs = require('hbs');
+//var hbs = require('hbs');
 
 
 
