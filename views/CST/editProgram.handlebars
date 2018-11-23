@@ -13,10 +13,46 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/css/style4.css"> {{!--
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
-</head>
-{{> common}}
 
-{{!-- <body class="my-registration-page">
+    <style>
+        #globalLoader {
+            position: absolute;
+            top: 0px !important;
+            left: 0px !important;
+            width: 100% !important;
+            height: 180% !important;
+            z-index: 1000;
+            background-color: grey;
+            opacity: .8;
+            overflow: hidden !important;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            top: 250px;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            overflow: hidden !important;
+        }
+
+        .OnLoaderscroll {
+            overflow-y: hidden !important;
+            overflow: hidden !important;
+        }
+
+        .disable-scroll {
+            overflow: hidden !important;
+        }
+    </style>
+</head>
+
+{{> common}} {{!--
+
+<body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -54,7 +90,7 @@
                             <a href="/CST/mastercampaign">Master Campaign</a>
                         </li>
                         <li>
-                            <a href="/CST/program">Program</a>
+                            <a href="/CST/program">program</a>
                         </li>
                         <li>
                             <a href="#">Tactic</a>
@@ -122,7 +158,10 @@
 
 
 
-                                        <form method="post" action="/cst/subcampaignregistration">
+                                        <form method="post" action="/cst/updatesubcampaignregistration">
+                                        <input type='hidden' id="programid" name="programid" required autofocus {{#each programTab}}
+                                                    value={{programid}} {{/each}}>
+                                        
                                             {{!--
                                             <div class="line"></div>
                                             <select class="form-control" id="sel1">
@@ -144,25 +183,28 @@
                                             <div class="form-group required-field">
                                                 <label for="cam">Campaign</label>
                                                 <br>
-                                                <select class="campaign-control" id="CS" name="campaign" required autofocus>
-                                                    {{#each programTab}}
-                                                    <option value={{programid}}>{{programname}}</option>
+                                                <select class="campaign-control" id="CS" name="campaign" style="width:710px" required autofocus>
+                                                    {{#each campaign}}
+                                                    <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
 
+                                            <div class="clear"></div>
+
                                             <div class="form-group required-field">
                                                 <label for="PT">Program Type</label>
                                                 <br>
-                                                <select class="form-control" id="PT"  name="programtype" required autofocus>
+                                                <select class="form-control" id="PT" name="programtype" required autofocus>
                                                     {{#each pfamily}}
-                                                    <option>{{programfamiliyname}}</option>
-                                                    {{!-- <option value="0">-- Select --</option> --}}
-                                                    {{/each}}</select>
+                                                    <option value={{programfamiliyid}}>{{programfamiliyname}}</option>
+                                                    {{!--
+                                                    <option value="0">-- Select Program Type--</option> --}} {{/each}} --}}</select>
 
                                                 </br>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="PN">Program Name</label>
@@ -170,137 +212,157 @@
                                                     {{/each}}>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="PM">Campaign Manager</label>
-                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" required autofocus {{#each programTab}} value={{campaignmanager}}
-                                                    {{/each}}>
+                                                <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" required autofocus{{#each programTab}}
+                                                    value={{campaignmanager}} {{/each}}>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="PDG">Program Desciption & Goals</label>
                                                 <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" required autofocus {{#each programTab}} value={{programdescription}}
                                                     {{/each}}>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="MAR">Markets</label>
                                                 <br>
                                                 <select class="market-control" id="mar" name="market" required multiple="true">
                                                     {{#each markettab}}
-                                                    <option>{{marketname}} </option>
+                                                      <option {{#if isselect}} selected="selected" {{/if}} value={{marketid}}>{{marketname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="SD">start date</label>
                                                 <input id="str" type="date" class="form-control" name="startdate" value="{{startDate}}" required autofocus>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
                                                 <input id="endate" type="date" class="form-control" name="enddate" value="{{endDate}}" required autofocus>
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="MS">MCA segment</label>
                                                 <br>
-                                                <select class="mcasegment-control" id="MSC" name="mcasegment">
+                                                <select class="mcasegment-control" id="MSC" name="mcasegment" style="width:710px">
+                                                    <option value="0">-- Select MCA segment--</option>
                                                     {{#each mcaseg}}
                                                     <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="LBG">Lead Business Groups</label>
                                                 <br>
-                                                <select class="businessgroup-control" id="BGC" name="businessgroup">
+                                                <select class="businessgroup-control" id="BGC" style="width:710px" name="businessgroup">
+                                                    <option value="0">-- Select Business groups--</option>
                                                     {{#each leadbusiness}}
                                                     <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="LBL">Lead Business Line</label>
                                                 <br>
-                                                <select class="businesslinecontrol" id="BL" name="businessline">
+                                                <select class="businesslinecontrol" id="BL" name="businessline" style="width:710px">
+                                                    <option value="0">-- Select Buiness Line--</option>
                                                     {{#each leadbusinesslin}}
                                                     <option value={{businesslineid}}>{{businesslinename}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="SBG">Secondary Business Group</label>
                                                 <br>
-                                                <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true">
+                                                <select class="sec-businessgroupcontrol" id="SBG" name="secbusinesgroup" multiple="true" style="width:710px">
                                                     {{#each secbusinessgro}}
-                                                    <option>{{businessgroupname}}</option>
+                                                    <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="SBL">Secondary BLS</label>
                                                 <br>
-                                                <select class="sec-businessline" id="SBL" name="secbusinessline" multiple="true">
+                                                <select class="sec-businessline" id="SBL" name="secbusinessline" multiple="true" style="width:710px">
                                                     {{#each secbusinessLin}}
-                                                    <option>{{businesslinename}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businesslineid}}>{{businesslinename}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="LBT">Lead Business Type</label>
+
                                                 <br>
-                                                <select class="lead-businesstype" id="LBT" name="leadbusinesstype">
+                                                <select class="lead-businesstype" id="LBT" name="leadbusinesstype" style="width:710px">
+                                                    <option value="0">-- Select Lead Business Type--</option>
                                                     {{#each leadbusinessty}}
                                                     <option value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="LI">Lead Industry</label>
                                                 <br>
-                                                <select class="lead-industrytype" id="IT" name="industrytype">
+                                                <select class="lead-industrytype" id="IT" name="industrytype" style="width:710px">
+                                                    <option value="0">-- Select Industry--</option>
                                                     {{#each industryLead}}
                                                     <option value={{industryid}}>{{industryname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="SBTY">Secondary Business Type</label>
                                                 <br>
-                                                <select class="sec-businesstype" id="SBT" name="secbusinesstype" multiple="true">
+                                                <select class="sec-businesstype" id="SBT" name="secbusinesstype" multiple="true" style="width:710px">
                                                     {{#each secbusinesstyp}}
-                                                    <option>{{businesstypename}}</option>
+                                                    <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
                                             </div>
+                                            <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="TB">Total Budget</label>
-                                                <input id="TB" type="number" class="form-control" name="totalbudget"  required autofocus {{#each programTab}} value={{budget}}
+                                                <input id="TB" type="number" class="form-control" name="totalbudget" required autofocus {{#each programTab}} value={{budget}}
                                                     {{/each}}>
                                             </div>
                                             <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="TS">Total Spend</label>
-                                                <input id="TS" type="number" class="form-control" name="totalspend"  required autofocus {{#each programTab}} value={{spend}}
+                                                <input id="TS" type="number" class="form-control" name="totalspend" required autofocus {{#each programTab}} value={{spend}}
                                                     {{/each}}>
                                             </div>
                                             <div class="clear"></div>
@@ -317,21 +379,17 @@
                                                         <td>
                                                             Marketing Qualified leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLG" required  {{#each programTab}} value={{mqlgoal}}
-                                                    {{/each}}>
+                                                            <input type="number" id="MQLG" style="width: 115px" id="MQLG" name="MQLG" required {{#each programTab}} value={{mqlgoal}} {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLL" required {{#each programTab}} value={{mqllow}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="MQLL" name="MQLL" required {{#each programTab}} value={{mqllow}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="MQLH" required {{#each programTab}} value={{mqlhigh}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="MQLH" name="MQLH" required {{#each programTab}} value={{mqlhigh}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="MQLBM" required {{#each programTab}} value={{mqlsource}}
-                                                    {{/each}}>
+                                                            <input type="text" style="width: 115px" id="MQLBM" name="MQLBM" required {{#each programTab}} value={{mqlsource}} {{/each}}>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -355,21 +413,17 @@
                                                         <td>
                                                             Sales Accepted Leads</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALG" required  {{#each programTab}} value={{salgoal}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="SALG" name="SALG" required {{#each programTab}} value={{salgoal}} {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALL" required  {{#each programTab}} value={{sallow}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="SALL" name="SALL" required {{#each programTab}} value={{sallow}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="SALH" required  {{#each programTab}} value={{salhigh}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="SALH" name="SALH" required {{#each programTab}} value={{salhigh}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="SALB" required  {{#each programTab}} value={{salsource}}
-                                                    {{/each}}>
+                                                            <input type="text" style="width: 115px" id="SALB" name="SALB" required {{#each programTab}} value={{salsource}} {{/each}}>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -392,26 +446,25 @@
                                                         <td>
                                                             Total Pipe Line</td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLG" required  {{#each programTab}} value={{pipelinegoal}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="TPLG" name="TPLG" required {{#each programTab}} value={{pipelinegoal}} {{/each}}>
 
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLL" required  {{#each programTab}} value={{pipelinelow}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="TPLL" name="TPLL" required {{#each programTab}} value={{pipelinelow}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="number" style="width: 115px" name="TPLH" required {{#each programTab}} value={{pipelinehigh}}
-                                                    {{/each}}>
+                                                            <input type="number" style="width: 115px" id="TPLH" name="TPLH" required {{#each programTab}} value={{pipelinehigh}} {{/each}}>
                                                         </td>
                                                         <td style="padding:0 10px 0 10px;">
-                                                            <input type="text" style="width: 115px" name="TPLB" required  {{#each programTab}} value={{pipelinesource}}
-                                                    {{/each}}>
+                                                            <input type="text" style="width: 115px" id="TPLB" name="TPLB" required {{#each programTab}} value={{pipelinesource}} {{/each}}>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="clear"></div>
+
+                                            {{!--
+                                            <button type="submit" class="btn btn-primary btn-block">Submit</button> --}}
 
                                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
                                         </form>
@@ -434,118 +487,364 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
 
-                <link rel="stylesheet" href="/css/choosen.css"> 
-                {{!-- <script>
+                <link rel="stylesheet" href="/css/choosen.css"> {{!--
+                <script>
 
                     function subcampaign() {
                         //alert('in ajax');
                         var val = $("#mar option:selected").val();
                         alert('market values ' + val);
-                </script>  --}}
+                </script> --}}
 
                 <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#PF").outerWidth(155);
-                        $("#BT").outerWidth(155);
-                        $("#BG").outerWidth(155);
-                        $("#MS").outerWidth(155);
-                        $("#PT").outerWidth(710);
-                        $("#mar").outerWidth(156);
-                        $("#MSC").outerWidth(710);
-                        $("#BGC").outerWidth(710);
-                        $("#SBG").outerWidth(156);
-                        $("#BL").outerWidth(710);
-                        $("#SBL").outerWidth(156);
-                        $("#LBT").outerWidth(710);
-                        $("#IT").outerWidth(710);
-                        $("#SBT").outerWidth(156);
-                        $("#CS").outerWidth(710);
+                        $(document).ready(function () {
+                            $('select').chosen().trigger('chosen:updated');
+                            $(".chosen-choices").outerWidth(710);
+                            
 
-                        $('#sidebarCollapse').on('click', function () {
-                            $('#sidebar').toggleClass('active');
-                        });
+                            $('#sidebarCollapse').on('click', function () {
+                                $('#sidebar').toggleClass('active');
+                            });
 
-                        $(".campaign-control").on('change', function (event) {
-                            var val = $("#CS option:selected").val();
-                            //alert(val);
-                            var Resdata = '';
-                            var ele = document.getElementById('PT');
-                            ele.innerHTML =
-                                '<option>' + "Please select value" + '</option>';
-                            //alert('value is' + val);
-                            event.preventDefault();
-                            $.ajax({
-                                type: "GET",
-                                url: 'http://localhost:4000/cst/getprogramtypes' + val,
-                                //data: "value=" + val,        //POST variable name value
-                                success: function (data) {
-                                   // alert('data is '+ data);
-                                    //if (data) {
-                                       // alert('Success' + data);
+                            $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
+                                if (true) {
+                                    var campaignData = CollectFormData();
+                                    var dd = $('#PT').val();
+                                    campaignData.Status = 'Draft';
+                                    $.post('/cst/subcampaignsavedradt', { data: campaignData }, function (response) {
+                                        alert(response.message);
+                                        if (response.message) {
+                                            location.href = '/cst/subcampaignhandler' + dd;
+                                        }
+                                    });
+                                }
+                                else {
+                                    var pos = $(focusId).offset().top;
+                                    $('body, html').animate({ scrollTop: pos - 70 });
+                                }
+                                return false;
+                            });
+
+                            $(".campaign-control").on('change', function (event) {
+                                var val = $("#CS option:selected").val();
+                                //alert(val);
+                                var Resdata = '';
+                                var ele = document.getElementById('PT');
+                                ele.innerHTML =
+                                    '<option>' + "Please select value" + '</option>';
+                                //alert('value is' + val);
+                                var elemsc = document.getElementById('MSC');
+                                elemsc.innerHTML =
+                                    '<option>' + "Please select value" + '</option>';
+                                event.preventDefault();
+                                $.ajax({
+                                    type: "GET",
+                                    url: 'http://localhost:4000/cst/getprogramtypes' + val,
+                                    //data: "value=" + val,        //POST variable name value
+                                    success: function (data) {
+                                        // alert('data is '+ data);
+                                        //if (data) {
+                                        // alert('Success' + data);
                                         ResData = data;
+                                        //alert(JSON.stringify(data.mcasegment.length));
                                         //alert(Resdata);
 
                                         //alert('resdata' + ResData);
                                         //alert(final);programfamiliyid
-                                        var ele = document.getElementById('PT');
-                                        for (var i = 0; i < ResData.length; i++) {
-                                            // POPULATE SELECT ELEMENT WITH JSON.
-                                            ele.innerHTML =
-                                                '<option value="'+ResData[i].programfamiliyid+'">' + ResData[i].programfamiliyname + '</option>';
-                                        }
-                                    //}
-                                    //else {
-                                      //  alert('Fail');
+                                        $('#PT').find("option").remove();
+                                        $('#PT').append('<option value=0>None selected</option>');
+                                        $.each(data.programjob, function (index, item) {
+                                            $('#PT').append('<option value=' + item.programfamiliyid + '>' + item.programfamiliyname + '</option>');
+                                        });
+                                        $('#MSC').find("option").remove();
+                                        $('#MSC').append('<option value=0>None selected</option>');
+                                        $.each(data.mcasegment, function (index, item) {
+                                            $('#MSC').append('<option value=' + item.mcasegmentid + '>' + item.mcasegmentname + '</option>');
+                                        });
+                                        $('#BGC').find("option").remove();
+                                        $('#BGC').append('<option value=0>None selected</option>');
+                                        $.each(data.businessgroup, function (index, item) {
+                                            $('#BGC').append('<option value=' + item.businessgroupid + '>' + item.businessgroupname + '</option>');
+                                        });
+                                        $('#SBG').find("option").remove();
+                                        $('#SBG').append('<option value=0>None selected</option>');
+                                        $.each(data.businessgroup, function (index, item) {
+                                            $('#SBG').append('<option value=' + item.businessgroupid + '>' + item.businessgroupname + '</option>');
+                                        });
+                                        $('#LBT').find("option").remove();
+                                        $('#LBT').append('<option value=0>None selected</option>');
+                                        $.each(data.bustype, function (index, item) {
+                                            $('#LBT').append('<option value=' + item.businesstypeid + '>' + item.businesstypename + '</option>');
+                                        });
+                                        $('#SBT').find("option").remove();
+                                        $('#SBT').append('<option value=0>None selected</option>');
+                                        $.each(data.bustype, function (index, item) {
+                                            $('#SBT').append('<option value=' + item.businesstypeid + '>' + item.businesstypename + '</option>');
+                                        });
 
-                                    //}
-                                }
+                                        $("#str").val(data.startdate);
+                                        $("#endate").val(data.enddate);
+
+                                        //}
+                                        //else {
+                                        //  alert('Fail');
+
+                                        //}
+                                    }
+                                });
                             });
+
+
+                            $(".businessgroup-control").on('change', function (event) {
+                                var val = $("#BGC option:selected").val();
+                                $("#SBG option").removeClass('disabled-result result-selected').prop('disabled', false);
+                                $("#SBG").trigger('chosen:updated');
+                                $("#SBG option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
+                                $("#SBG").trigger('chosen:updated');
+
+
+                                //alert(val);
+                                var Resdata = '';
+
+                                event.preventDefault();
+                                $.ajax({
+                                    type: "GET",
+                                    url: 'http://localhost:4000/cst/getbusinesslines' + val,
+                                    //data: "value=" + val,        //POST variable name value
+                                    success: function (data) {
+                                        // alert('data is '+ data);
+                                        //if (data) {
+                                        // alert('Success' + data);
+                                        ResData = data;
+                                        //      alert(JSON.stringify(data.leadBu.length));
+                                        $('#BL').find("option").remove();
+                                        $('#BL').append('<option value=0>None selected</option>');
+                                        $.each(data.leadBu, function (index, item) {
+                                            $('#BL').append('<option value=' + item.businesslineid + '>' + item.businesslinename + '</option>');
+                                        });
+
+                                        $('#SBL').find("option").remove();
+                                        $('#SBL').append('<option value=0>None selected</option>');
+                                        $.each(data.leadBu, function (index, item) {
+                                            $('#SBL').append('<option value=' + item.businesslineid + '>' + item.businesslinename + '</option>');
+                                        });
+                                        //alert(Resdata);
+
+                                        //alert('resdata' + ResData);
+                                        //alert(final);programfamiliyid
+
+                                        //}
+                                        //else {
+                                        //  alert('Fail');
+
+                                        //}
+                                    }
+                                });
+                            });
+                            $(".sec-businessgroupcontrol").on('change', function (event) {
+                                //alert('inside sec business group change');
+                                var val = $("#BGC option:selected").val();
+                                //alert('selected businedd groups is ' + val);
+                                var secBusinessgroup = [];
+                                $('#SBG').closest('.form-group').find('ul li.search-choice').each(function () {
+                                    secBusinessgroup.push($('#SBG option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                                });
+
+                                // alert('sec business group dddd' + val + secBusinessgroup);
+                                var Resdata = '';
+
+                                event.preventDefault();
+                                $.ajax({
+                                    type: "GET",
+                                    url: 'http://localhost:4000/cst/getbusinesslines' + val + secBusinessgroup,
+                                    //data: "value=" + val,        //POST variable name value
+                                    success: function (data) {
+                                        // alert('data is '+ data);
+                                        //if (data) {
+                                        // alert('Success' + data);
+                                        ResData = data;
+                                        //      alert(JSON.stringify(data.leadBu.length));
+
+                                        $('#SBL').find("option").remove();
+                                        $('#SBL').append('<option value=0>None selected</option>');
+                                        $.each(data.leadBu, function (index, item) {
+                                            $('#SBL').append('<option value=' + item.businesslineid + '>' + item.businesslinename + '</option>');
+                                        });
+                                        //alert(Resdata);
+
+                                        //alert('resdata' + ResData);
+                                        //alert(final);programfamiliyid
+
+                                        //}
+                                        //else {
+                                        //  alert('Fail');
+
+                                        //}
+                                    }
+                                });
+                            });
+
+
+                            $(".lead-businesstype").on('change', function (event) {
+
+                                var val = $("#LBT option:selected").val();
+                                $("#SBT option").removeClass('disabled-result result-selected').prop('disabled', false);
+                                $("#SBT").trigger('chosen:updated');
+                                $("#SBT option[value=" + val + "]").addClass('result-selected').attr('disabled', 'disabled');
+                                $("#SBT").trigger('chosen:updated');
+                                //alert(val);
+                                var Resdata = '';
+
+                                event.preventDefault();
+                                $.ajax({
+                                    type: "GET",
+                                    url: 'http://localhost:4000/cst/getindustry' + val,
+                                    //data: "value=" + val,        //POST variable name value
+                                    success: function (data) {
+                                        // alert('data is '+ data);
+                                        //if (data) {
+                                        // alert('Success' + data);
+                                        ResData = data;
+                                        //    alert(JSON.stringify('indusss' + data.leadind.length));
+                                        $('#IT').find("option").remove();
+                                        $('#IT').append('<option value=0>None selected</option>');
+                                        $.each(data.leadind, function (index, item) {
+                                            $('#IT').append('<option value=' + item.industryid + '>' + item.industryname + '</option>');
+                                        });
+
+                                        //alert(Resdata);
+
+                                        //alert('resdata' + ResData);
+                                        //alert(final);programfamiliyid
+
+                                        //}
+                                        //else {
+                                        //  alert('Fail');
+
+                                        //}
+                                    }
+                                });
+                            });
+
+                            $(".programfamily-control").chosen({
+                                //alert($("#PF").value());
+                                placeholder_text_multiple: "program families"
+                            })
+
+                            $(".sec-businesstype").chosen({
+                                //alert($("#PF").value());
+                                placeholder_text_multiple: "Secondary business types"
+                            })
+
+                            // $(".programfamily-control").chosen().change(function (e, params) {
+                            //   values = $("#PF").chosen().val();
+                            //placeholder_text_multiple: "program families"
+                            //values is an array containing all the results.
+                            // });
+
+
+                            $(".businesstype-control").chosen({
+
+                                placeholder_text_multiple: "Program type names"
+                            })
+
+                            $(".sec-businessgroupcontrol").chosen({
+
+                                placeholder_text_multiple: "Secondary Business Group Names"
+                            })
+
+                            $(".sec-businessline").chosen({
+
+                                placeholder_text_multiple: "Secondary buysiness lines"
+                            })
+
+                            $(".programtype-control").chosen({
+
+                                placeholder_text_multiple: "Program type names"
+                            })
+
+                            $(".market-control").chosen({
+
+                                placeholder_text_multiple: "market names"
+                            })
+
+                            $(document).ajaxStart(function () {
+                                // $("<div id='globalLoader'><div class='loader'></div></div>")
+                                //       .dialog({ modal: true, dialogClass: 'dialogbg' }).show();
+
+                                // $("#IdLoadView").addClass("OnLoaderscroll");
+
+                                // $(".ui-dialog-titlebar").hide();
+                                // $("body").addClass("disable-scroll");
+                            });
+                            $(document).ajaxComplete(function () {
+
+                                // $(".form-control").css({ "height": "auto" });
+                                // $("body").removeClass("disable-scroll");
+                                var config = {
+                                    '.chosen-select': {},
+                                    '.chosen-select-deselect': { allow_single_deselect: true },
+                                    '.chosen-select-no-single': { disable_search_threshold: 10 },
+                                    '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+                                    '.chosen-select-rtl': { rtl: true },
+                                    '.chosen-select-width': { width: '95%' }
+                                }
+                                for (var selector in config) {
+                                    $(selector).chosen(config[selector]);
+                                }
+
+                                $('select').chosen().trigger('chosen:updated');
+                                // $('#globalLoader').remove();
+                                // $("#IdLoadView").removeClass("OnLoaderscroll");
+                            });
+
+
                         });
-                        $(".programfamily-control").chosen({
-                            //alert($("#PF").value());
-                            placeholder_text_multiple: "program families"
-                        })
-
-                        $(".sec-businesstype").chosen({
-                            //alert($("#PF").value());
-                            placeholder_text_multiple: "Secondary business types"
-                        })
-
-                        // $(".programfamily-control").chosen().change(function (e, params) {
-                        //   values = $("#PF").chosen().val();
-                        //placeholder_text_multiple: "program families"
-                        //values is an array containing all the results.
-                        // });
 
 
-                        $(".businesstype-control").chosen({
+                        function CollectFormData() {
+                            var data = {
+                            };
+                            // data.TacticId = $('#tacticid').val();
+                            //data.CampaignId = $('#camID1').val();
+                            data.mastercampaigID = $('#CS').val();
+                            data.programtypeID = $('#PT').val();
+                            data.programName = $('#proName').val();
+                            data.campaignManager = $('#campaignmanager').val();
+                            data.programDesc = $('#prodecgoals').val();
+                            data.markets = $('#mar').val();
+                            data.startDate = $('#str').val();
+                            data.endDate = $('#endate').val();
+                            data.mcaSegment = $('#MSC').val();
+                            data.leadBusinessGroup = $('#BGC').val();
+                            data.leadBusinessLine = $('#BL').val();
+                            data.secBusinessGroup = $('#SBG').val();
+                            data.secBusinessLines = $('#SBL').val();
+                            data.leadBusinessType = $('#LBT').val();
+                            data.LeadIndustry = $('#IT').val();
+                            data.secBusinessType = $('#SBT').val();
+                            data.totalBudget = $('#TB').val();
+                            data.totalSpend = $('#TS').val();
+                            data.MQLG = $('#MQLG').val();
+                            data.MQLL = $('#MQLL').val();
+                            data.MQLH = $('#MQLH').val();
+                            data.MQLBM = $('#MQLBM').val();
+                            data.SALG = $('#SALG').val();
+                            data.SALL = $('#SALL').val();
+                            data.SALH = $('#SALH').val();
+                            data.SALB = $('#SALB').val();
+                            data.TPLG = $('#TPLG').val();
+                            data.TPLL = $('#TPLL').val();
+                            data.TPLH = $('#TPLH').val();
+                            data.TPLB = $('#TPLB').val();
 
-                            placeholder_text_multiple: "Program type names"
-                        })
+                            // data.StartDate = $.datepicker.formatDate('mm/dd/yy', $("#txtStartDate").datepicker("getDate"));
+                            // data.EndDate = $.datepicker.formatDate('mm/dd/yy', $("#txtEndDate").datepicker("getDate"));
 
-                        $(".sec-businessgroupcontrol").chosen({
+                            //data.TacticCampaignReachResponseViewModels = Getmetricreachdata();
 
-                            placeholder_text_multiple: "Secondary Business Group Names"
-                        })
-
-                        $(".sec-businessline").chosen({
-
-                            placeholder_text_multiple: "Secondary buysiness lines"
-                        })
-
-                        $(".programtype-control").chosen({
-
-                            placeholder_text_multiple: "Program type names"
-                        })
-
-                        $(".market-control").chosen({
-
-                            placeholder_text_multiple: "market names"
-                        })
-
-                    });
-
-
+                            return data;
+                        }
 
                 </script>
 </body>

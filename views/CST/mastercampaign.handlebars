@@ -15,41 +15,40 @@
     <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
     <style>
         #globalLoader {
-        position: absolute;
-        top: 0px !important;
-        left: 0px !important;
-        width: 100% !important;
-        height: 180% !important;
-        z-index: 1000;
-        background-color: grey;
-        opacity: .8;
-        overflow: hidden !important;
-    }
+            position: absolute;
+            top: 0px !important;
+            left: 0px !important;
+            width: 100% !important;
+            height: 180% !important;
+            z-index: 1000;
+            background-color: grey;
+            opacity: .8;
+            overflow: hidden !important;
+        }
 
-    .loader {
-        border: 16px solid #f3f3f3;
-        top: 250px;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        overflow: hidden !important;
-    }
-.OnLoaderscroll {
-        overflow-y: hidden !important;
-        overflow: hidden !important;
-    }
+        .loader {
+            border: 16px solid #f3f3f3;
+            top: 250px;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            overflow: hidden !important;
+        }
 
-    .disable-scroll {
-        overflow: hidden !important;
-    }
+        .OnLoaderscroll {
+            overflow-y: hidden !important;
+            overflow: hidden !important;
+        }
+
+        .disable-scroll {
+            overflow: hidden !important;
+        }
     </style>
 </head>
-{{> common}}
-
-{{!--
+{{> common}} {{!--
 
 <body class="my-registration-page">
 
@@ -156,6 +155,7 @@
                                         </div>
 
                                         <form method="post" id='mass' action="/cst/campaignregistration">
+
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
                                                 <input id="campname" type="text" class="form-control" name="CampaignName"
@@ -200,7 +200,7 @@
                                                 <select class="mcasegment-control" id="MS" name="mcasegment" multiple="required"
                                                     required>
                                                     {{#each mcasegment}}
-                                                    <option>{{mcasegmentname}}</option>
+                                                    <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
                                                 </br>
 
@@ -212,7 +212,7 @@
                                                 <select class="businessgroup-control" id="BG" name="businessgroup"
                                                     multiple="required" required autofocus>
                                                     {{#each businessgroups}}
-                                                    <option>{{businessgroupname}}</option>
+                                                    <option value={{businessgroupid}}>{{businessgroupname}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -223,7 +223,7 @@
                                                 <select class="businesstype-control" id="BT" name="businesstype"
                                                     multiple="required" required>
                                                     {{#each businesstype}}
-                                                    <option>{{businesstypename}}</option>
+                                                    <option value={{businesstypeid}}>{{businesstypename}}</option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -234,7 +234,7 @@
                                                 <select class="programfamily-control" id="PF" name="programfamilies"
                                                     multiple="true" style="width: 150px" required>
                                                     {{#each programfamilies}}
-                                                    <option>{{programfamiliyname}} </option>
+                                                    <option value={{programfamiliyid}}>{{programfamiliyname}} </option>
                                                     {{/each}} </select>
                                                 </br>
                                             </div>
@@ -250,10 +250,15 @@
                                                 <input id="endate" type="date" class="form-control" name="enddate"
                                                     value="" required autofocus>
                                             </div>
-                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save
-                                                Draft</button>
+                                            {{!--
+                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
                                             <span></span>
-                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button> --}}
+
+                                            <div class="panel-footer">
+                                                <button id="btnSubmit" id='validateit' type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
+                                            </div>
                                         </form>
                                     </div>
 
@@ -285,6 +290,24 @@
                             $('#sidebar').toggleClass('active');
                         });
 
+                        $(document).on('click', '#btnsaveDraft', function () {//fvalidationonsubmit() === 
+                            if (true) {
+                                var campaignData = CollectFormData();
+                                campaignData.Status = 'Draft';
+                                $.post('/cst/campaignsavedradt', { data: campaignData }, function (response) {
+                                    alert(response.message);
+                                    if (response.message) {
+                                        location.href = '/cst/savedraft';
+                                    }
+                                });
+                            }
+                            else {
+                                var pos = $(focusId).offset().top;
+                                $('body, html').animate({ scrollTop: pos - 70 });
+                            }
+                            return false;
+                        });
+
                         $("#PF").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "program families"
@@ -303,6 +326,23 @@
                             placeholder_text_multiple: "Business type names",
 
                         })
+
+                        //$(".businesstype-control").chosen();
+                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" });
+                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" })
+                        // $("#mass").validate({
+
+                        //rules: {chosen:"required"},
+                        //message: {chosen:"Select a Country"}
+                        //});
+
+
+
+                        // $(".businessgroup-control").chosen({
+
+                        //   placeholder_text_multiple: "Business Group Names"
+                        //})
+
                         $("#BG").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "Business group"
@@ -316,6 +356,42 @@
                         $('#mass').validate({ ignore: ":hidden:not(select)" });
                     });
 
+                    function CollectFormData(){
+                         var data = {
+                        };
+                       // data.TacticId = $('#tacticid').val();
+                        //data.CampaignId = $('#camID1').val();
+                        data.campname = $('#campname').val();
+                        data.campaignManager = $('#cm').val();
+                        data.campaignDesc = $('#Cdg').val();
+                        data.mcaSegment = [];
+                        $('#MS').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.mcaSegment.push($('#MS option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+                        data.businessGroup = [];
+                        $('#BG').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.businessGroup.push($('#BG option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.businessType = [];
+                        $('#BT').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.businessType.push($('#BT option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.programFamilies = [];
+                        $('#PF').closest('.form-group').find('ul li.search-choice').each(function () {
+                            data.programFamilies.push($('#PF option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+                        });
+
+                        data.StartDate = $("#str").val();
+                        data.EndDate = $("#endate").val();
+                        // data.StartDate = $.datepicker.formatDate('mm/dd/yy', $("#txtStartDate").datepicker("getDate"));
+                        // data.EndDate = $.datepicker.formatDate('mm/dd/yy', $("#txtEndDate").datepicker("getDate"));
+
+                                                //data.TacticCampaignReachResponseViewModels = Getmetricreachdata();
+
+                        return data;
+                    }
 
                 </script>
 </body>

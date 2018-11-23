@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var que = require('./models/userRedshift');
 var redshiftClient = require('./redshift.js');
 var redshift = require('./redshift.js');
+var hbs = require('hbs');
 
 
 
@@ -24,6 +25,8 @@ var users = require('./routes/users');
 var cst = require('./routes/masterCampaignRoute');
 var program = require('./routes/programRoute');
 var tactic= require('./routes/tacticRoute');
+
+
 // Init App
 var app = express();
 
@@ -34,10 +37,13 @@ var app = express();
 	});
 }); */
 // View Engine
-app.set('views', path.join(__dirname, 'views'));
-//app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' }));
-app.set('view engine', 'handlebars');
-
+//h.registerPartials(__dirname + '/views/CST/common');
+ app.set('views', path.join(__dirname, 'views'));
+//  app.engine('handlebars', exphbs({ defaultLayout: 'layoutOrig' },
+//  partialsDir  : [
+//   //  path to your partials
+//   __dirname + '/views/partials',
+// ]));
 app.engine('handlebars', exphbs({
   //extname: 'handlebars', 
   defaultLayout: 'layoutOrig', 
@@ -47,67 +53,7 @@ app.engine('handlebars', exphbs({
       __dirname + '/views/partials',
   ]
 }));
-
-
-var hbs = exphbs.create({
-  helpers: {
-      foo: function () { return 'FOO!'; },
-      bar: function () { return 'BAR!'; },
-      if_eq: function(a, opts){ 
-        if(a==true)
-          return opts.fn(this);
-        else
-          return opts.inverse(this);
-      },
-      compare: function (lvalue, operator, rvalue, options) {
-
-          var operators, result;
-      
-          if (arguments.length < 3) {
-              throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-          }
-      
-          if (options === undefined) {
-              options = rvalue;
-              rvalue = operator;
-              operator = "===";
-          }
-      
-          operators = {
-              '==': function (l, r) { return l == r; },
-              '===': function (l, r) { return l === r; },
-              '!=': function (l, r) { return l != r; },
-              '!==': function (l, r) { return l !== r; },
-              '<': function (l, r) { return l < r; },
-              '>': function (l, r) { return l > r; },
-              '<=': function (l, r) { return l <= r; },
-              '>=': function (l, r) { return l >= r; },
-              'typeof': function (l, r) { return typeof l == r; }
-          };
-      
-          if (!operators[operator]) {
-              throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
-          }
-      
-          result = operators[operator](lvalue, rvalue);
-      
-          if (result) {
-              return options.fn(this);
-          } else {
-              return options.inverse(this);
-          }
-      
-      }
-  }
-});
-
-
-// hbs.registerHelper('if_eq', function(a, b, opts) {
-//   if(a == b)
-//       return opts.fn(this);
-//   else
-//       return opts.inverse(this);
-// });
+ app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -156,7 +102,6 @@ app.use(function (req, res, next) {
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
   next();
-
 });
 
 
@@ -166,6 +111,7 @@ app.use('/users', users);
 app.use('/cst', cst);
 app.use('/program', program);
 app.use('/tactic', tactic);
+
 // Set Port
 app.set('port', (process.env.PORT || 4000));
 

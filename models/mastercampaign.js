@@ -30,6 +30,9 @@ var mastercampaign = {
 		},
 		createdby:{
 			type: String
+		},
+		createddate:{
+			type: Date
 		}
 	}
 };

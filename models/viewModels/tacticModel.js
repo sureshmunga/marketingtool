@@ -12,6 +12,7 @@ var programFamilySelect = sql.select();
 var utilhelpers = require("../utilhelper.js")
 
 module.exports.gettactic = function (req, res) {
+    console.log('isss');
     //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
@@ -134,17 +135,20 @@ module.exports.gettacticbyid = function (tacticid, res) {
 };
 
 module.exports.gettacticall = function (req, res) {
+    console.log('insidee');
     async.parallel([
       function (callback) { 
           redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
         }  
     ], 
+   
     function (err, results) {
         for(var i = 0; i < results[0].rows.length; i++){
             results[0].rows[i].startdate = new Date(results[0].rows[i].startdate).toDateString();
             results[0].rows[i].enddate = new Date(results[0].rows[i].enddate).toDateString(); 
           }
         res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
+
     });
 };
 
