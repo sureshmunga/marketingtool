@@ -49,7 +49,9 @@
 </head>
 {{> common}}
 
-{{!-- <body class="my-registration-page">
+{{!--
+
+<body class="my-registration-page">
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
@@ -153,19 +155,20 @@
                                         <div class="navbar-header">
                                         </div>
 
-
-
                                         <form method="post" id='mass' action="/cst/campaignregistration">
                                             <div class="form-group required-field">
                                                 <label for="CN">Campaign Name</label>
-                                                <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus>
+                                                <input id="campname" type="text" class="form-control" name="CampaignName"
+                                                    required autofocus>
                                             </div>
                                             <div class="clear"></div>
 
                                             <div class="form-group required-field">
                                                 <label for="CM">Campaign Manager</label>
-                                                <input id="cm" type="email" class="form-control" name="Campaignmanager" value="" required autofocus> {{!--
-                                                <input id="CM" type="text" class="form-control" name="Campaign Manager" value="" required autofocus> --}}
+                                                <input id="cm" type="email" class="form-control" name="Campaignmanager"
+                                                    value="" required autofocus> {{!--
+                                                <input id="CM" type="text" class="form-control" name="Campaign Manager"
+                                                    value="" required autofocus> --}}
                                             </div>
 
 
@@ -187,13 +190,15 @@
                                             </table> --}}
                                             <div class="form-group required-field">
                                                 <label for="CG">Campaign Description & Goals</label>
-                                                <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals" value="" required autofocus>
+                                                <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals"
+                                                    value="" required autofocus>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="MS">MCA segment</label>
                                                 <br>
-                                                <select class="mcasegment-control" id="MS" name="mcasegment" multiple="required" required>
+                                                <select class="mcasegment-control" id="MS" name="mcasegment" multiple="required"
+                                                    required>
                                                     {{#each mcasegment}}
                                                     <option>{{mcasegmentname}}</option>
                                                     {{/each}} </select>
@@ -204,7 +209,8 @@
                                             <div class="form-group required-field">
                                                 <label for="BG">Business Group</label>
                                                 <br>
-                                                <select class="businessgroup-control" id="BG" name="businessgroup" multiple="required" required autofocus>
+                                                <select class="businessgroup-control" id="BG" name="businessgroup"
+                                                    multiple="required" required autofocus>
                                                     {{#each businessgroups}}
                                                     <option>{{businessgroupname}}</option>
                                                     {{/each}} </select>
@@ -214,7 +220,8 @@
                                             <div class="form-group required-field">
                                                 <label for="BT">Business Type</label>
                                                 <br>
-                                                <select class="businesstype-control" id="BT" name="businesstype" multiple="required" required>
+                                                <select class="businesstype-control" id="BT" name="businesstype"
+                                                    multiple="required" required>
                                                     {{#each businesstype}}
                                                     <option>{{businesstypename}}</option>
                                                     {{/each}} </select>
@@ -224,7 +231,8 @@
                                             <div class="form-group required-field">
                                                 <label for="PF">Program families</label>
                                                 <br>
-                                                <select class="programfamily-control" id="PF" name="programfamilies" multiple="true" style="width: 150px" required>
+                                                <select class="programfamily-control" id="PF" name="programfamilies"
+                                                    multiple="true" style="width: 150px" required>
                                                     {{#each programfamilies}}
                                                     <option>{{programfamiliyname}} </option>
                                                     {{/each}} </select>
@@ -233,14 +241,17 @@
 
                                             <div class="form-group required-field">
                                                 <label for="SD">start date</label>
-                                                <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+                                                <input id="str" type="date" class="form-control" name="startdate" value=""
+                                                    required autofocus>
                                             </div>
 
                                             <div class="form-group required-field">
                                                 <label for="ED">End date</label>
-                                                <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+                                                <input id="endate" type="date" class="form-control" name="enddate"
+                                                    value="" required autofocus>
                                             </div>
-                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save Draft</button>
+                                            <button type="submit" id='validateit' class="btn btn-primary btn-block">Save
+                                                Draft</button>
                                             <span></span>
                                             <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='/cst/savedraft'">Submit</button>
                                         </form>
@@ -278,8 +289,8 @@
                             //alert($("#PF").value());
                             placeholder_text_multiple: "program families"
                         })
-                        
-                        
+
+
 
                         // $(".programfamily-control").chosen().change(function (e, params) {
                         //   values = $("#PF").chosen().val();
@@ -289,28 +300,10 @@
 
 
                         $(".businesstype-control").chosen({
-
                             placeholder_text_multiple: "Business type names",
-                            
+
                         })
-
-                        //$(".businesstype-control").chosen();
-                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" });
-                        // $.validator.setDefaults({ ignore: ":hidden:not(select)" })
-                        // $("#mass").validate({
-
-                        //rules: {chosen:"required"},
-                        //message: {chosen:"Select a Country"}
-                        //});
-
-
-
-                       // $(".businessgroup-control").chosen({
-
-                         //   placeholder_text_multiple: "Business Group Names"
-                        //})
-
-                         $("#BG").chosen({
+                        $("#BG").chosen({
                             //alert($("#PF").value());
                             placeholder_text_multiple: "Business group"
                         })

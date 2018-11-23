@@ -133,18 +133,20 @@ module.exports.gettacticbyid = function (tacticid, res) {
     });
 };
 
-module.exports.gettacticall = function (req, res) {
+module.exports.getprogramall = function (req, res) {
     async.parallel([
       function (callback) { 
-          redshift.query('SELECT tacticid,tacticname,status,createdby,startdate,enddate,tcampaigndigitalid from apps.tactic', callback) 
+          var SQLQuery = 'SELECT programid,programname,programdescription,campaignmanager,status,'
+          +' startdate,enddate,programdigitalid,createdby from apps.programs where isactive=1';
+          redshift.query(SQLQuery, callback) 
         }  
     ], 
     function (err, results) {
-        for(var i = 0; i < results[0].rows.length; i++){
+        for (var i = 0; i < results[0].rows.length; i++) {
             results[0].rows[i].startdate = new Date(results[0].rows[i].startdate).toDateString();
-            results[0].rows[i].enddate = new Date(results[0].rows[i].enddate).toDateString(); 
+            results[0].rows[i].enddate = new Date(results[0].rows[i].enddate).toDateString();
           }
-        res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
+        res.render('../views/cst/programlist', { programlist: results[0].rows });
     });
 };
 

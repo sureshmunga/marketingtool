@@ -48,52 +48,56 @@
     }
     </style>
 </head>
-{{>common}}
-<body  class="my-registration-page">
+{{> common}}
+<body class="my-registration-page">
     <div class="wrapper">
-        
-        <!-- Page Content start Holder -->
+       <!-- Page Content start Holder -->
         <section class="h-100">
             <div class="row justify-content-md-center h-100">
                 <div class="card-wrapper">
                     <div class="card fat">
                         <div class="card-body">
-
                             <div id="content">
                                 <nav class="navbar navbar-default">
                                     <div class="container-fluid">
-                                        <h2> Tactic </h2>
+                                        <h2> Campaign </h2>
                                         <div class="navbar-header">
                                         </div>
-                                        <form id="frmTactilist">
-                                            <a id="btnCreateNew" href="/tactic/tactic" class="btn btn-primary align-left">
+                                        <form id="frmcampaignlist">
+                                            <a id="btnCreateNew" href="/cst/mastercampaign" class="btn btn-primary align-left">
                                                 Create New
                                             </a>
-                                            <table class="table table-border col-lg-6" align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
+                                            <table align='center' class="table table-border col-lg-6" cellspacing=2 cellpadding=5 id="data_table" border=1>
                                                 <tr>
                                                     <th>
-                                                       Campaign Id 
+                                                        Campaign Id
                                                     </th>
-                                                    <th>Tactic</th>
-                                                    <th>Status</th>
-                                                    <th>Creator</th>
+                                                    <th>campaign</th>
+                                                    <th>Manager's email</th>
+                                                    <th>Description</th>                                                    
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
+                                                    <th>Status</th>
+                                                    <th>Creator</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                {{#each tacticlist}}
+                                                {{#each campaignlist}}
                                                 <tr>
-                                                    <td>{{tcampaigndigitalid}}</td>
-                                                    <td>{{tacticname}}</td>
-                                                    <td>{{status}}</td>
-                                                    <td>{{createdby}}</td>
+                                                    <td>{{campaignid}}</td>
+                                                    <td>{{campaignname}}</td>
+                                                    <td>{{manageremail}}</td>
+                                                    <td>{{Description}}</td>
                                                     <td>{{startdate}}</td>
                                                     <td>{{enddatae}}</td>
+                                                    <td>{{status}}</td>
+                                                    <td>{{createdby}}</td>
                                                     <td>
-                                                        <a href="#" title="Hide" campaignId={{tacticid}} class="btn-primary" value="Cancel" >Cancel</a>
+                                                        <a href="#" title="Hide" campaignId={{campaignid}} class="btn-primary"
+                                                            value="Cancel">Cancel</a>
                                                         |
-                                                        <a href="/tactic/tactic/{{tacticid}}" title="Hide" campaignId={{tacticid}} class="btn-primary" value="Edit" >Edit</a>
-                                                    </td>                                                    
+                                                        <a href="/cst/mastercampaign/{{id}}" title="Hide" campaignId={{campaignid}}
+                                                            class="btn-primary" value="Edit">Edit</a>
+                                                    </td>
                                                 </tr>
                                                 {{/each}}
                                             </table>
@@ -108,15 +112,16 @@
         </section>
     </div>
     <!-- jQuery CDN -->
-                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
-                </script>
-                <!-- Bootstrap Js CDN -->
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+    </script>
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
 
-                <link rel="stylesheet" href="/css/choosen.css"> 
-                <script src="/script/tacticform.js"></script>
+    <link rel="stylesheet" href="/css/choosen.css">
+    <script src="/script/campignform.js"></script>
 </body>
+
 </html>

@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 router.get('/mastercampaign', masterCampaign.getMasterCampaignList);
 router.get('/subcampaign', subcampaign.subcampaign1);
-router.get('/savedraft', masterCampaign.masterCampaignsaveDraft);
+router.get('/campaignlist', masterCampaign.campaignlist);
 router.get('/program',subcampaign.getPrograme);
 
 router.get('/getprogramtypes:id', function (req, res) {

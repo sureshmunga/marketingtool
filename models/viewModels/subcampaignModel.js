@@ -69,6 +69,7 @@ module.exports.getPrograme = function (req, res) {
   ], function (err, results) {
     console.log(JSON.stringify(results[0].rows));
 
+    
     res.render('../views/CST/programsavedraft', { program: results[0].rows });
   });
 }
