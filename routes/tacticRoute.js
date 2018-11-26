@@ -14,7 +14,6 @@ var app = express();
 router.get('/tactic', tacticModel.gettactic);
 
 router.get('/tactic:id', tacticModel.gettacticbyid);
-router.get('/ressss',tacticModel.gettacticall);
 
 router.get('/tactic/:id', function(req, res){
     tacticModel.gettacticbyid(req.params.id,res);

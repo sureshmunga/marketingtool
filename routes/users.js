@@ -7,12 +7,12 @@ var User = require('../models/userRedshift');
 
 // Register
 router.get('/register', function (req, res) {
-	res.render('register');
+	res.render('register', {layout: false});
 });
 
 // Login
 router.get('/login', function (req, res) {
-	res.render('login');
+	res.render('login', {layout: false});
 });
 
 
@@ -39,8 +39,7 @@ router.post('/register', function (req, res) {
 		res.render('register', {
 			errors: errors
 		});
-	}
-	else {
+	} else {
 		//checking for email and username are already taken
 		//		User.findOne({ username: {
 		//			"$regex": "^" + username + "\\b", "$options": "i"
@@ -64,7 +63,9 @@ router.post('/register', function (req, res) {
 		User.createUser(newUser, res, function (err, user) {
 			if (err) {
 				console.log('out side error');
-				res.writeHead(500, { 'contet-type': 'text/html' });
+				res.writeHead(500, {
+					'contet-type': 'text/html'
+				});
 				res.send('<h1>Error Connecting data<h1>');
 			} else {
 				//	console.log(user);
@@ -86,7 +87,9 @@ passport.use(new LocalStrategy(
 			if (err) throw err;
 			//		console.log('inside');
 			if (!userlength) {
-				return done(null, false, { message: 'Unknown User' });
+				return done(null, false, {
+					message: 'Unknown User'
+				});
 			}
 			//  console.log(password);
 			//console.log(User.password);
@@ -95,7 +98,9 @@ passport.use(new LocalStrategy(
 				if (isMatch) {
 					return done(null, username);
 				} else {
-					return done(null, false, { message: 'Invalid password' });
+					return done(null, false, {
+						message: 'Invalid password'
+					});
 				}
 			});
 		});
@@ -116,7 +121,11 @@ passport.deserializeUser(function (username, done) {
 });
 
 router.post('/login',
-	passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }),
+	passport.authenticate('local', {
+		successRedirect: '/',
+		failureRedirect: '/users/login',
+		failureFlash: true
+	}),
 	function (req, res) {
 		console.log('redirect');
 		res.redirect('/');

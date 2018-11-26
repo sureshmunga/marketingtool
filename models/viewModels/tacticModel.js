@@ -9,11 +9,9 @@ var businesstypeselect = sql.select();
 var tacticviewmodel = redshift.import('./models/tactic.js');
 var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
-var utilhelpers = require("../utilhelper.js")
+var utilhelpers = require("../utilhelper.js");
 
 module.exports.gettactic = function (req, res) {
-    console.log('isss');
-    //console.log('User Login '+ login.username);
     async.parallel([
       function (callback) { 
           redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
@@ -143,9 +141,11 @@ module.exports.gettacticall = function (req, res) {
     ], 
    
     function (err, results) {
-        for(var i = 0; i < results[0].rows.length; i++){
-            results[0].rows[i].startdate = new Date(results[0].rows[i].startdate).toDateString();
-            results[0].rows[i].enddate = new Date(results[0].rows[i].enddate).toDateString(); 
+        for (var i = 0; i < results[0].rows.length; i++) {
+            var sd = new Date(results[0].rows[i].startdate);   
+            var ed =   new Date(results[0].rows[i].enddate);
+            results[0].rows[i].startdate = sd.getMonth() + '-' +sd.getDate() + '-'+ sd.getFullYear();
+            results[0].rows[i].enddate = ed.getMonth() + '-' + ed.getDate() + '-'+ ed.getFullYear();
           }
         res.render('../views/CST/tacticlist', { tacticlist: results[0].rows });
 

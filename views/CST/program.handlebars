@@ -1,0 +1,231 @@
+<form method="post" action="/cst/subcampaignregistration">
+<ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">CST</a></li>
+        <li class="breadcrumb-item active">Program</li>
+    </ol>
+    <div class="form-group required-field">
+        <label for="cam">Campaign</label>
+        <select class="form-control" id="CS" name="campaign" required autofocus>
+            <option value="0">--Select Campaign--</option>
+            {{#each campaign}}
+            <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
+            {{/each}} </select>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="PT">Program Type</label>
+        <select class="form-control" id="PT" name="programtype" required autofocus>
+            {{#each pfamily}}
+            <option value={{programfamiliyid}}>{{programfamiliyname}}</option>
+            {{/each}}</select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="PN">Program Name</label>
+        <input id="proName" type="text" class="form-control" name="programname" value="" required autofocus>
+
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="PM">Campaign Manager</label>
+        <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="PDG">Program Desciption & Goals</label>
+        <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="MAR">Markets</label>
+        <select class="form-control" id="mar" name="market" multiple="true">
+            {{#each market}}
+            <option value={{marketid}}>{{marketname}} </option>
+            {{/each}} </select>
+        <br>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="SD">start date</label>
+        <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="ED">End date</label>
+        <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="MS">MCA segment</label>
+        <select class="form-control" id="MSC" name="mcasegment">
+            <option value="0">-- Select MCA segment--</option>
+            {{#each mcasegment}}
+            <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="LBG">Lead Business Groups</label>
+        <select class="form-control" id="BGC" name="businessgroup">
+            <option value="0">-- Select Business groups--</option>
+            {{#each businessgroups}}
+            <option value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="LBL">Lead Business Line</label>
+        <select class="form-control" id="BL" name="businessline">
+            <option value="0">-- Select Buiness Line--</option>
+            {{#each businessline}}
+            <option value={{businesslineid}}>{{businesslinename}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="SBG">Secondary Business Group</label>
+        <select class="form-control" id="SBG" name="secbusinesgroup" multiple="true">
+            {{#each businessgroups}}
+            <option value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{/each}} </select><br>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="SBL">Secondary BLS</label>
+        <select class="form-control" id="SBL" name="secbusinessline" multiple="true">
+            {{#each businessline}}
+            <option value={{businesslineid}}>{{businesslinename}}</option>
+            {{/each}} </select><br>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="LBT">Lead Business Type</label>
+        <select class="from-control" id="LBT" name="leadbusinesstype">
+            <option value="0">-- Select Lead Business Type--</option>
+            {{#each businesstype}}
+            <option value={{businesstypeid}}>{{businesstypename}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="LI">Lead Industry</label>
+        <select class="form-control" id="IT" name="industrytype">
+            <option value="0">-- Select Industry--</option>
+            {{#each industry}}
+            <option value={{industryid}}>{{industryname}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="SBTY">Secondary Business Type</label>
+        <select class="form-control" id="SBT" name="secbusinesstype" multiple="true">
+            {{#each businesstype}}
+            <option value={{businesstypeid}}>{{businesstypename}}</option>
+            {{/each}} </select><br>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="TB">Total Budget</label>
+        <input id="TB" type="number" class="form-control" name="totalbudget" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="TS">Total Spend</label>
+        <input id="TS" type="number" class="form-control" name="totalspend" value="" required autofocus>
+    </div>
+    <div class="clear"></div>
+
+    <div class="row form-group">
+        <div class="col-lg-12">
+            <center>Bechmark</center>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="row form-group">
+        <div class="col-lg-3">
+            Marketing Qualified leads
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="row form-group">
+        <div class="col-lg-3">
+            Sales Accepted Lead
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="row form-group">
+        <div class="col-lg-3">
+            Total Pipelines
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+        </div>
+    </div>
+    <div class="clear"></div>
+
+
+    <div class="clear"></div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
+</form>
+<script src="/script/programform.js"></script>

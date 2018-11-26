@@ -1,509 +1,335 @@
-<!DOCTYPE html>
-<html>
+<form method="post" action="/tactic/tacticsave">
+<ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">CST</a></li>
+        <li class="breadcrumb-item active">Tactic</li>
+    </ol>
+    <input type="hidden" id="tacticid" value={{tactic.tacticid}}>
+    <!--Select Campaign here-->
+    <div class="form-group required-field">
+        <label for="CN">Campaign {{tactic.mastercampaignid}}</label>
+        <hidden id="span" value={{tactic.mastercampaignid}}></hidden>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <select class="form-control" id="drpCampaign" name="campaign" autofocus>
+            <option value="0">--Select Campaign--</option>
+            {{#each campaign}} {{!--
+            <option {{if this tactic.mastercampaignid}} value={{mastercampaignid}}>{{mastercampaignname}}</option> --}}
+            {{#if isselect}}
+            <option selected="selected" value={{mastercampaignid}}>{{mastercampaignname}}</option>
+            {{else}}
+            <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
+            {{/if}} {{/each}}
 
-    <!--  <title>Collapsible sidebar using Bootstrap 3</title> -->
+        </select>
+    </div>
+    <!--Select Program here-->
+    <div class="required-field">
+        <label for="PG">Program</label>
+        <select class="form-control" id="drpProgram" name="program" autofocus>
+            <option value="0">--Select Program--</option>
 
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/css/style4.css"> {{!--
-    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
+            {{#each program}} {{#if isselect}}
+            <option selected="selected" value={{programid}}>{{programname}}</option>
+            {{else}}
+            <option value={{programid}}>{{programname}}</option>
+            {{/if}} {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
 
-    <style>
-        #globalLoader {
-            position: absolute;
-            top: 0px !important;
-            left: 0px !important;
-            width: 100% !important;
-            height: 180% !important;
-            z-index: 1000;
-            background-color: grey;
-            opacity: .8;
-            overflow: hidden !important;
-        }
+    <!--Select Pgogram JOB here-->
+    <div class="form-group required-field">
+        <label for="JB">Job</label>
+        <select class="form-control" id="drpProgramJob" name="JOB" autofocus>
+            <option value="0">--Select Job--</option>
 
-        .loader {
-            border: 16px solid #f3f3f3;
-            top: 250px;
-            border-radius: 50%;
-            border-top: 16px solid #3498db;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
-            overflow: hidden !important;
-        }
+            {{#each programjob}} {{#if isselect}}
+            <option selected="selected" value={{ProgramJobId}}>{{pfamilyjobname}}</option>
+            {{else}}
+            <option value={{ProgramJobId}}>{{pfamilyjobname}}</option>
+            {{/if}} {{/each}}
+        </select>
+    </div>
+    <div class="clear"></div>
 
-        .OnLoaderscroll {
-            overflow-y: hidden !important;
-            overflow: hidden !important;
-        }
+    <!--Select Tactic Type here-->
+    <div class="form-group required-field">
+        <label for="TT">Tactic Type</label>
+        <select class="form-control" id="drpTacticType" name="TacticType" autofocus>
+            <option value="0">--Select Tactic Type--</option>
 
-        .disable-scroll {
-            overflow: hidden !important;
-        }
-    </style>
-</head>
-<<<<<<< HEAD
+            {{#each tactictype}} {{#if isselect}}
+            <option selected="selected" value={{tactictypeId}}>{{tactictypeName}}</option>
+            {{else}}
+            <option value={{tactictypeId}}>{{tactictypeName}}</option>
+            {{/if}} {{/each}}
+        </select>
+    </div>
 
-<body class="my-registration-page">
+    <!--Enter Tactic Name here-->
+    <div class="form-group">
+        <label for="TN">Tactic Name</label>
 
-=======
-<body  class="my-registration-page">
-    
->>>>>>> c22cbe5d8e7372be5c6cc475d27fd7a257526347
-    <div class="wrapper">
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Marketing Measurement & Management</h3>
-                <strong>M3</strong>
-            </div>
+        <input id="txtTacticName" type="text" class="form-control" name="tacticName" autofocus value={{tactic.tacticname}}>
 
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
-                        <i class="glyphicon glyphicon-home"></i>
-                        How to Use
-                    </a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">CST</a>
-                        </li>
-                        <li>
-                            <a href="#">DISCOVER/AAE</a>
-                        </li>
-                        <li>
-                            <a href="#">Adhoc</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
-                        <i class="glyphicon glyphicon-duplicate"></i>
-                        CST
-                    </a>
-                    <ul class="list-unstyled components" id="pageSubmenu">
-                        <li>
-                            <a href="/cst/savedraft"> Master Campaign</a>
-                        </li>
-                        <li>
-                            <a href="/cst/program">Program</a>
-                        </li>
-                        <li>
-                            <a href="/tactic/tlist">Tactic</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-duplicate"></i>
-                        DISCOVER/AAE
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-link"></i>
-                        ADMIN
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-paperclip"></i>
-                        FAQ
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-send"></i>
-                        Contact
-                    </a>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-briefcase"></i>
-                        About
-                    </a>
-                </li>
-            </ul>
+    </div>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
-        </nav>
-        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-            <i class="glyphicon glyphicon-align-left"></i>
-            <span></span>
-        </button>
-        <!-- Page Content start Holder -->
-        <section class="h-100">
-            <div class="row justify-content-md-center h-100">
-                <div class="card-wrapper">
-                    <div class="card fat">
-                        <div class="card-body">
+    <!--Enter Tactic Description & Goal here-->
+    <div class="form-group required-field">
+        <label for="DG">Description & Goal</label>
+        <textarea id="txtDescription" type="text" class="form-control" name="DescriptionName" autofocus>{{tactic.tacticdescription}}</textarea>
 
-                            <div id="content">
-                                <nav class="navbar navbar-default">
-                                    <div class="container-fluid">
-                                        <h2> Tactic </h2>
-                                        <div class="navbar-header">
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <form method="post" action="/tactic/tacticsave">
-                                                    <input type="hidden" id="tacticid" value={{tactic.tacticid}}>
-                                                    <!--Select Campaign here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="CN">Campaign {{tactic.mastercampaignid}}</label>
-                                                        <hidden id="span" value={{tactic.mastercampaignid}}></hidden>
+    </div>
 
-                                                        <select class="form-control" id="drpCampaign" name="campaign" autofocus>
-                                                            <option value="0">--Select Campaign--</option>
-                                                            {{#each campaign}} {{!--
-                                                            <option {{if this tactic.mastercampaignid}}
-                                                                value={{mastercampaignid}}>{{mastercampaignname}}</option> --}} {{#if isselect}}
-                                                            <option selected="selected" value={{mastercampaignid}}>{{mastercampaignname}}</option>
-                                                            {{else}}
-                                                            <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
-                                                            {{/if}} {{/each}}
+    <!--Select MCA Segment here-->
+    <div class="form-group required-field">
+        <label for="MS">MCA Segment</label>
+        <select class="form-control" id="drpMCASegment" name="MCASegment" autofocus>
+            <option value="0">--Select MCA Segment--</option>
 
-                                                        </select>
-                                                        </br>
+            {{#each MCASegment}} {{#if isselect}}
+            <option selected="selected" value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            {{else}}
+            <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            {{/if}} {{/each}}
+        </select>
+    </div>
 
-                                                    </div>
-                                                    <div class="clear"></div>
+    <!--Select Markets here-->
+    <div class="form-group required-field">
+        <label for="MAR">Markets</label>
+        <select class="chosen-select  form-control" id="lstMarkets" name="Markets" multiple="true">
+            {{#each market}}
 
-                                                    <!--Select Program here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="PG">Program</label>
-                                                        <select class="form-control" id="drpProgram" name="program" autofocus>
-                                                            <option value="0">--Select Program--</option>
+            <option {{#if isselect}} selected="selected" {{/if}} value={{marketid}}>{{marketname}}</option>
+            {{/each}} </select><br>
+    </div>
 
-                                                            {{#each program}} {{#if isselect}}
-                                                            <option selected="selected" value={{programid}}>{{programname}}</option>
-                                                            {{else}}
-                                                            <option value={{programid}}>{{programname}}</option>
-                                                            {{/if}} {{/each}} </select>
-                                                        </br>
-                                                    </div>
-                                                    <div class="clear"></div>
+    <!--Enter Start Date here-->
+    <div class="form-group required-field">
+        <label for="SD">Start Date</label>
+        <input id="txtStartDate" type="date" class="form-control" name="StartDate" value={{tactic.startdate}} autofocus>
 
-                                                    <!--Select Pgogram JOB here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="JB">Job</label>
-                                                        <select class="form-control" id="drpProgramJob" name="JOB" autofocus>
-                                                            <option value="0">--Select Job--</option>
+    </div>
 
-                                                            {{#each programjob}} {{#if isselect}}
-                                                            <option selected="selected" value={{ProgramJobId}}>{{pfamilyjobname}}</option>
-                                                            {{else}}
-                                                            <option value={{ProgramJobId}}>{{pfamilyjobname}}</option>
-                                                            {{/if}} {{/each}} </select>
-                                                        </br>
-                                                    </div>
-                                                    <div class="clear"></div>
+    <!--Enter End Date here-->
+    <div class="form-group required-field">
+        <label for="ED">End Date</label>
+        <input id="txtEndDate" type="date" class="form-control" name="EndDate" value={{tactic.enddate}} autofocus>
 
-                                                    <!--Select Tactic Type here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="TT">Tactic Type</label>
-                                                        <select class="form-control" id="drpTacticType" name="TacticType" autofocus>
-                                                            <option value="0">--Select Tactic Type--</option>
+    </div>
 
-                                                            {{#each tactictype}} {{#if isselect}}
-                                                            <option selected="selected" value={{tactictypeId}}>{{tactictypeName}}</option>
-                                                            {{else}}
-                                                            <option value={{tactictypeId}}>{{tactictypeName}}</option>
-                                                            {{/if}} {{/each}} </select>
+    <!--Select Business Group here-->
+    <div class="form-group required-field">
+        <label for="BG">Business Group</label>
+        <select class="form-control" id="drpBusinessGroup" name="BusinessGroup" autofocus>
+            <option value="0">--Select Business Group--</option>
+            {{#each BusinessGroup}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{/each}}
+        </select>
+    </div>
 
-                                                        </br>
-                                                    </div>
+    <!--Select Business Line here-->
+    <div class="form-group required-field">
+        <label for="BL">Business Line</label>
+        <select class="form-control" id="drpBusinessLine" name="BusinessLine" autofocus>
+            <option value="0">--Select Business Line--</option>
+            {{#each BusinessLine}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{businesslineid}}>{{businesslinename}}</option>
+            {{/each}}
+        </select>
+    </div>
 
-                                                    <!--Enter Tactic Name here-->
-                                                    <div class="form-group">
-                                                        <label for="TN">Tactic Name</label>
+    <!--Select Business Type here-->
+    <div class="form-group required-field">
+        <label for="BT">Business Type</label>
+        <select class="form-control" id="drpBusinessType" name="BusinessType" autofocus>
+            <option value="0">--Select Business Type--</option>
+            {{#each BusinessType}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
+            {{/each}}
+        </select>
+    </div>
 
-                                                        <input id="txtTacticName" type="text" class="form-control" name="tacticName" autofocus value={{tactic.tacticname}}>
+    <!--Select Industry here-->
+    <div class="form-group required-field">
+        <label for="Ind">Industry</label>
+        <select class="form-control" id="drpIndustry" name="Industry" autofocus>
+            <option value="0">--Select Industry--</option>
+            {{#each Industry}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{industryid}}>{{industryname}}</option>
+            {{/each}}
+        </select>
+    </div>
 
-                                                    </div>
+    <!--Enter Vendor here-->
+    <div class="form-group required-field">
+        <label for="VN">Vendor</label>
 
-                                                    <!--Enter Tactic Description & Goal here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="DG">Description & Goal</label>
-                                                        <textarea id="txtDescription" type="text" class="form-control" name="DescriptionName" autofocus>{{tactic.tacticdescription}}</textarea>
+        <input id="txtVendor" type="text" class="form-control" name="Vendor" autofocus value={{tactic.vendor}}>
 
-                                                    </div>
+    </div>
 
-                                                    <!--Select MCA Segment here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="MS">MCA Segment</label>
-                                                        <select class="form-control" id="drpMCASegment" name="MCASegment" autofocus>
-                                                            <option value="0">--Select MCA Segment--</option>
-
-                                                            {{#each MCASegment}} {{#if isselect}}
-                                                            <option selected="selected" value={{mcasegmentid}}>{{mcasegmentname}}</option>
-                                                            {{else}}
-                                                            <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
-                                                            {{/if}} {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Select Markets here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="MAR">Markets</label>
-                                                        <select class="chosen-select  form-control" id="lstMarkets" name="Markets" multiple="true">
-                                                            {{#each market}}
-
-                                                            <option {{#if isselect}} selected="selected" {{/if}} value={{marketid}}>{{marketname}}</option>
-                                                            {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Enter Start Date here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="SD">Start Date</label>
-                                                        <input id="txtStartDate" type="date" class="form-control" name="StartDate" value={{tactic.startdate}} autofocus>
-
-                                                    </div>
-
-                                                    <!--Enter End Date here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="ED">End Date</label>
-                                                        <input id="txtEndDate" type="date" class="form-control" name="EndDate" value={{tactic.enddate}} autofocus>
-
-                                                    </div>
-
-                                                    <!--Select Business Group here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="BG">Business Group</label>
-                                                        <select class="form-control" id="drpBusinessGroup" name="BusinessGroup" autofocus>
-                                                            <option value="0">--Select Business Group--</option>
-                                                            {{#each BusinessGroup}}
-                                                            <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
-                                                            {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Select Business Line here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="BL">Business Line</label>
-                                                        <select class="form-control" id="drpBusinessLine" name="BusinessLine" autofocus>
-                                                            <option value="0">--Select Business Line--</option>
-                                                            {{#each BusinessLine}}
-                                                            <option {{#if isselect}} selected="selected" {{/if}} value={{businesslineid}}>{{businesslinename}}</option>
-                                                            {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Select Business Type here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="BT">Business Type</label>
-                                                        <select class="form-control" id="drpBusinessType" name="BusinessType" autofocus>
-                                                            <option value="0">--Select Business Type--</option>
-                                                            {{#each BusinessType}}
-                                                            <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
-                                                            {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Select Industry here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="Ind">Industry</label>
-                                                        <select class="form-control" id="drpIndustry" name="Industry" autofocus>
-                                                            <option value="0">--Select Industry--</option>
-                                                            {{#each Industry}}
-                                                            <option {{#if isselect}} selected="selected" {{/if}} value={{industryid}}>{{industryname}}</option>
-                                                            {{/each}} </select>
-                                                        </br>
-                                                    </div>
-
-                                                    <!--Enter Vendor here-->
-                                                    <div class="form-group required-field">
-                                                        <label for="VN">Vendor</label>
-
-                                                        <input id="txtVendor" type="text" class="form-control" name="Vendor" autofocus value={{tactic.vendor}}>
-
-                                                    </div>
-
-                                                    <!-- Digital Touch Point-->
-                                                    <button type="button" id="btnDigitaltouchpoint" class="btn btn-primary" data-toggle="modal" data-target="#dvDigitalPoint">Digital TouchPoint</button>
-                                                    {{!-- {{> digitaltochpoint}} --}}
+    <!-- Digital Touch Point-->
+    <button type="button" id="btnDigitaltouchpoint" class="btn btn-primary" data-toggle="modal" data-target="#dvDigitalPoint">Digital
+        TouchPoint</button>
+    {{!-- {{> digitaltochpoint}} --}}
 
 
-                                                    <div class="clear"></div>
-                                                    <div class="modal fade" id="dvDigitalPoint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-                                                        style="display: none;">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-body">
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Tactic type</label>
-                                                                        <div class="col-lg-8">
-                                                                            <input id="txtType" type="text" value="" class="form-control" placeholder="Tactic Type" disabled="disabled" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="clear"></div>
+    <div class="clear"></div>
+    <div class="modal fade" id="dvDigitalPoint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Tactic type</label>
+                        <div class="col-lg-8">
+                            <input id="txtType" type="text" value="" class="form-control" placeholder="Tactic Type"
+                                disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
 
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Tactic Name</label>
-                                                                        <div class="col-lg-8">
-                                                                            <input id="txtTacticName" type="text" value="" class="form-control" placeholder="Tactic Name" disabled="disabled" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Tactic Name</label>
+                        <div class="col-lg-8">
+                            <input id="txtTacticName" type="text" value="" class="form-control" placeholder="Tactic Name"
+                                disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Tactic ID</label>
-                                                                        <div class="col-lg-8">
-                                                                            <input id="txtTacticID" type="text" value="" class="form-control" placeholder="Tactic ID" disabled="disabled" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="clear"></div>
-
-
-                                                                    <div class="row form-group" id="divSource">
-                                                                        <label class="col-lg-4 text-right" id="lblSource">Source</label>
-                                                                        <div class="col-lg-8">
-                                                                            <select id="drpSource" class="form-control">
-                                                                                <option value="0">None Selected</option>
-                                                                            </select>
-
-                                                                        </div>
-                                                                        <div id="dvsource" class="text-danger"></div>
-                                                                    </div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Tactic ID</label>
+                        <div class="col-lg-8">
+                            <input id="txtTacticID" type="text" value="" class="form-control" placeholder="Tactic ID"
+                                disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
 
 
-                                                                    <div class="row form-group" id="divOther">
-                                                                        <label class="col-lg-4 text-right" id="lblOther">Other</label>
-                                                                        <div class="col-lg-8">
-                                                                            <input id="txtOther" type="text" value="" class="form-control" placeholder="Source Name" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="dvother" class="text-danger"></div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group" id="divSource">
+                        <label class="col-lg-4 text-right" id="lblSource">Source</label>
+                        <div class="col-lg-8">
+                            <select id="drpSource" class="form-control">
+                                <option value="0">None Selected</option>
+                            </select>
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right" id="lblMedium">Medium</label>
-                                                                        <div class="col-lg-8">
-                                                                            <select id="drpMedium" class="form-control">
-                                                                                <option value="0">None Selected</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="dvMedium" class="text-danger"></div>
-                                                                    <div class="clear"></div>
+                        </div>
+                        <div id="dvsource" class="text-danger"></div>
+                    </div>
+                    <div class="clear"></div>
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Content</label>
-                                                                        <div class="col-lg-8">
-                                                                            <input type="text" id="txtContent" value="" class="form-control" placeholder="use for A/B testing and content ads" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="dvContent text-danger"></div>
-                                                                    <div class="clear"></div>
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Terms </label>
-                                                                        <div class="col-lg-8">
-                                                                            <input type="text" id="txtTerms" value="" class="form-control" placeholder="use for paid search" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="dvTerms"></div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group" id="divOther">
+                        <label class="col-lg-4 text-right" id="lblOther">Other</label>
+                        <div class="col-lg-8">
+                            <input id="txtOther" type="text" value="" class="form-control" placeholder="Source Name" />
+                        </div>
+                    </div>
+                    <div id="dvother" class="text-danger"></div>
+                    <div class="clear"></div>
 
-                                                                    <div class="row form-group">
-                                                                        <label class="col-lg-4 text-right">Url </label>
-                                                                        <div class="col-lg-8">
-                                                                            <input type="text" id="txtUrl" value="" class="form-control" placeholder="please enter url without https://" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="dvUrl" class="text-danger"></div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right" id="lblMedium">Medium</label>
+                        <div class="col-lg-8">
+                            <select id="drpMedium" class="form-control">
+                                <option value="0">None Selected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="dvMedium" class="text-danger"></div>
+                    <div class="clear"></div>
 
-                                                                    <div class="row">
-                                                                        <div class="col-lg-4">&nbsp;</div>
-                                                                        <div class="col-lg-8">
-                                                                            <button type="button" id="btnAdd" class="btn btn-primary btn-sm" onclick="Addrow form-group();">Add</button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="clear"></div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Content</label>
+                        <div class="col-lg-8">
+                            <input type="text" id="txtContent" value="" class="form-control" placeholder="use for A/B testing and content ads" />
+                        </div>
+                    </div>
+                    <div id="dvContent text-danger"></div>
+                    <div class="clear"></div>
 
-                                                                    <div class="row">
-                                                                        <span class="text-right text-danger" style="font-size:smaller;float:right!important;margin-right: 60px;margin-bottom: 10px;">* If you are using Hooutsuite leave blank for Source,
-                                                                            Medium, Content & Terms</span>
-                                                                    </div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Terms </label>
+                        <div class="col-lg-8">
+                            <input type="text" id="txtTerms" value="" class="form-control" placeholder="use for paid search" />
+                        </div>
+                    </div>
+                    <div id="dvTerms"></div>
+                    <div class="clear"></div>
 
-                                                                    <input type="hidden" id="hdnIndex" />
-                                                                    <div class="row col-lg-12">
-                                                                        <table id="gridReport" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
-                                                                            <thead>
-                                                                                <tr class="bg-skyblue text-white">
-                                                                                    <th>Digital ID</th>
-                                                                                    <th>Source</th>
-                                                                                    <th>Medium</th>
-                                                                                    <th>Content</th>
-                                                                                    <th>Term</th>
-                                                                                    <th>Url</th>
-                                                                                    <th>Status</th>
-                                                                                    <th>Action</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody></tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <div class="clear"></div>
-                                                                    <div class="clear"></div>
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12">
-                                                                            &nbsp;
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button id="btnSave" disabled="disabled" type="button" onclick="return savedigitalpoint('Draft');" class="btn btn-default">Save as draft</button>
-                                                                    <button id="btnsubmit" disabled="disabled" type="button" onclick="return savedigitalpoint('Complete');" class="btn btn-primary">Submit & Export</button>
-                                                                    <button id="btnReExport" disabled="disabled" type="button" onclick="return ReExportdigitalpoint();" class="btn btn-default">Re-Export</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="panel-footer">
-                                                <button id="btnSubmit" type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="button" class="btn btn-default" id="btntacticDraft">Save Draft</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
+                    <div class="row form-group">
+                        <label class="col-lg-4 text-right">Url </label>
+                        <div class="col-lg-8">
+                            <input type="text" id="txtUrl" value="" class="form-control" placeholder="please enter url without https://" />
+                        </div>
+                    </div>
+                    <div id="dvUrl" class="text-danger"></div>
+                    <div class="clear"></div>
+
+                    <div class="row">
+                        <div class="col-lg-4">&nbsp;</div>
+                        <div class="col-lg-8">
+                            <button type="button" id="btnAdd" class="btn btn-primary btn-sm" onclick="Addrow form-group();">Add</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="row">
+                        <span class="text-right text-danger" style="font-size:smaller;float:right!important;margin-right: 60px;margin-bottom: 10px;">*
+                            If you are using Hooutsuite leave blank for Source,
+                            Medium, Content & Terms</span>
+                    </div>
+
+                    <input type="hidden" id="hdnIndex" />
+                    <div class="row col-lg-12">
+                        <table id="gridReport" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+                            <thead>
+                                <tr class="bg-skyblue text-white">
+                                    <th>Digital ID</th>
+                                    <th>Source</th>
+                                    <th>Medium</th>
+                                    <th>Content</th>
+                                    <th>Term</th>
+                                    <th>Url</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="clear"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            &nbsp;
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button id="btnSave" disabled="disabled" type="button" onclick="return savedigitalpoint('Draft');"
+                        class="btn btn-default">Save as draft</button>
+                    <button id="btnsubmit" disabled="disabled" type="button" onclick="return savedigitalpoint('Complete');"
+                        class="btn btn-primary">Submit & Export</button>
+                    <button id="btnReExport" disabled="disabled" type="button" onclick="return ReExportdigitalpoint();"
+                        class="btn btn-default">Re-Export</button>
+                </div>
             </div>
-        </section>
+        </div>
     </div>
 
+    <div class="row">
+        <div class="form-group">
+            &nbsp;;
+        </div>
+    </div>
+    <button id="btnSubmit" type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default" id="btntacticDraft">Save Draft</button>
+</form>
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js">
-    </script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
-
-    <link rel="stylesheet" href="/css/choosen.css">
-    <script src="/script/tacticform.js"></script>
-</body>
-
-</html>
+<script src="/script/tacticform.js"></script>

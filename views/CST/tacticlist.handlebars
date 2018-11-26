@@ -1,132 +1,50 @@
-<!DOCTYPE html>
-<html>
+<form id="frmTactilist">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">CST</a></li>
+        <li class="breadcrumb-item active">Tactic List</li>
+    </ol>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!--  <title>Collapsible sidebar using Bootstrap 3</title> -->
-
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/css/style4.css"> {{!--
-    <link rel="stylesheet" type="text/css" href="/css/my-login.css"> --}}
-
-    <style>
-        #globalLoader {
-        position: absolute;
-        top: 0px !important;
-        left: 0px !important;
-        width: 100% !important;
-        height: 180% !important;
-        z-index: 1000;
-        background-color: grey;
-        opacity: .8;
-        overflow: hidden !important;
-    }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        top: 250px;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        overflow: hidden !important;
-    }
-.OnLoaderscroll {
-        overflow-y: hidden !important;
-        overflow: hidden !important;
-    }
-
-    .disable-scroll {
-        overflow: hidden !important;
-    }
-    </style>
-</head>
-{{>common}}
-<body  class="my-registration-page">
-    <div class="wrapper">
-        
-        <!-- Page Content start Holder -->
-        <section class="h-100">
-            <div class="row justify-content-md-center h-100">
-                <div class="card-wrapper">
-                    <div class="card fat">
-                        <div class="card-body">
-
-                            <div id="content">
-                                <nav class="navbar navbar-default">
-                                    <div class="container-fluid">
-                                        <h2> Tactic </h2>
-                                        <div class="navbar-header">
-                                        </div>
-                                        <form id="frmTactilist">
-                                            <a id="btnCreateNew" href="/tactic/tactic" class="btn btn-primary align-left">
-                                                Create New
-                                            </a>
-                                            <table class="table table-border col-lg-6" align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
-                                                <tr>
-                                                    <th bgcolor="#7386D5">
-                                                       Campaign Id 
-                                                    </th>
-                                                    <th bgcolor="#7386D5">Tactic</th>
-                                                    <th bgcolor="#7386D5"> Status</th>
-                                                    <th bgcolor="#7386D5">Creator</th>
-                                                    <th bgcolor="#7386D5"> Start Date</th>
-                                                    <th bgcolor="#7386D5">End Date</th>
-                                                    <th bgcolor="#7386D5">Action</th>
-                                                </tr>
-                                                {{#each tacticlist}}
-                                                <tr>
-
-                                                    <td>{{tcampaigndigitalid}}</td>
-
-
-                                                    <td>{{tacticid}}</td>
-
-                                                    <td>{{tcampaigndigitalid}}</td>
-
-
-                                                    <td>{{tacticname}}</td>
-                                                    <td>{{status}}</td>
-                                                    <td>{{createdby}}</td>
-                                                    <td>{{startdate}}</td>
-                                                    <td>{{enddatae}}</td>
-                                                    <td>
-                                                        {{!-- <a href="#" title="Hide" campaignId={{tacticid}} class="btn-primary" value="Cancel" >Cancel</a>
-                                                        | --}}
-                                                        <a href="/tactic/tactic/{{tacticid}}" title="Hide" campaignId={{tacticid}} class="btn-primary" ><img src="/img/download.png"/></a>
-                                                        
-                                                        
-                                                    </td>                                                    
-                                                </tr>
-                                                {{/each}}
-                                            </table>
-                                        </form>
-                                    </div>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+                <a id="btnCreateNew" href="/tactic/tactic" class="btn btn-primary align-left">
+                    Create New
+                </a>
             </div>
-        </section>
+        </div>
     </div>
-    <!-- jQuery CDN -->
-                <script src="https://code.jquery.com/jquery-1.12.0.min.js">
-                </script>
-                <!-- Bootstrap Js CDN -->
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.0/handlebars.js"></script>
+    <table class="table table-striped">
+        <tr>
+            <th >
+                Tactic Id
+            </th>
+            <th>Tactic</th>
+            <th > Status</th>
+            <th >Creator</th>
+            <th > Start Date</th>
+            <th >End Date</th>
+            <th >Action</th>
+        </tr>
+        {{#each tacticlist}}
+        <tr>
 
-                <link rel="stylesheet" href="/css/choosen.css"> 
-                <script src="/script/tacticform.js"></script>
-</body>
-</html>
+            <td>{{tcampaigndigitalid}}</td>
+            <td>{{tacticname}}</td>
+            <td>{{status}}</td>
+            <td>{{createdby}}</td>
+            <td>{{startdate}}</td>
+            <td>{{enddatae}}</td>
+            <td>
+                <a href="/tactic/tactic/{{tacticid}}" title="Edit" campaignId={{tacticid}} value="Edit">
+                    <i class="fas fa-edit"></i></a>
+                <a href="#" title="Delete" campaignId={{tacticid}} value="Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+                {{!-- <a href="#" title="Hide" campaignId={{campaignid}} value="Hide">
+                    <i class="fas fa-eye-slash"></i>
+                </a> --}}
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</form>

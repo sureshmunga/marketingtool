@@ -1,3 +1,4 @@
+jQuery.noConflict();
 $(document).ready(function () {
     // handlebars.registerHelper('if_eq', function(a, b, opts) {
     //     if(a == b)
@@ -6,7 +7,7 @@ $(document).ready(function () {
     //         return opts.inverse(this);
     //   });
     $('select').chosen().trigger('chosen:updated');
-    $(".chosen-choices").outerWidth(676);
+    $(".chosen-choices").outerWidth('100%');
     
     $(document).on('click', 'a[data-select-all="selectunselect"]', function () {
         var selectallElement = $(this).attr('data-target-id');
@@ -46,7 +47,7 @@ $(document).ready(function () {
             '.chosen-select-no-single': { disable_search_threshold: 10 },
             '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
             '.chosen-select-rtl': { rtl: true },
-            '.chosen-select-width': { width: '95%' }
+            '.chosen-select-width': { width: '60%' }
         }
         for (var selector in config) {
             $(selector).chosen(config[selector]);
@@ -154,7 +155,7 @@ $(document).ready(function () {
         $('select').chosen().trigger('chosen:updated');
         $('#drpSource').chosen().trigger('chosen:updated');
         $(".chosen-choices").outerWidth('100%');
-        retrun;
+        return false;
     });
 
 });
