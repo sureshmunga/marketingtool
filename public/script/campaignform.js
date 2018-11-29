@@ -1,6 +1,7 @@
 jQuery.noConflict();
 $(document).ready(function () {
     
+
     $('select').chosen().trigger('chosen:updated');
     $(".chosen-choices").outerWidth('100%');
     $(document).on('click', 'a[data-select-all="selectunselect"]', function () {
@@ -52,6 +53,41 @@ $(document).ready(function () {
         // $("#IdLoadView").removeClass("OnLoaderscroll");
     });
     
+    $(document).on('click', '#btnDraft', function () {//fvalidationonsubmit() === 
+        if (true) {
+            var campaignData =CollectTacticFormData();
+            campaignData.Status = 'Draft';
+            $.post('/cst/campaignsave',{data:campaignData},function(response){
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/cst/campaignlist';
+                }
+            });
+        }
+        else {
+            var pos = $(focusId).offset().top;
+            $('body, html').animate({ scrollTop: pos - 70 });
+        }
+        return false;
+    });
+
+    $(document).on('click', '#btnSubmit', function () {//fvalidationonsubmit() === 
+        if (true) {
+            var campaignData =CollectTacticFormData();
+            campaignData.Status = 'Active';
+            $.post('/cst/campaignsave',{data:campaignData},function(response){
+                alert(response.messagae);
+                if(response.status){
+                    location.href='/cst/campaignlist';
+                }
+            });
+        }
+        else {
+            var pos = $(focusId).offset().top;
+            $('body, html').animate({ scrollTop: pos - 70 });
+        }
+        return false;
+    });
 });
 
 
@@ -59,33 +95,33 @@ function CollectTacticFormData() {
 
     var data = {
     };
-    data.TacticId = $('#tacticid').val();
-    data.CampaignId = $('#drpCampaign').val();
-    data.ProgramId = $('#drpProgram').val();
-    data.ProgramJobId = $('#drpProgramJob').val();
-    data.TacticTypeId = $('#drpTacticType').val();
-    data.Name = $('#txtTacticName').val().trim();
-    data.TacticDescription = $('#txtDescription').val().trim();
-    data.MCASegmentId = $('#drpMCASegment').val();
+    data.campaignid = $('#campaignid').val();
+    data.CampaignName = $('#CampaignName').val();
+    data.Campaignmanager = $('#Campaignmanager').val();
+    data.Campaigndescription = $('#Campaigndescription').val();
 
-    data.MarketId = [];
-    $('#lstMarkets').closest('.form-group').find('ul li.search-choice').each(function () {
-        data.MarketId.push($('#lstMarkets option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+    data.mcasegment = [];
+    $('#lstmcasegment').closest('.form-group').find('ul li.search-choice').each(function () {
+        data.mcasegment.push($('#lstmcasegment option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+    });
+
+    data.BusinessGroup = [];
+    $('#lstBusinessGroup').closest('.form-group').find('ul li.search-choice').each(function () {
+        data.BusinessGroup.push($('#lstBusinessGroup option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+    });
+
+    data.BusinessType = [];
+    $('#lstBusinessType').closest('.form-group').find('ul li.search-choice').each(function () {
+        data.BusinessType.push($('#lstBusinessType option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
+    });
+
+    data.ProgramFamilies = [];
+    $('#lstProgramFamilies').closest('.form-group').find('ul li.search-choice').each(function () {
+        data.ProgramFamilies.push($('#lstProgramFamilies option').eq(parseInt($(this).find('a').attr('data-option-array-index'))).val());
     });
 
     data.StartDate = $("#txtStartDate").val();
     data.EndDate = $("#txtEndDate").val();
-    // data.StartDate = $.datepicker.formatDate('mm/dd/yy', $("#txtStartDate").datepicker("getDate"));
-    // data.EndDate = $.datepicker.formatDate('mm/dd/yy', $("#txtEndDate").datepicker("getDate"));
-    
-    data.BusinessGroupId = $('#drpBusinessGroup').val();
-    data.BusinessLineId = $('#drpBusinessLine').val();
-
-    data.BusinessTypeId = $('#drpBusinessType option:selected').val();
-    data.IndustryId=$('#drpIndustry option:selected').val();
-    
-    data.Vendor = $('#txtVendor').val().trim();
-    //data.TacticCampaignReachResponseViewModels = Getmetricreachdata();
     
     return data;
 }

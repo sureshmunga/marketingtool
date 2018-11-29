@@ -1,32 +1,35 @@
-<form method="post" id='frmCampaign' action="/cst/campaignregistration">
+<form method="post" id='frmCampaign' action="/cst/campaignsave">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:void(0)">CST</a></li>
         <li class="breadcrumb-item active">Campaign</li>
     </ol>
+    <input type="hidden" name="campaignid" id="campaignid" value={{mastercampaign.mastercampaignid}}  />
+    <input type="hidden" name="status" id="status" value={{mastercampaign.status}} />
     <div class="form-group required-field">
         <label for="CN">Campaign Name</label>
-        <input id="campname" type="text" class="form-control" name="CampaignName" required autofocus>
+        <input id="CampaignName" type="text" class="form-control" name="CampaignName" required autofocus value={{mastercampaign.mastercampaignname}} >
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="CM">Campaign Manager</label>
-        <input id="cm" type="email" class="form-control" name="Campaignmanager" value="" required autofocus> {{!--
+        <input id="Campaignmanager" type="email" class="form-control" name="Campaignmanager" value={{mastercampaign.campaignmanager}}> {{!--
         <input id="CM" type="text" class="form-control" name="Campaign Manager" value="" required autofocus> --}}
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="CG">Campaign Description & Goals</label>
-        <input id="Cdg" type="text" class="form-control" name="Campaigndescriptiongoals" value="" required autofocus>
+        <input id="Campaigndescription" type="text" class="form-control" 
+        name="Campaigndescription" value={{mastercampaign.campaigndescription}}>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="MS">MCA segment</label>
-        <select multiple="true" class="chosen-select form-control" id="MS" name="mcasegment" >
+        <select multiple="true" class="chosen-select form-control" id="lstmcasegment" name="mcasegment" required >
             {{#each mcasegment}}
-            <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            <option {{#if isselect}} selected="selected" {{/if}} value={{mcasegmentid}}>{{mcasegmentname}}</option>
             {{/each}} </select>
         </br>
     </div>
@@ -34,49 +37,49 @@
 
     <div class="form-group required-field">
         <label for="BG">Business Group</label>
-        <select id="BG" name="businessgroup" multiple="true" class="chosen-select form-control" >
+        <select id="lstBusinessGroup" name="businessgroup" multiple="true" class="chosen-select form-control" required>
             {{#each businessgroups}}
-            <option value={{businessgroupid}}>{{businessgroupname}}</option>
+            <option {{#if isselect}} selected="selected" {{/if}} value={{businessgroupid}}>{{businessgroupname}}</option>
             {{/each}} </select>
         </br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
-        <label for="BT">Business Type</label>
-        <select id="BT" name="businesstype" multiple="true" class="chosen-select form-control" >
-            {{#each businesstype}}
-            <option value={{businesstypeid}}>{{businesstypename}}</option>
+        <label for="lstBusinessType">Business Type</label>
+        <select id="lstBusinessType" name="businesstype" multiple="true" class="chosen-select form-control" required>
+            {{#each businessType}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{businesstypeid}}>{{businesstypename}}</option>
             {{/each}} </select>
         </br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
-        <label for="PF">Program families</label>
-        <select id="PF" name="programfamilies" multiple="true" class="chosen-select form-control" >
-            {{#each programfamilies}}
-            <option value={{programfamiliyid}}>{{programfamiliyname}} </option>
+        <label for="lstProgramFamilies">Program families</label>
+        <select id="lstProgramFamilies" name="programfamilies" multiple="true" class="chosen-select form-control" required >
+            {{#each programFamilies}}
+            <option {{#if isselect}} selected="selected" {{/if}} value={{programfamiliyid}}>{{programfamiliyname}} </option>
             {{/each}} </select>
         </br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
-        <label for="SD">start date</label>
-        <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+        <label for="txtStartDate">start date</label>
+        <input id="txtStartDate" type="date" pattern="DD-MM-YYYY" class="form-control" name="startdate" autofocus value="{{mastercampaign.startdate}}">        
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
-        <label for="ED">End date</label>
-        <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+        <label for="txtEndDate">End date</label>
+        <input id="txtEndDate" type="date" pattern="dd-MM-YYYY" class="form-control" name="enddate" autofocus value={{mastercampaign.enddate}}>
     </div>
     <div class="clear"></div>
 
     <div class="panel-footer">
-        <button id="btnSubmit" id='validateit' type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
+        <button id="btnSubmit" id='validateit' type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default" id="btnDraft">Save Draft</button>
     </div>
     <div class="clear"></div>
 </form>

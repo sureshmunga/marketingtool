@@ -1,6 +1,9 @@
 var mastercampaign = {
 	tableName: 'apps.mastercampaigns',
 	tableProperties: {
+		mastercampaignid: {
+			type: String
+		},
 		mastercampaignname: {
 			type: String
 		},
@@ -14,10 +17,10 @@ var mastercampaign = {
 			type: String
 		},
 		startdate: {
-			type: String
+			type: Date
 		},
 		enddate: {
-			type: String
+			type: Date
 		},
 		namingconvention: {
 			type: String
@@ -32,6 +35,12 @@ var mastercampaign = {
 			type: String
 		},
 		createddate:{
+			type: Date
+		},
+		updatedby:{
+			type: String
+		},
+		updateddate:{
 			type: Date
 		}
 	}
