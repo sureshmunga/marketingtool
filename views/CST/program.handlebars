@@ -1,52 +1,70 @@
-<form method="post" action="/cst/subcampaignregistration">
-<ol class="breadcrumb">
+<form method="post" action="/program/save">
+    <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:void(0)">CST</a></li>
         <li class="breadcrumb-item active">Program</li>
     </ol>
+    <input type="hidden" id="programId" value={{program.programid}} />
     <div class="form-group required-field">
         <label for="cam">Campaign</label>
-        <select class="form-control" id="CS" name="campaign" required autofocus>
+        <select id="drpCampaign" class="form-control" id="CS" name="campaign" required autofocus>
             <option value="0">--Select Campaign--</option>
             {{#each campaign}}
+            {{#if isselect}}
+            <option selected="selected" value={{mastercampaignid}}>{{mastercampaignname}}</option>
+            {{else}}
             <option value={{mastercampaignid}}>{{mastercampaignname}}</option>
-            {{/each}} </select>
+            {{/if}}
+            {{/each}}
+        </select>
     </div>
 
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="PT">Program Type</label>
-        <select class="form-control" id="PT" name="programtype" required autofocus>
-            {{#each pfamily}}
+        <select class="form-control" id="drpProgramFamily" name="programtype" required autofocus>
+            <option value="0">--Select Program Type--</option>
+            {{#each programFamily}}
+            {{#if isselect}}
+            <option selected="selected" value={{programfamiliyid}}>{{programfamiliyname}}</option>
+            {{else}}
             <option value={{programfamiliyid}}>{{programfamiliyname}}</option>
-            {{/each}}</select>
+            {{/if}}
+            {{/each}}
+        </select>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="PN">Program Name</label>
-        <input id="proName" type="text" class="form-control" name="programname" value="" required autofocus>
+        <input id="txtName" type="text" class="form-control" name="programname" value={{program.programname}}>
 
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="PM">Campaign Manager</label>
-        <input id="campaignmanager" type="text" class="form-control" name="campaignmanager" value="" required autofocus>
+        <input id="txtCampaignmanager" type="text" class="form-control" name="campaignmanager" value={{program.campaignmanager}}
+            required autofocus>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="PDG">Program Desciption & Goals</label>
-        <input id="prodecgoals" type="text" class="form-control" name="prodescgoals" value="" required autofocus>
+        <input id="txtDescription" type="text" class="form-control" name="Description" value={{program.programdescription}}
+            required autofocus>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="MAR">Markets</label>
-        <select class="form-control" id="mar" name="market" multiple="true">
+        <select class="form-control" id="lstMarkets" name="market" multiple="true">
             {{#each market}}
+            {{#if isselect}}
+            <option selected="selected" value={{marketid}}>{{marketname}}</option>
+            {{else}}
             <option value={{marketid}}>{{marketname}} </option>
+            {{/if}}
             {{/each}} </select>
         <br>
     </div>
@@ -54,22 +72,27 @@
 
     <div class="form-group required-field">
         <label for="SD">start date</label>
-        <input id="str" type="date" class="form-control" name="startdate" value="" required autofocus>
+        <input id="txtStartDate" type="date" class="form-control" name="startdate" value={{program.startdate}}
+            autofocus>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="ED">End date</label>
-        <input id="endate" type="date" class="form-control" name="enddate" value="" required autofocus>
+        <input id="txtEndDate" type="date" class="form-control" name="enddate" value={{program.enddate}} autofocus>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="MS">MCA segment</label>
-        <select class="form-control" id="MSC" name="mcasegment">
+        <select class="form-control" id="drpMCASegment" name="mcasegment">
             <option value="0">-- Select MCA segment--</option>
-            {{#each mcasegment}}
+            {{#each MCASegment}}
+            {{#if isselect}}
+            <option selected="selected" value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            {{else}}
             <option value={{mcasegmentid}}>{{mcasegmentname}}</option>
+            {{/if}}
             {{/each}}
         </select>
     </div>
@@ -77,10 +100,14 @@
 
     <div class="form-group required-field">
         <label for="LBG">Lead Business Groups</label>
-        <select class="form-control" id="BGC" name="businessgroup">
+        <select class="form-control" id="drpBusinessGroup" name="businessgroup">
             <option value="0">-- Select Business groups--</option>
             {{#each businessgroups}}
+            {{#if isselect}}
+            <option selected="selected" value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{else}}
             <option value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{/if}}
             {{/each}}
         </select>
     </div>
@@ -88,10 +115,14 @@
 
     <div class="form-group required-field">
         <label for="LBL">Lead Business Line</label>
-        <select class="form-control" id="BL" name="businessline">
+        <select class="form-control" id="drpBusinessline" name="businessline">
             <option value="0">-- Select Buiness Line--</option>
             {{#each businessline}}
+            {{#if isselect}}
+            <option selected="selected" value={{businesslineid}}>{{businesslinename}}</option>
+            {{else}}
             <option value={{businesslineid}}>{{businesslinename}}</option>
+            {{/if}}
             {{/each}}
         </select>
     </div>
@@ -99,28 +130,40 @@
 
     <div class="form-group required-field">
         <label for="SBG">Secondary Business Group</label>
-        <select class="form-control" id="SBG" name="secbusinesgroup" multiple="true">
-            {{#each businessgroups}}
+        <select class="form-control" id="lstBusinessGroup" name="secbusinesgroup" multiple="true">
+            {{#each secbusinessgroups}}
+            {{#if isselect}}
+            <option selected="selected" value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{else}}
             <option value={{businessgroupid}}>{{businessgroupname}}</option>
+            {{/if}}
             {{/each}} </select><br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="SBL">Secondary BLS</label>
-        <select class="form-control" id="SBL" name="secbusinessline" multiple="true">
-            {{#each businessline}}
+        <select class="form-control" id="lstBusinessline" name="secbusinessline" multiple="true">
+            {{#each secbusinessline}}
+            {{#if isselect}}
+            <option selected="selected" value={{businesslineid}}>{{businesslinename}}</option>
+            {{else}}
             <option value={{businesslineid}}>{{businesslinename}}</option>
+            {{/if}}
             {{/each}} </select><br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="LBT">Lead Business Type</label>
-        <select class="from-control" id="LBT" name="leadbusinesstype">
+        <select class="from-control" id="drpBusinesstype" name="leadbusinesstype">
             <option value="0">-- Select Lead Business Type--</option>
             {{#each businesstype}}
+            {{#if isselect}}
+            <option selected="selected" value={{businesstypeid}}>{{businesstypename}}</option>
+            {{else}}
             <option value={{businesstypeid}}>{{businesstypename}}</option>
+            {{/if}}
             {{/each}}
         </select>
     </div>
@@ -128,10 +171,14 @@
 
     <div class="form-group required-field">
         <label for="LI">Lead Industry</label>
-        <select class="form-control" id="IT" name="industrytype">
+        <select class="form-control" id="drpIndustry" name="industrytype">
             <option value="0">-- Select Industry--</option>
             {{#each industry}}
+            {{#if isselect}}
+            <option selected="selected" value={{industryid}}>{{industryname}}</option>
+            {{else}}
             <option value={{industryid}}>{{industryname}}</option>
+            {{/if}}
             {{/each}}
         </select>
     </div>
@@ -139,22 +186,40 @@
 
     <div class="form-group required-field">
         <label for="SBTY">Secondary Business Type</label>
-        <select class="form-control" id="SBT" name="secbusinesstype" multiple="true">
-            {{#each businesstype}}
+        <select class="form-control" id="lstBusinesstype" name="secbusinesstype" multiple="true">
+            {{#each secbusinesstype}}
+            {{#if isselect}}
+            <option selected="selected" value={{businesstypeid}}>{{businesstypename}}</option>
+            {{else}}
             <option value={{businesstypeid}}>{{businesstypename}}</option>
+            {{/if}}
+            {{/each}} </select><br>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group required-field">
+        <label for="SBTY">Secondary Industry</label>
+        <select class="form-control" id="lstIndustry" name="secbusinesstype" multiple="true">
+            {{#each secIndustry}}
+            {{#if isselect}}
+            <option selected="selected" value={{industryid}}>{{industryname}}</option>
+            {{else}}
+            <option value={{industryid}}>{{industryname}}</option>
+            {{/if}}
             {{/each}} </select><br>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="TB">Total Budget</label>
-        <input id="TB" type="number" class="form-control" name="totalbudget" value="" required autofocus>
+        <input id="txtBudget" type="number" class="form-control" name="totalbudget" value={{program.budget}} autofocus>
     </div>
     <div class="clear"></div>
 
     <div class="form-group required-field">
         <label for="TS">Total Spend</label>
-        <input id="TS" type="number" class="form-control" name="totalspend" value="" required autofocus>
+        <input id="txtSpend" type="number" class="form-control" name="totalspend" value={{program.spend}} required
+            autofocus>
     </div>
     <div class="clear"></div>
 
@@ -170,16 +235,16 @@
             Marketing Qualified leads
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+            <input type="number" id="MQLGola" name="MQLG" class="form-control" value={{program.mqlgoal}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+            <input type="number" id="MQLLow" name="MQLG" class="form-control" value={{program.mqllow}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+            <input type="number" id="MQLHigh" name="MQLG" class="form-control" value={{program.mqlhigh}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+            <input type="text" id="MQLSource" name="MQLG" class="form-control" value={{program.mqlsource}}>
         </div>
     </div>
 
@@ -190,16 +255,16 @@
             Sales Accepted Lead
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+            <input type="number" id="SALGol" name="SALGol" class="form-control" value={{program.salgoal}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+            <input type="number" id="SALLow" name="SALLow" class="form-control" value={{program.sallow}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+            <input type="number" id="SALHigh" name="SALHigh" class="form-control" value={{program.salhigh}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+            <input type="text" id="SALSource" name="SALSource" class="form-control" value={{program.salsource}}>
         </div>
     </div>
     <div class="clear"></div>
@@ -209,23 +274,23 @@
             Total Pipelines
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLGola" name="MQLG" class="form-control">
+            <input type="number" id="TPGol" name="MQLG" class="form-control" value={{program.pipelinegoal}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLLow" name="MQLG" class="form-control">
+            <input type="number" id="TPLow" name="MQLG" class="form-control" value={{program.pipelinelow}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLHigh" name="MQLG" class="form-control">
+            <input type="number" id="TPHigh" name="MQLG" class="form-control" value={{program.pipelinehigh}}>
         </div>
         <div class="col-lg-2">
-            <input type="number" id="MQLSource" name="MQLG" class="form-control">
+            <input type="text" id="TPSource" name="MQLG" class="form-control" value={{program.pipelinesource}}>
         </div>
     </div>
     <div class="clear"></div>
 
 
     <div class="clear"></div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="button" class="btn btn-default" id="btnsaveDraft">Save Draft</button>
+    <button type="submit" id="btnSubmit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default" id="btnDraft">Save Draft</button>
 </form>
 <script src="/script/programform.js"></script>

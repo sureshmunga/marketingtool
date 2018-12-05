@@ -47,10 +47,12 @@ module.exports.campaignlist = function (req, res) {
     }
   ], function (err, results) {
     for (var i = 0; i < results[0].rows.length; i++) {
-      var sd = new Date(results[0].rows[i].startdate);
-      var ed = new Date(results[0].rows[i].enddate);
-      results[0].rows[i].startdate = sd.getMonth() + '-' + sd.getDate() + '-' + sd.getFullYear();
-      results[0].rows[i].enddate = ed.getMonth() + '-' + ed.getDate() + '-' + ed.getFullYear();
+      // var sd = new Date(results[0].rows[i].startdate);
+      // var ed = new Date(results[0].rows[i].enddate);
+      results[0].rows[i].startdate = moment(results[0].rows[i].startdate).format('MM-DD-YYYY');
+      results[0].rows[i].enddate = moment(results[0].rows[i].enddate).format('MM-DD-YYYY');
+      // results[0].rows[i].startdate = sd.getMonth() + '-' + sd.getDate() + '-' + sd.getFullYear();
+      // results[0].rows[i].enddate = ed.getMonth() + '-' + ed.getDate() + '-' + ed.getFullYear();
     }
     res.render('../views/CST/campaignlist', {
       campaignlist: results[0].rows

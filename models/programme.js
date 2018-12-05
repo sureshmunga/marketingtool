@@ -1,6 +1,9 @@
 var businessgroup = {
 	tableName: 'apps.programs',
 	tableProperties: {
+		programid:{
+			type:String
+		},
 		programname: {
 			type: String
 		},
@@ -87,6 +90,9 @@ var businessgroup = {
 			type: String
 		},
 		mastercampaignid: {
+			type: String
+		},
+		isactive: {
 			type: String
 		},
 		clientid: {

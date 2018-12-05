@@ -65,7 +65,7 @@ module.exports.gettacticbyid = function (tacticid, res) {
             +' where marprg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')', callback) 
           },
         function (callback) { 
-            var SQLBG = 'select TT.businessgroupid, TT.businessgroupname, CASE WHEN TT.businessgroupid = (SELECT tac.businessgroupid FROM apps.tactic tac where tac.tacticid=2) THEN TRUE ELSE FALSE END as isselect '
+            var SQLBG = 'select TT.businessgroupid, TT.businessgroupname, CASE WHEN TT.businessgroupid = (SELECT tac.businessgroupid FROM apps.tactic tac where tac.tacticid='+tacticid+') THEN TRUE ELSE FALSE END as isselect '
             +' from (select bg.businessgroupid,bg.businessgroupname from apps.businessgroups bg '
             +' inner join apps.programs prg on bg.businessgroupid = prg.businessgroupid '
             +' where prg.programid=(SELECT tac.programid FROM apps.tactic tac where tac.tacticid='+tacticid+')'
@@ -76,7 +76,7 @@ module.exports.gettacticbyid = function (tacticid, res) {
             redshift.query(SQLBG, callback) 
           },
         function (callback) { 
-            var statement ='select TT.businesslineid, TT.businesslinename, CASE WHEN TT.businesslineid = (SELECT tac.businesslineid FROM apps.tactic tac where tac.tacticid=2) THEN TRUE ELSE FALSE END as isselect '
+            var statement ='select TT.businesslineid, TT.businesslinename, CASE WHEN TT.businesslineid = (SELECT tac.businesslineid FROM apps.tactic tac where tac.tacticid='+tacticid+') THEN TRUE ELSE FALSE END as isselect '
             +' from (select bg.businesslineid,bg.businesslinename from apps.businesslines bg '
             +' inner join apps.programs prg on bg.businesslineid = prg.businesslineid '
             +' where bg.businessgroupid=(SELECT tac.businessgroupid FROM apps.tactic tac where tac.tacticid='+tacticid+') '
@@ -116,6 +116,8 @@ module.exports.gettacticbyid = function (tacticid, res) {
     ], 
     function (err, data) {        
         if(err) res.render('../views/error/custormerror',{message : err});
+        data[0].rows[0].startdate = moment(data[0].rows[0].startdate).format('YYYY-MM-DD');
+        data[0].rows[0].enddate = moment(data[0].rows[0].enddate).format('YYYY-MM-DD');
         res.render('../views/CST/tactic', 
         {   tactic : data[0].rows[0]
             , campaign: data[1].rows 

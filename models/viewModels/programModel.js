@@ -2,22 +2,30 @@ var redshift = require('../../redshift.js');
 var async = require("async");
 var moment = require('moment');
 var utilhelpers = require("../utilhelper.js");
+var programtable = redshift.import("./models/programme.js");
+var programmarket = redshift.import("./models/programmarkets.js");
+var programbusinessgroups = redshift.import("./models/programbusinessgroup.js");
+var programbusinesslines = redshift.import("./models/programbusinessline.js");
+var programtypes = redshift.import("./models/programbusinesstype.js");
+var programsindustry = redshift.import("./models/programindustry.js")
 
 
 module.exports.getprogramall = function (req, res) {
     async.parallel([
-            function (callback) {
-                var SQLQuery = 'SELECT programid,programname,programdescription,campaignmanager,status,' +
-                    ' startdate,enddate,programdigitalid,createdby from apps.programs where isactive=1';
-                redshift.query(SQLQuery, callback)
-            }
-        ],
+        function (callback) {
+            var SQLQuery = 'SELECT programid,programname,programdescription,campaignmanager,status,' +
+                ' startdate,enddate,programdigitalid,createdby from apps.programs where isactive=1';
+            redshift.query(SQLQuery, callback)
+        }
+    ],
         function (err, results) {
             for (var i = 0; i < results[0].rows.length; i++) {
-                var sd = new Date(results[0].rows[i].startdate);
-                var ed = new Date(results[0].rows[i].enddate);
-                results[0].rows[i].startdate = sd.getMonth() + '-' + sd.getDate() + '-' + sd.getFullYear();
-                results[0].rows[i].enddate = ed.getMonth() + '-' + ed.getDate() + '-' + ed.getFullYear();
+                // var sd = new Date(results[0].rows[i].startdate);
+                // var ed = new Date(results[0].rows[i].enddate);
+                // results[0].rows[i].startdate = sd.getMonth() + '-' + sd.getDate() + '-' + sd.getFullYear();
+                // results[0].rows[i].enddate = ed.getMonth() + '-' + ed.getDate() + '-' + ed.getFullYear();
+                results[0].rows[i].startdate = moment(results[0].rows[i].startdate).format('MM-DD-YYYY');
+                results[0].rows[i].enddate = moment(results[0].rows[i].enddate).format('MM-DD-YYYY');
             }
             res.render('../views/cst/programlist', {
                 programlist: results[0].rows
@@ -27,214 +35,456 @@ module.exports.getprogramall = function (req, res) {
 
 module.exports.getcampaign = function (req, res) {
     async.parallel([
-      function (callback) { 
-          redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback) 
-        }  
-    ], 
-    function (err, results) {
-        //console.log('Campaign Rows');
-        // console.log(JSON.stringify(results[0].rows));
-        res.render('../views/CST/program', { campaign: results[0].rows });
-    });
+        function (callback) {
+            redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a where a.isactive=1', callback)
+        }
+    ],
+        function (err, results) {
+            res.render('../views/CST/program', { campaign: results[0].rows });
+        });
 };
 
-module.exports.subcampaign = function (req, res) {
+module.exports.oncampaignchange = function (campaignId, callback) {
     async.parallel([
         function (callback) {
-            redshift.query('SELECT mcasegmentid,    mcasegmentname FROM apps."mcasegments"', callback)
-            console.log("callback result is" + callback);
+            redshift.query('select pf.programfamiliyid, pf.programfamiliyname,false as isselect from apps.programfamilies pf '
+                + ' inner join apps.mastercampaignsprogramfamilies cpf on pf.programfamiliyid= cpf.programfamilyid '
+                + ' where cpf.mastercampaignid = ' + campaignId, callback)
         },
         function (callback) {
-            redshift.query('SELECT businessgroupid, businessgroupname  FROM apps."businessgroups"', callback)
+            redshift.query('select mca.mcasegmentid,mca.mcasegmentname,false as isselect from apps."mcasegments" mca'
+                + ' inner join apps.mastercampaignsmcasegments prg on mca.mcasegmentid=prg.mcasegmentid where prg.mastercampaignid=' + campaignId, callback)
         },
         function (callback) {
-            redshift.query('SELECT businesstypeid,businesstypename  FROM apps."businesstype"', callback)
+            redshift.query('select mar.marketid,mar.marketname,false as isselect from apps."market" mar where mar.isactive=1', callback)
         },
         function (callback) {
-            redshift.query('SELECT programfamiliyid,programfamiliyname  FROM apps."programfamilies"', callback)
+            redshift.query('select bg.businessgroupid,bg.businessgroupname,false as isselect from apps.businessgroups bg '
+                + ' inner join apps.mastercampaignsbusinessgroups prgbg on bg.businessgroupid=prgbg.businessgroupid '
+                + ' where prgbg.mastercampaignid=' + campaignId, callback)
         },
         function (callback) {
-            redshift.query('SELECT marketid,marketname  FROM apps."market"', callback)
+            redshift.query('select bg.businesstypeid,bg.businesstypename,false as isselect from apps.businesstype bg '
+                + ' inner join apps.mastercampaignsbusinesstype prgbg on bg.businesstypeid=prgbg.businesstypeid '
+                + ' where prgbg.mastercampaignid=' + campaignId, callback)
         }
-    ], function (err, results) {
-        console.log(results[0].rows);
-        console.log('second row');
-        console.log(results[1].rows);
-        console.log('third row');
-        console.log('market' + results[4].rows);
-        res.render('../views/CST/program', {
-            mcasegment: results[0].rows,
-            businessgroups: results[1].rows,
-            businesstype: results[2].rows,
-            programfamilies: results[3].rows,
-            market: results[4].rows
+    ],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                return callback({
+                    programFamily: data[0].rows
+                    , MCASegment: data[1].rows
+                    , market: data[2].rows
+                    , BusinessGroup: data[3].rows
+                    , BusinessType: data[4].rows
+                });
+            }
         });
-    });
-}
-module.exports.subcampaign1 = function (req, res) {
+};
+
+module.exports.onbgchange = function (data, res, callback) {
     async.parallel([
         function (callback) {
-            redshift.query('SELECT marketid,marketname  FROM apps."market"', callback)
-        },
-        function (callback) {
-            redshift.query('select mastercampaignid,mastercampaignname from apps."mastercampaigns"', callback)
-        },
-        // function (callback) { redshift.query('select businesslineid,businesslinename from apps."businesslines"', callback) },
-        function (callback) {
-            redshift.query('select industryid,industryname from apps."industry"', callback)
+            var statement = 'select bg.businesslineid,bg.businesslinename,false as isselect from apps.businesslines bg '
+                + ' where bg.isactive=1 and bg.clientid = 1 and bg.businessgroupid in (' + data.BGId + ')';
+            console.log(statement);
+
+            redshift.query(statement, callback)
         }
-    ], function (err, results) {
-        console.log(results[0].rows);
-        // console.log('second row');
-        // console.log(results[1].rows);
-        // console.log('third row');
-        // console.log('market' + results[4].rows);
-        // console.log('campaign' + results[5].rows);
-        //res.render('../views/CST/subcampaign', { mcasegment: results[0].rows, businessgroups: results[1].rows, businesstype: results[2].rows, programfamilies: results[3].rows, market: results[4].rows, campaign: results[5].rows, businessline: results[6].rows, industry: results[7].rows });
-        res.render('../views/CST/program', {
-            campaign: results[1].rows,
-            market: results[0].rows,
-            industry: results[2].rows
+    ],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                return callback({ BusinessLine: data[0].rows });
+            }
         });
-    });
-}
+};
 
-module.exports.getPrograme = function (req, res) {
+module.exports.onbtchange = function (data, res, callback) {
     async.parallel([
         function (callback) {
-            redshift.query('SELECT a.programid,a.programname,a.campaignmanager,a.programdescription FROM apps."programs" a', callback)
-            //console.log("callback result is" + callback);
+            var statement = 'select bg.industryid,bg.industryname,false as isselect from apps.industry bg '
+                + ' where bg.isactive=1 and bg.clientid = 1 and bg.businesstypeid in (' + data.BTId + ')';
+            //console.log(statement);
+
+            redshift.query(statement, callback)
         }
-    ], function (err, results) {
-        console.log(JSON.stringify(results[0].rows));
-
-
-        res.render('../views/CST/program', {
-            program: results[0].rows
+    ],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                return callback({ Industry: data[0].rows });
+            }
         });
-    });
-}
+};
 
-exports.getProgramelist = function (req, res, id) {
+module.exports.onprogramsave = function (data, res, callback) {
+    var porgramdata = {
+        campaignmanager: data.Campaignmanager,
+        programdescription: data.Description,
+        programname: data.Name,
+        budget: data.Budget,
+        spend: data.Spend,
+        status: data.status,
+        startdate: data.StartDate,
+        enddate: data.EndDate,
+        programfamilyid: data.ProgramFamily,
+        mcasegmentid: data.MCASegmentId,
+        businessgroupid: data.BusinessGroupId,
+        businesslineid: data.BusinessLineId,
+        businesstypeid: data.BusinessTypeId,
+        industryid: data.IndustryId,
+        mqlgoal: data.MQLGol,
+        mqllow: data.MQLLow,
+        mqlhigh: data.MQLHigh,
+        mqlsource: data.MQLSource,
+        salgoal: data.SALGol,
+        sallow: data.SALLow,
+        salhigh: data.SALHigh,
+        salsource: data.SALSource,
+        pipelinegoal: data.TPGol,
+        pipelinelow: data.TPLow,
+        pipelinehigh: data.TPHigh,
+        pipelinesource: data.TPSource,
+        user: data.user,
+        mastercampaignid: data.CampaignId,
+        isactive: "1",
+        clientid: "1",
+        MarketId: data.MarketId,
+        BusinessGroup: data.BusinessGroup,
+        Businessline: data.Businessline,
+        Businesstype: data.Businesstype,
+        Industry: data.Industry
+    };
 
-    var programId = id;
-    console.log("campaign ID is " + programId);
-    var mastercampaig = "select a.mastercampaignid,b.programid,a.mastercampaignname,(CASE WHEN b.mastercampaignid is null THEN FALSE ELSE TRUE END) AS isselect FROM apps.mastercampaigns a LEFT JOIN apps.programs b " +
-        "  a.mastercampaignid = b.mastercampaignid" +
-        "  and b.programid =" + programId + ""
-    console.log(JSON.stringify(mastercampaig));
-    //var sta = mcasegments.select('apps.programs.programid,apps.programs.mcasegmentid ,apps.mcasegments.mcasegmentname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.mcasegments').on('apps.programs.mcasegmentid', 'apps.mcasegments.mcasegmentid').toParams();
-    //console.log(sta);
-    async.parallel([
-        function (callback) {
-            redshift.query(programtabdata.select('apps.programs.programid', 'apps.programs.programname', 'apps.programs.programdescription', 'apps.programs.campaignmanager', 'apps.programs.budget', 'apps.programs.spend', 'apps.programs.startdate', 'apps.programs.enddate', 'apps.programs.mqlgoal', 'apps.programs.mqllow', 'apps.programs.mqlhigh', 'apps.programs.mqlsource', 'apps.programs.salgoal', 'apps.programs.sallow', 'apps.programs.salhigh', 'apps.programs.salsource', 'apps.programs.pipelinegoal', 'apps.programs.pipelinehigh', 'apps.programs.pipelinelow', 'apps.programs.pipelinesource').from('apps.programs').where($in('apps.programs.programid', programId)).toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(mcasegments.select('apps.programs.programid', 'apps.programs.mcasegmentid', 'apps.mcasegments.mcasegmentname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.mcasegments').on('apps.programs.mcasegmentid', 'apps.mcasegments.mcasegmentid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(leadbusinessgroups.select('apps.programs.programid', 'apps.programs.businessgroupid', 'apps.businessgroups.businessgroupname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.businessgroups').on('apps.programs.businessgroupid', 'apps.businessgroups.businessgroupid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(leadbusinessline.select('apps.programs.programid', 'apps.programs.businesslineid', 'apps.businesslines.businesslinename').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.businesslines').on('apps.programs.businesslineid', 'apps.businesslines.businesslineid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(leadbusinesstype.select('apps.programs.programid', ' apps.programs.businesstypeid', 'apps.businesstype.businesstypename').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.businesstype').on('apps.programs.businesstypeid', 'apps.businesstype.businesstypeid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(leadindustry.select('apps.programs.programid', 'apps.programs.industryid', 'apps.industry.industryname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.industry').on('apps.programs.industryid', 'apps.industry.industryid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(markets.distinct('apps.market.marketid', 'apps.market.marketname', '(CASE WHEN apps.market.marketid is null THEN FALSE ELSE TRUE END) AS isselect').from('apps.market').where($in('apps.programsmarket.programid', programId)).innerJoin('apps.programsmarket').on('apps.programsmarket.marketid', 'apps.market.marketid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(secbusinessgroups.distinct('apps.businessgroups.businessgroupid', 'apps.businessgroups.businessgroupname', '(CASE WHEN apps.businessgroups.businessgroupid is null THEN FALSE ELSE TRUE END) AS isselect').from('apps.businessgroups').where($in('apps.programssecbusinessgroups.programid', programId)).innerJoin('apps.programssecbusinessgroups').on('apps.programssecbusinessgroups.businessgroupid', 'apps.businessgroups.businessgroupid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(secbusinesslines.distinct('apps.businesslines.businesslineid', 'apps.businesslines.businesslinename', '(CASE WHEN businesslines.businesslineid is null THEN FALSE ELSE TRUE END) AS isselect').from('apps.businesslines').where($in('apps.programssecbusinesslines.programid', programId)).innerJoin('apps.programssecbusinesslines').on('apps.programssecbusinesslines.businesslineid', 'apps.businesslines.businesslineid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(secbusinesstype.distinct('apps.businesstype.businesstypeid', 'apps.businesstype.businesstypename', '(CASE WHEN apps.businesstype.businesstypeid is null THEN FALSE ELSE TRUE END) AS isselect').from('apps.businesstype').where($in('apps.programssecbusinesstype.programid', programId)).innerJoin('apps.programssecbusinesstype').on('apps.programssecbusinesstype.businesstypeid', 'apps.businesstype.businesstypeid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query(programfamily.select('apps.programs.programid', 'apps.programs.programfamilyid ,apps.programfamilies.programfamiliyname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.programfamilies').on('apps.programs.programfamilyid', 'apps.programfamilies.programfamiliyid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query('SELECT a.mastercampaignid,a.mastercampaignname FROM apps."mastercampaigns" a', callback)
-        }
-    ], function (err, results) {
-        console.log('program data ' + JSON.stringify(results[0].rows));
-        var startdate = results[0].rows[0].startdate;
-        var formatStartDate = date.format(startdate, 'YYYY-MM-DD');
-        console.log('formatted date ', formatStartDate);
-        var endDate = results[0].rows[0].enddate;
-        var Formattedenddate = date.format(endDate, 'YYYY-MM-DD');
-        console.log('formatted date ', Formattedenddate);
-        console.log('mcasegments  result is' + results[1].rows);
-        console.log('Business groups  result is' + results[2].rows);
-        console.log('Business lines are' + JSON.stringify(results[3].rows));
-        console.log('Business types are' + JSON.stringify(results[4].rows));
-        console.log('lead industries are' + JSON.stringify(results[5].rows));
-        console.log('marketnames are' + JSON.stringify(results[6].rows));
-        console.log('sec business groups are' + JSON.stringify(results[7].rows));
-        console.log('sec business lines are' + JSON.stringify(results[8].rows));
-        console.log('sec business types are' + JSON.stringify(results[9].rows));
-        console.log('program families are ' + JSON.stringify(results[10].rows));
-        res.render('../views/CST/Program', {
-            programTab: results[0].rows,
-            startDate: formatStartDate,
-            endDate: Formattedenddate,
-            mcaseg: results[1].rows,
-            leadbusiness: results[2].rows,
-            leadbusinesslin: results[3].rows,
-            leadbusinessty: results[4].rows,
-            industryLead: results[5].rows,
-            markettab: results[6].rows,
-            secbusinessgro: results[7].rows,
-            secbusinessLin: results[8].rows,
-            secbusinesstyp: results[9].rows,
-            pfamily: results[10].rows,
-            campaign: results[11].rows
+    if (data.programid == "" || data.programid == "/") {
+        data.programid = "0";
+        porgramdata.createdby = data.user;
+        porgramdata.createddate = moment().format("YYYY-MM-DD");
+    }
+    else {
+        porgramdata.updatedby = data.user;
+        porgramdata.updateddate = moment().format("YYYY-MM-DD");
+    }
+    //console.log(JSON.stringify(tacticdata));
+    if (data.programid == "" || data.programid == "/" || data.programid == "0" || data.programid == undefined) {
+        programtable.create(porgramdata, function (err, result) {
+            if (err) {
+                console.log("error is " + err);
+            }
+            else {
+                var SQLStatement = "SELECT ISNULL(Max(programid),0) as programid from apps.programs where createdby='" + data.user + "'";
+                redshift.query(SQLStatement, function (err, scopeId) {
+                    if (err) {
+                        console.log('program id error is' + err);
+                    } else {
+                        console.log('program id ' + JSON.stringify(scopeId.rows[0].programid));
+                        data.programid = scopeId.rows[0].programid;
+                        var programdigitalid = 'P' + utilhelpers.getDID(data.programid);
+                        console.log(programdigitalid);
+                        var sqldid = "update apps.programs set programdigitalid='" + programdigitalid + "' where programid=" + data.programid;
+                        console.log(sqldid);
+                        redshift.query(sqldid, function (err) {
+                            if (err) console.log('while updating program digital id error throws : ' + err);
+                        });
+                        updateinsertmarket(data, callback);
+                    }
+                });
+                return;
+            }
         });
+    }
+    else {
+        console.log(porgramdata);
+        var SQLUpdate = "update apps.programs set programname='" + porgramdata.programname + "'"
+            + " , programdescription='" + porgramdata.programdescription + "'"
+            + " , campaignmanager='" + porgramdata.campaignmanager + "'"
+            + " , budget='" + porgramdata.budget + "'"
+            + " , spend='" + porgramdata.spend + "'"
+            + " , status='" + porgramdata.status + "'"
+            + " , startdate='" + porgramdata.startdate + "'"
+            + " , enddate='" + porgramdata.enddate + "'"
+            + " , programfamilyid ='" + porgramdata.programfamilyid + "'"
+            + " , mcasegmentid ='" + porgramdata.mcasegmentid + "'"
+            + " , businessgroupid ='" + porgramdata.businessgroupid + "'"
+            + " , businesslineid ='" + porgramdata.businesslineid + "'"
+            + " , businesstypeid ='" + porgramdata.businesstypeid + "'"
+            + " , industryid ='" + porgramdata.industryid + "'"
+            + " , mqlgoal ='" + porgramdata.mqlgoal + "'"
+            + " , mqllow ='" + porgramdata.mqllow + "'"
+            + " , mqlhigh ='" + porgramdata.mqlhigh + "'"
+            + " , mqlsource ='" + porgramdata.mqlsource + "'"
+            + " , salgoal ='" + porgramdata.salgoal + "'"
+            + " , sallow ='" + porgramdata.sallow + "'"
+            + " , salhigh ='" + porgramdata.salhigh + "'"
+            + " , salsource ='" + porgramdata.salsource + "'"
+            + " , pipelinegoal ='" + porgramdata.pipelinegoal + "'"
+            + " , pipelinelow ='" + porgramdata.pipelinelow + "'"
+            + " , pipelinehigh ='" + porgramdata.pipelinehigh + "'"
+            + " , pipelinesource ='" + porgramdata.pipelinesource + "'"
+            + " , mastercampaignid ='" + porgramdata.mastercampaignid + "'"
+            + " , updatedby='" + porgramdata.user + "'"
+            + " , updateddate='" + moment().format("YYYY-MM-DD") + "'"
+            + " where programid =" + data.programid;
 
-    });
-}
+        console.log(JSON.stringify(SQLUpdate));
+        redshift.query(SQLUpdate, function (err) {
+            if (err) console.log('while updating tactic error throws : ' + err);
+            else {
+                updateinsertmarket(data, callback);
+                return;
+            }
+        });
+    }
+};
 
-exports.getProgramData = function (req, res, id) {
+function updateinsertmarket(data, callback) {
 
-    var programId = id;
-    console.log("campaign ID is " + programId);
-    //var sta = mcasegments.select('apps.programs.programid,apps.programs.mcasegmentid ,apps.mcasegments.mcasegmentname').from('apps.programs').where($in('apps.programs.programid', programId)).innerJoin('apps.mcasegments').on('apps.programs.mcasegmentid', 'apps.mcasegments.mcasegmentid').toParams();
-    //console.log(sta);
-    async.parallel([
-        function (callback) {
-            redshift.query(select('apps.mastercampaignsprogramfamilies.mastercampaignid', 'apps.programfamilies.programfamiliyname', 'apps.programfamilies.programfamiliyid').from('apps.mastercampaignsprogramfamilies').where($in('apps.mastercampaignsprogramfamilies.mastercampaignid', id)).innerJoin('apps.programfamilies').on('apps.mastercampaignsprogramfamilies.programfamilyid', 'apps.programfamilies.programfamiliyid').toParams(), callback)
-        },
-        function (callback) {
-            redshift.query('select mm.startdate,mm.enddate from apps.mastercampaigns mm ' +
-                'where mm.mastercampaignid=' + programId + '', callback)
-        },
-    ], function (err, results) {
-        console.log(results[1].rows);
-        var startdate = results[1].rows[0].startdate;
-        var formatStartDate = date.format(startdate, 'YYYY-MM-DD');
-        console.log('formatted date ', formatStartDate);
-        var endDate = results[1].rows[0].enddate;
-        var Formattedenddate = date.format(endDate, 'YYYY-MM-DD');
-        console.log('formatted date ', Formattedenddate);
+    var sqlmarket = 'delete from apps.programsmarket where programid=' + data.programid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function (err, scopeId) {
         if (err) {
-            console.log(err);
+            console.log('program id error is' + err);
         } else {
-            return callback({
-                programjob: data[0].rows,
-                startdate: startdate,
-                enddate: endDate
-                // , market:data[2].rows
-                // , BusinessGroup:data[3].rows
-                // , BusinessLine:data[4].rows
-                // , BusinessType : data[5].rows
-                // , Industry : data[6].rows
-            });
+            var marketArrayId = [];
+            marketArrayId = data.MarketId;
+            for (var i = 0; i < marketArrayId.length; i++) {
+                var programmarketvalue = {
+                    programid: data.programid,
+                    marketid: marketArrayId[i]
+                };
+                programmarket.create(programmarketvalue, function (err, marketres) {
+                    if (err) {
+                        console.log("Insertion Error while inserting in market table " + err);
+                    }
+                });
+            }
+            insertsecprogrambg(data, callback);
+
+            //return callback({ messagae: "Saved Successfully", status: true, tacticid: tacticid });
         }
     });
+}
+
+function insertsecprogrambg(data, callback) {
+    var sqlmarket = 'delete from apps.programssecbusinessgroups where programid=' + data.programid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function (err, scopeId) {
+        if (err) {
+            console.log('program id error is' + err);
+        } else {
+            var ArrayId = [];
+            ArrayId = data.BusinessGroup;
+            for (var i = 0; i < ArrayId.length; i++) {
+                var programvalue = {
+                    programid: data.programid,
+                    businessgroupid: ArrayId[i]
+                };
+                programbusinessgroups.create(programvalue, function (err, marketres) {
+                    if (err) {
+                        console.log("Insertion Error while inserting in bg table " + err);
+                    }
+                });
+            }
+            insertsecprogrambl(data, callback);
+
+            //return callback({ messagae: "Saved Successfully", status: true, tacticid: tacticid });
+        }
+    });
+}
+function insertsecprogrambl(data, callback) {
+    var sqlmarket = 'delete from apps.programssecbusinesslines where programid=' + data.programid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function (err, scopeId) {
+        if (err) {
+            console.log('program id error is' + err);
+        } else {
+            var ArrayId = [];
+            ArrayId = data.Businessline;
+            for (var i = 0; i < ArrayId.length; i++) {
+                var programvalue = {
+                    programid: data.programid,
+                    businesslineid: ArrayId[i]
+                };
+                programbusinesslines.create(programvalue, function (err, marketres) {
+                    if (err) {
+                        console.log("Insertion Error while inserting in bg table " + err);
+                    }
+                });
+            }
+            insertsecprogrambt(data, callback);
+
+            //return callback({ messagae: "Saved Successfully", status: true, tacticid: tacticid });
+        }
+    });
+}
+function insertsecprogrambt(data, callback) {
+    var sqlmarket = 'delete from apps.programssecbusinesstype where programid=' + data.programid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function (err, scopeId) {
+        if (err) {
+            console.log('program id error is' + err);
+        } else {
+            var ArrayId = [];
+            ArrayId = data.Businesstype;
+            for (var i = 0; i < ArrayId.length; i++) {
+                var programvalue = {
+                    programid: data.programid,
+                    businesstypeid: ArrayId[i]
+                };
+                programtypes.create(programvalue, function (err, marketres) {
+                    if (err) {
+                        console.log("Insertion Error while inserting in businesstype table " + err);
+                    }
+                });
+            }
+            insertsecprogramind(data, callback);
+
+            //return callback({ messagae: "Saved Successfully", status: true, tacticid: tacticid });
+        }
+    });
+}
+function insertsecprogramind(data, callback) {
+    var sqlmarket = 'delete from apps.programsindustry where programid=' + data.programid;
+    console.log(sqlmarket);
+    redshift.query(sqlmarket, function (err, scopeId) {
+        if (err) {
+            console.log('program id error is' + err);
+        } else {
+            var ArrayId = [];
+            ArrayId = data.Industry;
+            for (var i = 0; i < ArrayId.length; i++) {
+                var programvalue = {
+                    programid: data.programid,
+                    industryid: ArrayId[i]
+                };
+                programsindustry.create(programvalue, function (err, marketres) {
+                    if (err) {
+                        console.log("Insertion Error while inserting in industry table " + err);
+                    }
+                });
+            }
+            return callback({ messagae: "Saved Successfully", status: true, data: data });
+        }
+    });
+}
+module.exports.getprogramById = function (programid, res) {
+    async.parallel([
+        function (callback) {
+            redshift.query('SELECT * from apps.programs where programid=' + programid, callback)
+        },
+        function (callback) {
+            var SQLBG = 'SELECT a.mastercampaignid,a.mastercampaignname,'
+            + ' (case WHEN a.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid=' + programid + ') then TRUE ELSE FALSE END) as IsSelect '
+            + ' FROM apps.mastercampaigns a';
+            //console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select pf.programfamiliyid, pf.programfamiliyname,(case WHEN pf.programfamiliyid = (select programfamilyid from apps.programs'
+            + ' where programid=' + programid + ') then TRUE ELSE FALSE END) as isselect from apps.programfamilies pf '
+            + ' inner join apps.mastercampaignsprogramfamilies cpf on pf.programfamiliyid= cpf.programfamilyid '
+            + ' where cpf.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            redshift.query('select mca.mcasegmentid,mca.mcasegmentname,(case WHEN mca.mcasegmentid = (select mcasegmentid from apps.programs'
+                + ' where programid=' + programid + ') then TRUE ELSE FALSE END) as IsSelect  from apps."mcasegments" mca'
+                + ' inner join apps.mastercampaignsmcasegments prg on mca.mcasegmentid=prg.mcasegmentid where prg.mastercampaignid=(select top 1 mastercampaignid from apps.programs where programid=' + programid + ')', callback)
+        },
+        function (callback) {
+            redshift.query('select mar.marketid,mar.marketname,(case when pmar.marketid is null then false else true end) as isselect '
+                + ' from apps.market mar left join apps.programsmarket pmar on mar.marketid = pmar.marketid and pmar.programid=' + programid + ' '
+                + ' where mar.isactive=1', callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businessgroupid,bg.businessgroupname, (case WHEN bg.businessgroupid = (select businessgroupid from apps.programs'
+            + ' where programid=' + programid + ') then TRUE ELSE FALSE END) as IsSelect from apps.businessgroups bg '
+            +' inner join apps.mastercampaignsbusinessgroups mbg on bg.businessgroupid = mbg.businessgroupid '
+            +' where mbg.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businessgroupid,bg.businessgroupname, (Case when pbg.businessgroupid is null then false else true end) as IsSelect from apps.businessgroups bg '
+            +' inner join apps.mastercampaignsbusinessgroups mbg on bg.businessgroupid = mbg.businessgroupid '
+            +' left join apps.programssecbusinessgroups pbg on bg.businessgroupid = pbg.businessgroupid and pbg.programid = ' + programid + ''
+            +' where mbg.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businesslineid,bg.businesslinename, (case WHEN bg.businesslineid = (select businesslineid from apps.programs'
+            + ' where programid=' + programid + ') then TRUE ELSE FALSE END) as IsSelect from apps.businesslines bg '
+            +' where bg.businessgroupid = (select top 1 businessgroupid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businesslineid,bg.businesslinename, '
+            +'(Case when pbl.businesslineid is null then false else true end) as IsSelect from apps.businesslines bg '            
+            +' inner join apps.programssecbusinessgroups pbg on bg.businessgroupid = pbg.businessgroupid and pbg.programid =' + programid + ''
+            +' left join apps.programssecbusinesslines pbl on bg.businesslineid = pbl.businesslineid and pbl.programid = ' + programid + '';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businesstypeid,bg.businesstypename, (case WHEN bg.businesstypeid = (select businesstypeid from apps.programs '
+                +' where programid= ' + programid + ') then TRUE ELSE FALSE END) as IsSelect from apps.businesstype bg '
+                +' inner join apps.mastercampaignsbusinesstype mbg on bg.businesstypeid = mbg.businesstypeid '
+                +' where mbg.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid= ' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.businesstypeid,bg.businesstypename, (Case when pbg.businesstypeid is null then false else true end) as IsSelect from apps.businesstype bg '
+            +' inner join apps.mastercampaignsbusinesstype mbg on bg.businesstypeid = mbg.businesstypeid '
+            +' left join apps.programssecbusinesstype pbg on bg.businesstypeid = pbg.businesstypeid and pbg.programid =' + programid + ' '
+            +' where mbg.mastercampaignid = (select top 1 mastercampaignid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.industryid,bg.industryname, (case WHEN bg.industryid = (select industryid from apps.programs '
+            +' where programid=' + programid + ') then TRUE ELSE FALSE END) as IsSelect from apps.industry bg '
+            +' where bg.businesstypeid = (select top 1 businesstypeid from apps.programs where programid=' + programid + ')';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+        function (callback) {
+            var SQLBG = 'select bg.industryid,bg.industryname, (Case when pbl.industryid is null then false else true end) as IsSelect '
+            +' from apps.industry bg   '          
+            +' inner join apps.programssecbusinesstype pbg on bg.businesstypeid = pbg.businesstypeid and pbg.programid =' + programid + ''
+            +' left join apps.programsindustry pbl on bg.industryid = pbl.industryid and pbl.programid =' + programid + '';
+            // console.log(SQLBG);
+            redshift.query(SQLBG, callback)
+        },
+    ],
+        function (err, data) {
+            if (err) res.render('../views/error/custormerror', { message: err });
+            data[0].rows[0].startdate = moment(data[0].rows[0].startdate).format('YYYY-MM-DD');
+            data[0].rows[0].enddate = moment(data[0].rows[0].enddate).format('YYYY-MM-DD');
+            // console.log(data[0].rows[0].startdate);
+            res.render('../views/CST/program',
+                {
+                    program: data[0].rows[0]
+                    , campaign: data[1].rows
+                    , programFamily: data[2].rows
+                    , MCASegment: data[3].rows
+                    , market: data[4].rows
+                    , businessgroups: data[5].rows
+                    , secbusinessgroups: data[6].rows
+                    , businessline: data[7].rows
+                    , secbusinessline: data[8].rows
+                    , businesstype: data[9].rows
+                    , secbusinesstype: data[10].rows
+                    , industry: data[11].rows
+                    , secIndustry: data[12].rows
+                });
+        });
 };
