@@ -1,0 +1,52 @@
+<div class="panel panel-default">
+    <div id="Tabs" role="tabpanel" class="panel-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="mastercmpDeepdiveViewclick" href="#mastercampaign" aria-controls="mastercampaign"
+                    role="tab" data-toggle="tab">
+                    Program Details by Campaign
+                </a>
+            </li>
+            <li><a class="nav-link" id="childcmpDeepdiveViewclick" href="#subcampaign" aria-controls="subcampaign" role="tab"
+                    data-toggle="tab">Tactic Details by Program</a></li>
+
+            <li>
+                <a class="nav-link" id="tacticcmpDeepdiveViewclick" href="#tactic" aria-controls="tactic" role="tab"
+                    data-toggle="tab">DID and UTM Details by Tactic</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content" style="padding-top: 20px;overflow-x: scroll;width:97%">
+            <div role="tabpanel" class="tab-pane active" id="mastercampaign">
+                {{!-- <button type="submit" id="rptMasterDeepD_btn" name="Command" class="btn btn-primary" value="Export to Excel">Export
+                    to Excel</button> --}}
+                <div class="horizontal-scroll">
+                    <table id="reportViewMasterDeepDiveGrid" class="table table-striped dataTable no-footer"></table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="subcampaign">
+                {{!-- <button type="submit" id="rptChildDeepD_btn" name="Command" class="btn btn-primary" value="Export to Excel">Export
+                    to Excel</button> --}}
+                <div class="horizontal-scroll">
+                    <table id="reportViewChildDeepDiveGrid" class="display compact table table-striped table-bordered table-hover dataTable no-footer"></table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tactic">
+                <button type="submit" id="rptTacticDeepD_btn" name="Command" class="btn btn-primary" value="Export to Excel">Export
+                    to Excel</button>
+                <div class="horizontal-scroll">
+                    <table id="reportViewTacticDeepDiveGrid" class="display compact table table-striped table-bordered table-hover dataTable no-footer"></table>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/script/heirarchylist.js"></script>

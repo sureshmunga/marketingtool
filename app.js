@@ -25,6 +25,7 @@ var users = require('./routes/users');
 var cst = require('./routes/masterCampaignRoute');
 var program = require('./routes/programRoute');
 var tactic= require('./routes/tacticRoute');
+var heirarchy= require('./routes/heirarchyRoute');
 
 
 // Init App
@@ -111,6 +112,7 @@ app.use('/users', users);
 app.use('/cst', cst);
 app.use('/program', program);
 app.use('/tactic', tactic);
+app.use('/report', heirarchy);
 
 // Set Port
 app.set('port', (process.env.PORT || 4000));
