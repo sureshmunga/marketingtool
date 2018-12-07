@@ -12,4 +12,16 @@ router.get('/program', function (req, res) {
     });
 });
 
+router.get('/tactic', function (req, res) {
+    model.gettacticbyProgram(function (response) {
+        res.send(response);
+    });
+});
+
+router.get('/did', function (req, res) {
+    model.getdidbytactic(function (response) {
+        res.send(response);
+    });
+});
+
 module.exports = router;

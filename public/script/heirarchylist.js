@@ -5,7 +5,7 @@ $(document).ready(function () {
         GetMastercmpReport($(this));
     });
     $("#childcmpDeepdiveViewclick").on("click", function () {
-        $.getJSON("/report/GetChildDeepDive/", function (response) {
+        $.getJSON("/report/tactic/", function (response) {
             var dataset = response.Result;
             if ($('#reportViewChildDeepDiveGrid')[0].childNodes.length > 0) {
                 $('#reportViewChildDeepDiveGrid').dataTable().fnDestroy();
@@ -23,36 +23,34 @@ $(document).ready(function () {
                 "lengthMenu": [10, 25, 50, 75, 100],
                 initComplete: function (settings, json) {
                     $("input[type=search]").attr("maxlength", "100");
-                    $("#reportViewChildDeepDiveGrid").find('thead tr').attr('class', 'bg-skyblue text-white');
+                    //$("#reportViewChildDeepDiveGrid").find('thead tr').attr('class', 'bg-skyblue text-white');
                     //panel.find("#reportViewChildGrid_paginate").attr('class', 'page-link');
                     //panel.find("pagination").attr('class', 'page-link');
                 },
                 columns: [
-                    { title: "Program ID", data: "ProgramID", className: "text-nowrap col-lg-3" },
-                    { title: "Tactic ID", data: "TacticID", className: "text-nowrap col-lg-3" },
-                    { title: "Tactic", data: "Tactic", className: "text-nowrap col-lg-3" },
-                    { title: "Program Family", data: "ProgramFamily", className: "text-nowrap col-lg-3" },
-                    { title: "Program Job", data: "programjob", className: "text-nowrap col-lg-3" },
-                    { title: "Tactic Type", data: "TacticType", className: "text-nowrap col-lg-3" },
-                    { title: "MCA Segment", data: "MCASegment", className: "text-nowrap col-lg-3" },
-                    { title: "Campaign Manager", data: "CampaignManager", className: "text-nowrap col-lg-3" },
-                    { title: "Created By", data: "CreatedBy", className: "text-nowrap col-lg-3" },
-                    { title: "Vendor", data: "Vendor", className: "text-nowrap col-lg-3" },
-                    { title: "Lead Business Group", data: "LeadBusinessGroup", className: "text-nowrap col-lg-3" },
-                    { title: "Lead Business Line", data: "LeadBusinessLine", className: "text-nowrap col-lg-3" },
-                    { title: "Secondary Business Group", data: "BusinessGroup", className: "text-nowrap col-lg-3" },
-                    { title: "Secondary Business Line", data: "BusinessLine", className: "text-nowrap col-lg-3" },
-                    { title: "Business Type", data: "BusinessType", className: "text-nowrap col-lg-3" },
-                    { title: "Industry", data: "Industry", className: "text-nowrap col-lg-3" },
-                    { title: "Status", data: "Status", className: "text-nowrap col-lg-3" },
+                    { title: "Program ID", data: "programdigitalid", className: "text-nowrap" },
+                    { title: "Tactic ID", data: "tcampaigndigitalid", className: "text-nowrap" },
+                    { title: "Tactic", data: "tacticname", className: "text-nowrap" },
+                    { title: "Program Family", data: "programfamiliyname", className: "text-nowrap" },
+                    { title: "Program Job", data: "pfamilyjobname", className: "text-nowrap" },
+                    { title: "Tactic Type", data: "tactictypename", className: "text-nowrap" },
+                    { title: "MCA Segment", data: "mcasegmentname", className: "text-nowrap" },
+                    { title: "Campaign Manager", data: "campaignmanager", className: "text-nowrap" },
+                    { title: "Created By", data: "createdby", className: "text-nowrap" },
+                    { title: "Vendor", data: "vendor", className: "text-nowrap" },
+                    { title: "Business Group", data: "businessgroupname", className: "text-nowrap" },
+                    { title: "Business Line", data: "businesslinename", className: "text-nowrap" },
+                    { title: "Business Type", data: "businesstypename", className: "text-nowrap" },
+                    { title: "Industry", data: "industryname", className: "text-nowrap" },
+                    { title: "Status", data: "status", className: "text-nowrap" },
                 ],
             });
-            columnfilter(table, 'reportViewChildDeepDiveGrid');
+            //columnfilter(table, 'reportViewChildDeepDiveGrid');
         });
     });
 
     $("#tacticcmpDeepdiveViewclick").on("click", function () {
-        $.getJSON("/report/scopecst/GetTacticDeepDive/", function (response) {
+        $.getJSON("/report/did/", function (response) {
             var dataset = response.programbycampaign;
             if ($('#reportViewTacticDeepDiveGrid')[0].childNodes.length > 0) {
                 $('#reportViewTacticDeepDiveGrid').dataTable().fnDestroy();
@@ -70,25 +68,25 @@ $(document).ready(function () {
                 "lengthMenu": [10, 25, 50, 75, 100],
                 initComplete: function (settings, json) {
                     $("input[type=search]").attr("maxlength", "100");
-                    $("#reportViewTacticDeepDiveGrid").find('thead tr').attr('class', 'bg-skyblue text-white');
+                    //$("#reportViewTacticDeepDiveGrid").find('thead tr').attr('class', 'bg-skyblue text-white');
                     // panel.find("#reportViewTacticGrid_paginate").attr('class', 'page-link');
                     //  panel.find("pagination").attr('class', 'page-link');
                 },
                 columns: [
-                    { title: "Tactic ID", data: "TacticID", className: "text-nowrap col-lg-2" },
-                    { title: "Digital ID", data: "DigitalID", className: "text-nowrap col-lg-3" },
-                    { title: "Tactic", data: "Tactic", className: "text-nowrap col-lg-3" },
-                    { title: "MCA Segment", data: "MCASegment", className: "text-nowrap col-lg-3" },
-                    { title: "Program", data: "Program", className: "text-nowrap col-lg-3" },
-                    { title: "Created By", data: "CreatedBy", className: "text-nowrap col-lg-3" },
-                    { title: "Status", data: "Status", className: "text-nowrap col-lg-3" },
-                    { title: "Source", data: "Source", className: "text-nowrap col-lg-3" },
-                    { title: "Medium", data: "Medium", className: "text-nowrap col-lg-3" },
-                    { title: "Content", data: "Content", className: "text-nowrap col-lg-3" },
-                    { title: "Term", data: "Term", className: "text-nowrap col-lg-3" },
+                    { title: "Tactic ID", data: "tcampaigndigitalid", className: "text-nowrap" },
+                    { title: "Digital ID", data: "did", className: "text-nowrap" },
+                    { title: "Tactic", data: "tacticname", className: "text-nowrap" },
+                    { title: "MCA Segment", data: "mcasegmentname", className: "text-nowrap" },
+                    { title: "Program", data: "programname", className: "text-nowrap" },
+                    { title: "Created By", data: "createdby", className: "text-nowrap" },
+                    { title: "Status", data: "status", className: "text-nowrap" },
+                    { title: "Source", data: "sourcename", className: "text-nowrap" },
+                    { title: "Medium", data: "mediumname", className: "text-nowrap" },
+                    { title: "Content", data: "content", className: "text-nowrap" },
+                    { title: "Term", data: "term", className: "text-nowrap" },
                 ]
             });
-            columnfilter(table, 'reportViewTacticDeepDiveGrid');
+            //columnfilter(table, 'reportViewTacticDeepDiveGrid');
         });
     });
 
@@ -174,18 +172,18 @@ function GetMastercmpReport(panel) {
                 // panel.find("pagination").attr('class', 'page-link');
             },
             columns: [
-                { title: "Campaign ID", data: "campaingid" },
-                { title: "Program ID", data: "programdigitalid" },
-                { title: "Program", data: "programname" },
-                { title: "Campaign Manager", data: "campaignmanager" },
-                { title: "Created By", data: "createdby" },
-                { title: "Business Group", data: "businessgroupname" },
-                { title: "Business Line", data: "businesslinename" },
-                { title: "Business Type", data: "businesstypename" },
-                { title: "Industry", data: "industryname"  },
-                { title: "Status", data: "status"  },
-                { title: "Budget", data: "budget"  },
-                { title: "Spend", data: "spend" },
+                { title: "Campaign ID", data: "campaingid", className: "text-nowrap" },
+                { title: "Program ID", data: "programdigitalid", className: "text-nowrap" },
+                { title: "Program", data: "programname", className: "text-nowrap" },
+                { title: "Campaign Manager", data: "campaignmanager", className: "text-nowrap" },
+                { title: "Created By", data: "createdby", className: "text-nowrap" },
+                { title: "Business Group", data: "businessgroupname", className: "text-nowrap" },
+                { title: "Business Line", data: "businesslinename", className: "text-nowrap" },
+                { title: "Business Type", data: "businesstypename", className: "text-nowrap" },
+                { title: "Industry", data: "industryname", className: "text-nowrap"  },
+                { title: "Status", data: "status" , className: "text-nowrap" },
+                { title: "Budget", data: "budget" , className: "text-nowrap" },
+                { title: "Spend", data: "spend", className: "text-nowrap" },
             ],
         });
         //columnfilter(table, 'reportViewMasterDeepDiveGrid');

@@ -22,3 +22,32 @@ module.exports.getprogrambyCampaign = function(callback){
             }
       });
 };
+module.exports.gettacticbyProgram = function(callback){    
+    async.parallel([
+        function (callback) { 
+            redshift.query('select * from tacticheirarchy', callback) 
+          }
+      ], 
+      function (err, data) {
+            if(err){
+                console.log(err);
+            } else{
+                return callback({Result:data[0].rows});
+            }
+      });
+};
+
+module.exports.getdidbytactic = function(callback){    
+    async.parallel([
+        function (callback) { 
+            redshift.query('select * from didheirarchy', callback) 
+          }
+      ], 
+      function (err, data) {
+            if(err){
+                console.log(err);
+            } else{
+                return callback({Result:data[0].rows});
+            }
+      });
+};
