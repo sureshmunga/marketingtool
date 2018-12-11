@@ -32,6 +32,15 @@ router.get('/program:id', function (req, res) {
         res.send(response)
     });
 });
+
+router.get('/getdidbytacticid', function (req, res){
+    var data={
+        "tacticId":req.body["data[tacticId]"],
+        "tactictypeid":req.body["data[tactictypeid]"]
+    };
+});
+
+
 router.post('/bgchange',function(req,res){
     var data={
         "ProgramId":req.body["data[ProgramId]"],
@@ -80,6 +89,8 @@ router.post('/tacticsave',function(req,res){
         res.send(response)
     });
 });
+
+
 
 
 module.exports = router;

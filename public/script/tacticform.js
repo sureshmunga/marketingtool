@@ -54,6 +54,7 @@ $(document).ready(function () {
         }
 
         $('select').chosen().trigger('chosen:updated');
+        
         // $('#globalLoader').remove();
         // $("#IdLoadView").removeClass("OnLoaderscroll");
     });
@@ -70,7 +71,7 @@ $(document).ready(function () {
             $('#drpTacticType').find("option").remove();
             $('#drpTacticType').append('<option value=0>None selected</option>');
             $.each(response.tactictype, function (index, item) {
-                $('#drpTacticType').append('<option value=' + item.tactictypeId + '>' + item.tactictypeName + '</option>');
+                $('#drpTacticType').append('<option value=' + item.tactictypeid + '>' + item.tactictypename + '</option>');
             });
         });
     });
@@ -150,13 +151,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $(document).on('click','#btnDigitaltouchpoint',function(){
-        
-        $('select').chosen().trigger('chosen:updated');
-        $('#drpSource').chosen().trigger('chosen:updated');
-        $(".chosen-choices").outerWidth('100%');
-        return false;
-    });
+    
 
 });
 
