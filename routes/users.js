@@ -83,6 +83,7 @@ router.post('/register', function (req, res) {
 
 passport.use(new LocalStrategy(
 	function (username, password, done) {
+		console.log('username : ' + username); 
 		User.getUserByUsername(username, function (err, userlength) {
 			if (err) throw err;
 			//		console.log('inside');
@@ -94,6 +95,7 @@ passport.use(new LocalStrategy(
 			//  console.log(password);
 			//console.log(User.password);
 			User.comparePassword(username, password, User.password, function (err, isMatch) {
+				console.log('isMatch : ' + isMatch); 
 				if (err) throw err;
 				if (isMatch) {
 					return done(null, username);
@@ -109,12 +111,12 @@ passport.use(new LocalStrategy(
 
 
 passport.serializeUser(function (username, done) {
-	console.log('insideserialize');
+	console.log('insideserialize serializeUser');
 	done(null, username);
 });
 
 passport.deserializeUser(function (username, done) {
-	console.log('insidedeserialize');
+	console.log('insidedeserialize deserializeUser ');
 	//	User.getUserById(id, function (err, username) {
 	done(null, username);
 	//	});
@@ -127,7 +129,7 @@ router.post('/login',
 		failureFlash: true
 	}),
 	function (req, res) {
-		console.log('redirect');
+		console.log('redirect 111');
 		res.redirect('/');
 	});
 

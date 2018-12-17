@@ -7,6 +7,7 @@ var select = sql.select(), $in = sql.in;
 var mcaselect = sql.select();
 var businesstypeselect = sql.select();
 var tacticviewmodel = redshift.import('./models/tactic.js');
+var digitaltouchpoints = redshift.import('./models/digitaltouchpoint.js');
 var tacticmarket = redshift.import('./models/tacticmarket.js');
 var programFamilySelect = sql.select();
 var utilhelpers = require("../utilhelper.js");
@@ -370,7 +371,9 @@ module.exports.ontacticsave = function (data, res, callback) {
 module.exports.getdidbytacticid = function (data, res, callback) {
     async.parallel([
         function (callback) {
-            var statement = 'select * from apps.digitaltouchpoints  where tacticid=' + data.tacticId;
+            var statement = 'select sr.sourcename as sources,md.mediumname as medium,dt.* from apps.digitaltouchpoints dt '
+            +' inner join apps.sources sr on dt.sourceid=sr.sourceid '
+            +' inner join apps.mediums md on dt.mediumid = md.mediumid where tacticid=' + data.tacticId;
             redshift.query(statement, callback)
         },
         function (callback) {
@@ -391,12 +394,73 @@ module.exports.getdidbytacticid = function (data, res, callback) {
                     {
                         DIDList: data[0].rows
                         , SourceList: data[1].rows
-                        , MediumList : data[2].rows
+                        , MediumList: data[2].rows
                     }
                 });
                 //return callback({DIDList:data[0].rows});
             }
         });
+};
+
+module.exports.didsave = function (data, res, callback) {
+    var touchpoitdata = {};
+
+    data.forEach(element => {
+        touchpoitdata = {
+            content: element.content,
+            term: element.term,
+            status: element.status,
+            //utmparameter: element.utmparameter,
+            othersource: element.othersource,
+            //did: element.did
+            mediumid: element.mediumid,
+            sourceid: element.sourceid,
+            tacticid: element.tacticid,
+            tactictypeid: element.tactictypeid,
+            url: element.url,
+            isactive: "1",
+            clientid: element.clientid,
+            anchorlink: element.anchorlink
+        };
+        if (element.digitalid == "" || element.digitalid == "/" || element.digitalid == "0") {
+            element.digitalid = "0";
+            touchpoitdata.createdby = element.user;
+            touchpoitdata.createddate = moment().format("YYYY-MM-DD");
+        }
+        else {
+            touchpoitdata.updatedby = element.user;
+            touchpoitdata.updateddate = moment().format("YYYY-MM-DD");
+        }
+
+        var sqldid = "delete from apps.digitaltouchpoints where status='Draft' and tochpointid=" + element.digitalid;
+        console.log(sqldid);
+        redshift.query(sqldid, function (err, scopeId) {
+            digitaltouchpoints.create(touchpoitdata, function (err, result) {
+                if (err) {
+                    console.log("error is " + err);
+                }
+                var SQLStatement = "SELECT ISNULL(Max(tochpointid),0) as tochpointid from apps.digitaltouchpoints where createdby='" + touchpoitdata.createdby + "'";
+                console.log(SQLStatement);
+                redshift.query(SQLStatement, function (err, scopeId) {
+                    if (err) {
+                        console.log('tochpointid id error is' + err);
+                    } else {
+                        console.log('tochpointid id ' + JSON.stringify(scopeId.rows[0].tochpointid));
+                        var tdigitalid = 'D' + utilhelpers.getDID(scopeId.rows[0].tochpointid);
+                        var sqldid = "update apps.digitaltouchpoints set did='" + tdigitalid + "' where tochpointid=" + scopeId.rows[0].tochpointid;
+                        console.log(sqldid);
+                        redshift.query(sqldid, function (err) {
+                            if (err) console.log('while updating tcampaigndigital id error throws : ' + err);
+                        });
+                    }
+                });
+                return;
+            });
+        });
+    });
+
+
+    return callback({ messagae: "Saved Successfully", status: true });
 };
 
 function updateinsertmarket(tacticid, data, callback) {
