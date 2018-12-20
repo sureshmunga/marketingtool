@@ -71,19 +71,19 @@ $(document).ready(function () {
 
     $(document).on("change", "#txtSource", function () {
         var TacticTypeId = $("#drpTacticType").val();
-        if ($('#txtSource :selected').text() == "Other" || $('#txtSource :selected').text() == "email list" || $('#txtSource :selected').text() == "event name" || $('#txtSource :selected').text() == "webinar vendor") {
-            if ($('#txtSource :selected').text() == "Other") {
+        if ($('#txtSource option:selected').text() == "Other" || $('#txtSource option:selected').text() == "email list" || $('#txtSource option:selected').text() == "event name" || $('#txtSource option:selected').text() == "webinar vendor") {
+            if ($('#txtSource option:selected').text() == "Other") {
                 $('#lblOther').html('Other');
             }
-            else if ($('#txtSource :selected').text() == "email list") {
+            else if ($('#txtSource option:selected').text() == "email list") {
                 $('#lblOther').html('email list');
 
             }
-            else if ($('#txtSource :selected').text() == "event name") {
+            else if ($('#txtSource option:selected').text() == "event name") {
                 $('#lblOther').html('event name');
 
             }
-            else if ($('#txtSource :selected').text() == "webinar vendor") {
+            else if ($('#txtSource option:selected').text() == "webinar vendor") {
                 $('#lblOther').html('webinar vendor');
 
             }
@@ -91,9 +91,9 @@ $(document).ready(function () {
         }
         else {
             $('#divOther').hide();
-            if (TacticTypeId == 89) {
-                $("#dvMedium").text("");
-            }
+            // if (TacticTypeId == 89) {
+            //     $("#dvMedium").text("");
+            // }
 
         }
     });
@@ -182,17 +182,13 @@ function savedigitalpoint(status) {
     });
     if (DigitalTouchPointViewModel != null && DigitalTouchPointViewModel.length != 0) {
         DisableButton();
-        $.post("/tactic/didsave", { count : DigitalTouchPointViewModel.length, model: DigitalTouchPointViewModel }, function (response) {
+        $.post("/tactic/didsave", { count: DigitalTouchPointViewModel.length, model: DigitalTouchPointViewModel }, function (response) {
             alert(response.messagae);
             EnableButton();
             if (response.status) {
-
                 ftacticData();
-                if (status == "Complete") {
-                    //window.location = "/tactic/DownloadExcel?model=" + tacticid;
-                    EnableButton();
-                }
-
+                window.location = "/tactic/getdidtemplate/" + tacticid;
+                EnableButton();
             }
         });
     }
@@ -203,7 +199,7 @@ function savedigitalpoint(status) {
 
 function ReExportdigitalpoint() {
     var tacticid = $('#tacticid').val();
-    window.location = "/tactic/DownloadExcel?model=" + tacticid;
+    window.location = "/tactic/getdidtemplate/" + tacticid;
 }
 
 function closepopup() {

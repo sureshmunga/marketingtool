@@ -21,6 +21,8 @@
     "date-format": "^1.2.0",
     "dateformat": "^3.0.3",
     "dom-util": "^0.1.0",
+    "excel4node": "^1.7.0",
+    "exceljs": "^1.6.3",
     "express": "*",
     "express-handlebars": "*",
     "express-messages": "*",

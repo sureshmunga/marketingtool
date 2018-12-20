@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var tacticModel = require('../models/viewModels/tacticModel');
+var excelModel = require('../models/viewModels/excelexport');
 var bodyParser = require('body-parser');
 var dateformat = require('dateformat')
 
@@ -124,6 +125,14 @@ router.post('/didsave', auth.ensureAuthenticated, function (req, res) {
     });
 });
 
+router.get('/getdidtemplate/:id', auth.ensureAuthenticated, function (req, res) {
+    console.log(req.params.id);
+    tacticModel.getDIDlistbytactic(req.params.id, res, function(response) {
+        console.log(response);
+        excelModel.getdidtemplate(response, req, res);
+    })
+    
+});
 
 
 module.exports = router;

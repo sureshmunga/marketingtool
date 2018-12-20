@@ -372,8 +372,8 @@ module.exports.getdidbytacticid = function (data, res, callback) {
     async.parallel([
         function (callback) {
             var statement = 'select sr.sourcename as sources,md.mediumname as medium,dt.* from apps.digitaltouchpoints dt '
-            +' inner join apps.sources sr on dt.sourceid=sr.sourceid '
-            +' inner join apps.mediums md on dt.mediumid = md.mediumid where tacticid=' + data.tacticId;
+                + ' inner join apps.sources sr on dt.sourceid=sr.sourceid '
+                + ' inner join apps.mediums md on dt.mediumid = md.mediumid where tacticid=' + data.tacticId;
             redshift.query(statement, callback)
         },
         function (callback) {
@@ -447,21 +447,41 @@ module.exports.didsave = function (data, res, callback) {
                     } else {
                         console.log('tochpointid id ' + JSON.stringify(scopeId.rows[0].tochpointid));
                         var tdigitalid = 'D' + utilhelpers.getDID(scopeId.rows[0].tochpointid);
+
                         var sqldid = "update apps.digitaltouchpoints set did='" + tdigitalid + "' where tochpointid=" + scopeId.rows[0].tochpointid;
                         console.log(sqldid);
                         redshift.query(sqldid, function (err) {
                             if (err) console.log('while updating tcampaigndigital id error throws : ' + err);
+                            touchpoitdata.did = tdigitalid;
+                            var utmparameter = GenerateUTM(touchpoitdata);
+                            sqldid = "update apps.digitaltouchpoints set utmparameter='" + utmparameter + "' where tochpointid=" + scopeId.rows[0].tochpointid;
+                            redshift.query(sqldid, function (err) {
+                                if (err) console.log('while updating utm id error throws : ' + err);
+
+                                return callback({ messagae: "Saved Successfully", status: true });
+                            });
                         });
                     }
                 });
-                return;
             });
         });
     });
-
-
-    return callback({ messagae: "Saved Successfully", status: true });
 };
+
+function GenerateUTM(touchpoitdata) {
+    var utmparameter = '';
+    utmparameter = 'did=' + touchpoitdata.did;
+    if (touchpoitdata.content != '' && touchpoitdata.content != undefined) {
+        utmparameter = utmparameter + '&utm_content=' + touchpoitdata.content;
+    }
+    if (touchpoitdata.term != '' && touchpoitdata.term != undefined) {
+        utmparameter = utmparameter + '&utm_term=' + touchpoitdata.term;
+    }
+    if (touchpoitdata.anchorlink != '' && touchpoitdata.anchorlink != undefined) {
+        utmparameter = utmparameter + '#' + touchpoitdata.anchorlink;
+    }
+    return utmparameter;
+}
 
 function updateinsertmarket(tacticid, data, callback) {
     var tdigitalid = 'T' + utilhelpers.getDID(tacticid);
@@ -494,6 +514,32 @@ function updateinsertmarket(tacticid, data, callback) {
         }
     });
 }
+
+module.exports.getDIDlistbytactic = function (tacticId, res, callback) {
+    async.parallel([
+        function (callback) {
+            var statement = "select prg.programdigitalid,tac.tcampaigndigitalid,dt.did,prg.programname,sr.sourcename,md.mediumname,dt.content,dt.term,dt.url,dt.utmparameter,dt.anchorlink "
+                + " from apps.digitaltouchpoints dt inner join apps.sources sr on dt.sourceid=sr.sourceid "
+                + " inner join apps.mediums md on dt.mediumid = md.mediumid "
+                + " inner join apps.tactic tac on dt.tacticid = tac.tacticid "
+                + " inner join apps.programs prg on tac.programid = prg.programid where dt.status !='Draft' and  tac.tacticid=" + tacticId;
+            redshift.query(statement, callback)
+        },
+        function (callback) {
+            var statement = 'select tt.tactictypename from apps.tactictypes tt '
+                + ' inner join apps.tactic tac on tt.tactictypeid = tac.tactictypeid where tac.tacticid=' + tacticId;
+            redshift.query(statement, callback)
+        }
+    ],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                return callback({ DIDList: data[0].rows, tactictypename: data[1].rows[0].tactictypename });
+            }
+        });
+};
+
 function gettacticId(loginUser, callback) {
 
     async.parallel([
